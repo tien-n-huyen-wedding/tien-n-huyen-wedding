@@ -24,7 +24,7 @@ export default function Contact() {
           <div className="row">
             <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
               <h2>Hello!</h2>
-              <h3>November 28th, 2016 New York, USA</h3>
+              <h3>30 November 2025 Gia Huy Palace, Đà Nẵng</h3>
               <p>We invited you to celebrate our wedding</p>
             </div>
           </div>
@@ -34,7 +34,7 @@ export default function Contact() {
                 <Image src="/images/groom.jpg" alt="groom" width={300} height={400} className="img-responsive" />
               </div>
               <div className="desc-groom">
-                <h3>Joefrey Mahusay</h3>
+                <h3>Phan Tiến</h3>
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
               </div>
             </div>
@@ -44,7 +44,7 @@ export default function Contact() {
                 <Image src="/images/bride.jpg" alt="bride" width={300} height={400} className="img-responsive" />
               </div>
               <div className="desc-bride">
-                <h3>Sheila Mahusay</h3>
+                <h3>Lệ Huyền</h3>
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
               </div>
             </div>

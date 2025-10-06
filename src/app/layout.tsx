@@ -1,28 +1,13 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata } from "next";
 import "./globals.css";
-import Script from "next/script";
 import Link from "next/link";
-import { Work_Sans, Sacramento } from "next/font/google";
-
-const workSans = Work_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-work-sans",
-});
-
-const sacramento = Sacramento({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-  variable: "--font-sacramento",
-});
+import ClientScripts from "@/components/ClientScripts";
+// Local fonts are now defined in globals.css
 
 export const metadata: Metadata = {
-  title: "Wedding - Joefrey & Sheila",
-  description: "We are getting married! Join us for our special day on November 28th, 2016 in New York, USA.",
+  title: "Wedding - Phan Tiến & Lệ Huyền",
+  description: "We are getting married! Join us for our special day on 30 November 2025 in Gia Huy Palace, Đà Nẵng",
 };
 
 export default function RootLayout({
@@ -41,9 +26,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="/css/style.css" />
       </head>
-      <body
-        className={`${workSans.variable} ${sacramento.variable} antialiased`}
-      >
+      <body className="antialiased">
         <div className="fh5co-loader"></div>
 
         <div id="page">
@@ -110,18 +93,7 @@ export default function RootLayout({
             </div>
           </footer>
         </div>
-        <Script src="/js/modernizr-2.6.2.min.js" />
-        <Script src="/js/jquery.min.js" />
-        <Script src="/js/jquery.easing.1.3.js" />
-        <Script src="/js/bootstrap.min.js" />
-        <Script src="/js/jquery.waypoints.min.js" />
-        <Script src="/js/jquery.stellar.min.js" />
-        <Script src="/js/owl.carousel.min.js" />
-        <Script src="/js/jquery.magnific-popup.min.js" />
-        <Script src="/js/magnific-popup-options.js" />
-        <Script src="/js/jquery.countTo.js" />
-        <Script src="/js/simplyCountdown.js" />
-        <Script src="/js/main.js" />
+        <ClientScripts />
       </body>
     </html>
   );

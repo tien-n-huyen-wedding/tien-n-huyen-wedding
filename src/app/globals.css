@@ -1,2 +1,33 @@
+/* Local Font Definitions */
+@font-face {
+  font-family: 'Sacramento';
+  src: url('/fonts/sacramento.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/Work Sans/WorkSans-VariableFont_wght-Regular.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/Work Sans/WorkSans-Italic-VariableFont_wght-Italic.otf') format('opentype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* CSS Variables for fonts */
+:root {
+  --font-work-sans: 'Work Sans', Arial, sans-serif;
+  --font-sacramento: 'Sacramento', cursive;
+}
+
 /* Template styles will be loaded from the template CSS files */
 /* This file is kept minimal to avoid conflicts with template styles */
