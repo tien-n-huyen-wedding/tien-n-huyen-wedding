@@ -29,5 +29,24 @@
   --font-sacramento: 'Sacramento', cursive;
 }
 
+/* Responsive background positioning for hero section */
+#fh5co-header.fh5co-cover {
+  background-position: center center !important;
+}
+
+/* For Mac 14-inch screens, adjust background position */
+@media (min-width: 1440px) and (max-width: 1600px) {
+  #fh5co-header.fh5co-cover {
+    background-position: 50% -450px !important;
+  }
+}
+
+/* For larger desktop screens, adjust background position */
+@media (min-width: 1600px) {
+  #fh5co-header.fh5co-cover {
+    background-position: center -900px !important;
+  }
+}
+
 /* Template styles will be loaded from the template CSS files */
 /* This file is kept minimal to avoid conflicts with template styles */

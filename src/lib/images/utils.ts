@@ -1,17 +1,92 @@
 import { ImageMetadata } from "@/types/images";
 
 /**
+ * Type for optimized image props with required alt text
+ */
+export interface OptimizedImageProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  style?: Record<string, string>;
+  [key: string]: unknown;
+}
+
+/**
  * Generate optimized image props for Next.js Image component
  */
 export const getOptimizedImageProps = (
   image: ImageMetadata,
+  position?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right',
+  transform?: string,
   additionalProps?: Record<string, unknown>
-) => {
+): OptimizedImageProps => {
+  const positionMap = {
+    'center': 'center center',
+    'top': 'center top',
+    'bottom': 'center bottom',
+    'left': 'left center',
+    'right': 'right center',
+    'top-left': 'left top',
+    'top-right': 'right top',
+    'bottom-left': 'left bottom',
+    'bottom-right': 'right bottom',
+  };
+
+  const style: Record<string, string> = {};
+
+  if (position) {
+    style.objectFit = 'cover';
+    style.objectPosition = positionMap[position];
+  }
+
+  if (transform) {
+    style.transform = transform;
+  }
+
   return {
     src: image.src,
     alt: image.alt,
     width: image.width || 800,
     height: image.height || 600,
+    style: Object.keys(style).length > 0 ? style : undefined,
+    ...additionalProps,
+  };
+};
+
+/**
+ * Generate optimized image props for couple images (groom/bride) with no scaling
+ */
+export const getCoupleImageProps = (
+  image: ImageMetadata,
+  position?: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right',
+  additionalProps?: Record<string, unknown>
+): OptimizedImageProps => {
+  const positionMap = {
+    'center': 'center center',
+    'top': 'center top',
+    'bottom': 'center bottom',
+    'left': 'left center',
+    'right': 'right center',
+    'top-left': 'left top',
+    'top-right': 'right top',
+    'bottom-left': 'left bottom',
+    'bottom-right': 'right bottom',
+  };
+
+  return {
+    src: image.src,
+    alt: image.alt,
+    width: image.width || 400,
+    height: image.height || 500,
+    style: {
+      objectFit: 'cover',
+      objectPosition: position ? positionMap[position] : 'center center',
+      width: '100%',
+      height: 'auto',
+      maxWidth: '400px',
+      maxHeight: '500px',
+    },
     ...additionalProps,
   };
 };
@@ -118,8 +193,7 @@ export const generatePlaceholder = (
  * Format image for web (optimize file size)
  */
 export const optimizeImageForWeb = (
-  src: string,
-  _quality: number = 0.8
+  src: string
 ): string => {
   // This would typically involve image processing
   // For now, return the original src

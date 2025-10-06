@@ -22,6 +22,11 @@ const eslintConfig = [
       "public/**/*",
     ],
   },
+  {
+    rules: {
+      "jsx-a11y/alt-text": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -13,7 +13,7 @@ export default function Home() {
             <div className="col-md-8 col-md-offset-2 text-center">
               <div className="display-t">
                 <div className="display-tc animate-box" data-animate-effect="fadeIn">
-                  <h1 className="tp-lacosta-font">Phan Tiến</h1>
+                  <h1 className="tp-lacosta-font">Quang Tiến</h1>
                   <h1 className="tp-lacosta-font"> & </h1>
                   <h1 className="tp-lacosta-font">Lệ Huyền</h1>
                   <h2>We Are Getting Married</h2>
@@ -38,17 +38,17 @@ export default function Home() {
           <div className="couple-wrap animate-box">
             <div className="couple-half">
               <div className="groom">
-                <Image {...getOptimizedImageProps(coupleImages.groom)} className="img-responsive" />
+                <Image {...getOptimizedImageProps(coupleImages.groom, 'left', 'scale(-1, 1)')} className="img-responsive" />
               </div>
               <div className="desc-groom">
-                <h3>Phan Tiến</h3>
+                <h3>Quang Tiến</h3>
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
               </div>
             </div>
             <p className="heart text-center"><i className="icon-heart2"></i></p>
             <div className="couple-half">
               <div className="bride">
-                <Image {...getOptimizedImageProps(coupleImages.bride)} className="img-responsive" />
+                <Image {...getOptimizedImageProps(coupleImages.bride, 'right', 'scale(-1, 1)')} className="img-responsive" />
               </div>
               <div className="desc-bride">
                 <h3>Lệ Huyền</h3>
@@ -146,7 +146,7 @@ export default function Home() {
                       <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                     </div>
                   </div>
-                </li>
+          </li>
                 <li className="animate-box">
                   <div className="timeline-badge" style={getBackgroundImageStyle(coupleImages.couple3)}></div>
                   <div className="timeline-panel">
@@ -158,7 +158,7 @@ export default function Home() {
                       <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                     </div>
                   </div>
-                </li>
+          </li>
               </ul>
             </div>
           </div>
@@ -288,7 +288,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+    </div>
     </>
   );
 }

@@ -100,7 +100,7 @@ export const useImagePreloader = (images: ImageMetadata[]) => {
 export const useImageOptimization = () => {
   const [optimizedImages, setOptimizedImages] = useState<Record<string, string>>({});
 
-  const optimizeImage = async (src: string, _quality: number = 0.8) => {
+  const optimizeImage = async (src: string) => {
     if (optimizedImages[src]) {
       return optimizedImages[src];
     }

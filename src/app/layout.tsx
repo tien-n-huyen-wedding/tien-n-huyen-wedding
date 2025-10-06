@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata } from "next";
 import "./globals.css";
-import Link from "next/link";
+// import Link from "next/link";
 import ClientScripts from "@/components/ClientScripts";
 // Local fonts are now defined in globals.css
 
 export const metadata: Metadata = {
-  title: "Wedding - Phan Tiến & Lệ Huyền",
+  title: "Wedding - Quang Tiến & Lệ Huyền",
   description: "We are getting married! Join us for our special day on 30 November 2025 in Gia Huy Palace, Đà Nẵng",
 };
 
@@ -39,7 +39,7 @@ export default function RootLayout({
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">
-                  <ul>
+                  {/* <ul>
                     <li><Link href="/">Home</Link></li>
                     <li><Link href="/about">Story</Link></li>
                     <li className="has-dropdown">
@@ -61,7 +61,7 @@ export default function RootLayout({
                       </ul>
                     </li>
                     <li><Link href="/contact">Contact</Link></li>
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>

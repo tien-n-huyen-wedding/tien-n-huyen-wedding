@@ -6,7 +6,7 @@ const IMAGE_BASE_PATH = '/images';
 // Background images configuration
 export const backgroundImages: BackgroundImages = {
   hero: {
-    src: `${IMAGE_BASE_PATH}/img_bg_2.jpg`,
+    src: `${IMAGE_BASE_PATH}/main_background.jpg`,
     alt: 'Wedding hero background',
     category: 'backgrounds',
     description: 'Beautiful background for the main hero section',

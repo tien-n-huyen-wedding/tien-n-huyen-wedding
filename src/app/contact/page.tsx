@@ -34,7 +34,7 @@ export default function Contact() {
                 <Image src="/images/groom.jpg" alt="groom" width={300} height={400} className="img-responsive" />
               </div>
               <div className="desc-groom">
-                <h3>Phan Tiến</h3>
+                <h3>Quang Tiến</h3>
                 <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove</p>
               </div>
             </div>
