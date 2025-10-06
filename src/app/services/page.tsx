@@ -110,7 +110,7 @@ export default function Services() {
           <div className="row animate-box">
             <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">
               <h2>Are You Attending?</h2>
-              <p>Please Fill-up the form to notify you that you're attending. Thanks.</p>
+              <p>Please Fill-up the form to notify you that you&apos;re attending. Thanks.</p>
             </div>
           </div>
           <div className="row animate-box">

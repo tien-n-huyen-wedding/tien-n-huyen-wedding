@@ -1,7 +1,24 @@
+/* eslint-disable @next/next/no-css-tags */
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
 import Link from "next/link";
+import { Work_Sans, Sacramento } from "next/font/google";
+
+const workSans = Work_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-work-sans",
+});
+
+const sacramento = Sacramento({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-sacramento",
+});
 
 export const metadata: Metadata = {
   title: "Wedding - Joefrey & Sheila",
@@ -16,8 +33,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css' />
-        <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet" />
         <link rel="stylesheet" href="/css/animate.css" />
         <link rel="stylesheet" href="/css/icomoon.css" />
         <link rel="stylesheet" href="/css/bootstrap.css" />
@@ -27,7 +42,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/css/style.css" />
       </head>
       <body
-        className="antialiased"
+        className={`${workSans.variable} ${sacramento.variable} antialiased`}
       >
         <div className="fh5co-loader"></div>
 
