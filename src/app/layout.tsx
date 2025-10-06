@@ -35,7 +35,7 @@ export default function RootLayout({
               <div className="row">
                 <div className="col-xs-2">
                   <div id="fh5co-logo">
-                    <Link href="/">Wedding<strong>.</strong></Link>
+                    {/* <Link href="/">Wedding<strong>.</strong></Link> */}
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">

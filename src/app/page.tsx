@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Countdown from '@/components/Countdown';
+import { backgroundImages, coupleImages, galleryImages } from '@/lib/images';
+import { getBackgroundImageStyle, getOptimizedImageProps } from '@/lib/images/utils';
 
 export default function Home() {
   return (
     <>
-      <header id="fh5co-header" className="fh5co-cover" role="banner" style={{backgroundImage: 'url(/images/img_bg_2.jpg)'}} data-stellar-background-ratio="0.5">
+      <header id="fh5co-header" className="fh5co-cover" role="banner" style={getBackgroundImageStyle(backgroundImages.hero)} data-stellar-background-ratio="0.5">
         <div className="overlay"></div>
         <div className="container">
           <div className="row">
@@ -36,7 +38,7 @@ export default function Home() {
           <div className="couple-wrap animate-box">
             <div className="couple-half">
               <div className="groom">
-                <Image src="/images/groom.jpg" alt="groom" width={300} height={400} className="img-responsive" />
+                <Image {...getOptimizedImageProps(coupleImages.groom)} className="img-responsive" />
               </div>
               <div className="desc-groom">
                 <h3>Phan Tiến</h3>
@@ -46,7 +48,7 @@ export default function Home() {
             <p className="heart text-center"><i className="icon-heart2"></i></p>
             <div className="couple-half">
               <div className="bride">
-                <Image src="/images/bride.jpg" alt="bride" width={300} height={400} className="img-responsive" />
+                <Image {...getOptimizedImageProps(coupleImages.bride)} className="img-responsive" />
               </div>
               <div className="desc-bride">
                 <h3>Lệ Huyền</h3>
@@ -57,7 +59,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="fh5co-event" className="fh5co-bg" style={{backgroundImage: 'url(/images/img_bg_3.jpg)'}}>
+      <div id="fh5co-event" className="fh5co-bg" style={getBackgroundImageStyle(backgroundImages.event)}>
         <div className="overlay"></div>
         <div className="container">
           <div className="row">
@@ -122,7 +124,7 @@ export default function Home() {
             <div className="col-md-12 col-md-offset-0">
               <ul className="timeline animate-box">
                 <li className="animate-box">
-                  <div className="timeline-badge" style={{backgroundImage: 'url(/images/couple-1.jpg)'}}></div>
+                  <div className="timeline-badge" style={getBackgroundImageStyle(coupleImages.couple1)}></div>
                   <div className="timeline-panel">
                     <div className="timeline-heading">
                       <h3 className="timeline-title">First We Meet</h3>
@@ -134,7 +136,7 @@ export default function Home() {
                   </div>
                 </li>
                 <li className="timeline-inverted animate-box">
-                  <div className="timeline-badge" style={{backgroundImage: 'url(/images/couple-2.jpg)'}}></div>
+                  <div className="timeline-badge" style={getBackgroundImageStyle(coupleImages.couple2)}></div>
                   <div className="timeline-panel">
                     <div className="timeline-heading">
                       <h3 className="timeline-title">First Date</h3>
@@ -146,7 +148,7 @@ export default function Home() {
                   </div>
                 </li>
                 <li className="animate-box">
-                  <div className="timeline-badge" style={{backgroundImage: 'url(/images/couple-3.jpg)'}}></div>
+                  <div className="timeline-badge" style={getBackgroundImageStyle(coupleImages.couple3)}></div>
                   <div className="timeline-panel">
                     <div className="timeline-heading">
                       <h3 className="timeline-title">In A Relationship</h3>
@@ -175,7 +177,7 @@ export default function Home() {
           <div className="row row-bottom-padded-md">
             <div className="col-md-12">
               <ul id="fh5co-gallery-list">
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-1.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery1)}>
                   <a href="/images/gallery-1.jpg">
                     <div className="case-studies-summary">
                       <span>14 Photos</span>
@@ -183,7 +185,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-2.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery2)}>
                   <a href="#" className="color-2">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -191,7 +193,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-3.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery3)}>
                   <a href="#" className="color-3">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -199,7 +201,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-4.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery4)}>
                   <a href="#" className="color-4">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -207,7 +209,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-5.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery5)}>
                   <a href="#" className="color-5">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -215,7 +217,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-6.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery6)}>
                   <a href="#" className="color-6">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -223,7 +225,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-7.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery7)}>
                   <a href="#" className="color-7">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -231,7 +233,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-8.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery8)}>
                   <a href="#" className="color-8">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -239,7 +241,7 @@ export default function Home() {
                     </div>
                   </a>
                 </li>
-                <li className="one-third animate-box" data-animate-effect="fadeIn" style={{backgroundImage: 'url(/images/gallery-9.jpg)'}}>
+                <li className="one-third animate-box" data-animate-effect="fadeIn" style={getBackgroundImageStyle(galleryImages.gallery9)}>
                   <a href="#" className="color-9">
                     <div className="case-studies-summary">
                       <span>30 Photos</span>
@@ -253,7 +255,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="fh5co-started" className="fh5co-bg" style={{backgroundImage: 'url(/images/img_bg_4.jpg)'}}>
+      <div id="fh5co-started" className="fh5co-bg" style={getBackgroundImageStyle(backgroundImages.started)}>
         <div className="overlay"></div>
         <div className="container">
           <div className="row animate-box">
