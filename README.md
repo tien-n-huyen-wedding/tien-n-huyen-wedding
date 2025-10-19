@@ -1,2 +1,2 @@
-- Access wedding website 👫 at: # #TODO
+- Access wedding website 👫 at: wedding-tien-n-huyen.surge.sh
 - Based on HTML theme https://freehtml5.co/wedding-free-html5-bootstrap-template-for-wedding-websites

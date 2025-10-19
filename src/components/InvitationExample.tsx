@@ -42,7 +42,7 @@ export default function InvitationExample() {
             marginBottom: '2rem',
             color: '#666'
           }}>
-            We're excited to share our special day with you
+            We&apos;re excited to share our special day with you
           </p>
         </div>
       </div>
@@ -105,13 +105,13 @@ export default function InvitationExample() {
               </p>
               <ul style={{ paddingLeft: '2rem' }}>
                 <li><strong>data:</strong> Wedding information object</li>
-                <li><strong>size:</strong> 'small', 'medium', or 'large'</li>
+                <li><strong>size:</strong> &apos;small&apos;, &apos;medium&apos;, or &apos;large&apos;</li>
                 <li><strong>showRSVP:</strong> Show/hide RSVP information</li>
                 <li><strong>showDressCode:</strong> Show/hide dress code</li>
-                <li><strong>className:</strong> Theme class ('elegant', 'romantic', 'modern', 'classic')</li>
-                <li><strong>greeting:</strong> Greeting text (e.g., 'Dear', 'Kính gửi', 'Kính thưa')</li>
-                <li><strong>guestName:</strong> Guest name (e.g., 'Mr. & Mrs. Smith', 'Anh Chị', 'Ông Bà')</li>
-                <li><strong>subtitle:</strong> Subtitle text (e.g., 'Together with their families')</li>
+                <li><strong>className:</strong> Theme class (&apos;elegant&apos;, &apos;romantic&apos;, &apos;modern&apos;, &apos;classic&apos;)</li>
+                <li><strong>greeting:</strong> Greeting text (e.g., &apos;Dear&apos;, &apos;Kính gửi&apos;, &apos;Kính thưa&apos;)</li>
+                <li><strong>guestName:</strong> Guest name (e.g., &apos;Mr. & Mrs. Smith&apos;, &apos;Anh Chị&apos;, &apos;Ông Bà&apos;)</li>
+                <li><strong>subtitle:</strong> Subtitle text (e.g., &apos;Together with their families&apos;)</li>
               </ul>
             </div>
           </div>
