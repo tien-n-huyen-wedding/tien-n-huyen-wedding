@@ -1,31 +1,12 @@
 import Image from 'next/image';
-import Countdown from '@/components/Countdown';
+import Banner from '@/components/Banner';
 import { backgroundImages, coupleImages, galleryImages } from '@/lib/images';
 import { getBackgroundImageStyle, getOptimizedImageProps } from '@/lib/images/utils';
 
 export default function Home() {
   return (
     <>
-      <header id="fh5co-header" className="fh5co-cover" role="banner" style={getBackgroundImageStyle(backgroundImages.hero)} data-stellar-background-ratio="0.5">
-        <div className="overlay"></div>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 col-md-offset-2 text-center">
-              <div className="display-t">
-                <div className="display-tc animate-box" data-animate-effect="fadeIn">
-                  <h1 className="tp-lacosta-font">Quang Tiến</h1>
-                  <h1 className="tp-lacosta-font"> & </h1>
-                  <h1 className="tp-lacosta-font">Lệ Huyền</h1>
-                  <h2>We Are Getting Married</h2>
-                  <Countdown />
-                  <p><a href="#" className="btn btn-default btn-sm">Save the date</a></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <Banner />
       <div id="fh5co-couple">
         <div className="container">
           <div className="row">
@@ -146,7 +127,7 @@ export default function Home() {
                       <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                     </div>
                   </div>
-          </li>
+                </li>
                 <li className="animate-box">
                   <div className="timeline-badge" style={getBackgroundImageStyle(coupleImages.couple3)}></div>
                   <div className="timeline-panel">
@@ -158,7 +139,7 @@ export default function Home() {
                       <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                     </div>
                   </div>
-          </li>
+                </li>
               </ul>
             </div>
           </div>
@@ -288,7 +269,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </>
   );
 }

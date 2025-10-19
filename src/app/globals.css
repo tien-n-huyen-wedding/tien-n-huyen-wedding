@@ -50,3 +50,133 @@
 
 /* Template styles will be loaded from the template CSS files */
 /* This file is kept minimal to avoid conflicts with template styles */
+
+/* Invitation Card Styles */
+.invitation-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.invitation-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+.invitation-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #D4AF37, #FFD700, #D4AF37);
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Invitation Card Content */
+.invitation-card h1 {
+  font-family: var(--font-sacramento);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.invitation-card p {
+  font-family: var(--font-work-sans);
+  line-height: 1.6;
+}
+
+/* Responsive adjustments for invitation cards */
+@media (max-width: 768px) {
+  .invitation-card {
+    transform: scale(0.8) !important;
+    margin: 1rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .invitation-card {
+    transform: scale(0.7) !important;
+    margin: 0.5rem auto;
+  }
+}
+
+/* Elegant theme styles */
+.invitation-card.elegant {
+  background: linear-gradient(135deg, #f5f5dc 0%, #f0e68c 100%);
+  border: 2px solid #D4AF37;
+}
+
+.invitation-card.elegant h1 {
+  color: #8B4513;
+  text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.3);
+}
+
+/* Romantic theme styles */
+.invitation-card.romantic {
+  background: linear-gradient(135deg, #ffe4e1 0%, #ffb6c1 100%);
+  border: 2px solid #FF69B4;
+}
+
+.invitation-card.romantic h1 {
+  color: #8B0000;
+  text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
+}
+
+/* Modern theme styles */
+.invitation-card.modern {
+  background: linear-gradient(135deg, #f8f8ff 0%, #e6e6fa 100%);
+  border: 2px solid #9370DB;
+}
+
+.invitation-card.modern h1 {
+  color: #4B0082;
+  text-shadow: 1px 1px 2px rgba(147, 112, 219, 0.3);
+}
+
+/* Classic theme styles */
+.invitation-card.classic {
+  background: linear-gradient(135deg, #fff8dc 0%, #f5deb3 100%);
+  border: 2px solid #CD853F;
+}
+
+.invitation-card.classic h1 {
+  color: #8B4513;
+  text-shadow: 1px 1px 2px rgba(205, 133, 63, 0.3);
+}
+
+/* Animation for invitation card appearance */
+@keyframes invitationFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.invitation-card {
+  animation: invitationFadeIn 0.8s ease-out;
+}
+
+/* Print styles for invitation cards */
+@media print {
+  .invitation-card {
+    transform: none !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    margin: 0;
+  }
+
+  .invitation-card:hover {
+    transform: none !important;
+  }
+}
