@@ -39,29 +39,12 @@ export default function RootLayout({
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">
-                  {/* <ul>
-                    <li><Link href="/">Home</Link></li>
-                    <li><Link href="/about">Story</Link></li>
-                    <li className="has-dropdown">
-                      <Link href="/services">Services</Link>
-                      <ul className="dropdown">
-                        <li><Link href="#">Web Design</Link></li>
-                        <li><Link href="#">eCommerce</Link></li>
-                        <li><Link href="#">Branding</Link></li>
-                        <li><Link href="#">API</Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-dropdown">
-                      <Link href="/gallery">Gallery</Link>
-                      <ul className="dropdown">
-                        <li><Link href="#">HTML5</Link></li>
-                        <li><Link href="#">CSS3</Link></li>
-                        <li><Link href="#">Sass</Link></li>
-                        <li><Link href="#">jQuery</Link></li>
-                      </ul>
-                    </li>
-                    <li><Link href="/contact">Contact</Link></li>
-                  </ul> */}
+                  <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/invitation">Invitation</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/qr-generator">QR Generator</a></li>
+                  </ul>
                 </div>
               </div>
             </div>
