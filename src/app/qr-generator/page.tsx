@@ -4,21 +4,21 @@ import { useState } from 'react';
 import ReliableQRCode from '@/components/ReliableQRCode';
 
 export default function QRGenerator() {
-  const [url, setUrl] = useState('');
-  const [logoUrl, setLogoUrl] = useState('');
-  const [size, setSize] = useState(300);
+  const [url, setUrl] = useState('https://wedding-tien-n-huyen.surge.sh');
+  const [logoUrl, setLogoUrl] = useState('/images/QR-logo.png');
+  const [size, setSize] = useState(500);
 
   // Style options for QR code customization
   const [styleOptions, setStyleOptions] = useState({
     dotsColor: '#758362',
-    dotsType: 'rounded' as 'square' | 'rounded' | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded',
+    dotsType: 'dots' as 'square' | 'rounded' | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded',
     backgroundColor: '#ffffff',
     cornersSquareColor: '#758362',
-    cornersSquareType: 'extra-rounded' as 'square' | 'dot' | 'extra-rounded',
+    cornersSquareType: 'dot' as 'square' | 'dot' | 'extra-rounded',
     cornersDotColor: '#758362',
     cornersDotType: 'dot' as 'square' | 'dot',
-    logoMargin: 10,
-    logoSize: 0.2
+    logoMargin: 0,
+    logoSize: 0.45
   });
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +61,7 @@ export default function QRGenerator() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="logo">Logo Image (optional):</label>
+                  <label htmlFor="logo">Logo Image:</label>
                   <input
                     type="file"
                     id="logo"
@@ -70,8 +70,22 @@ export default function QRGenerator() {
                     onChange={handleLogoUpload}
                   />
                   <small className="help-block">
-                    Upload a logo to place in the center of the QR code
+                    Upload a custom logo to replace the default wedding logo, or leave empty to use the default
                   </small>
+                  {logoUrl && (
+                    <div className="mt-2">
+                      <small className="text-success">✓ Logo loaded: {logoUrl.includes('/images/QR-logo.png') ? 'Default wedding logo' : 'Custom logo'}</small>
+                      {!logoUrl.includes('/images/QR-logo.png') && (
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-secondary ml-2"
+                          onClick={() => setLogoUrl('/images/QR-logo.png')}
+                        >
+                          Reset to Default
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -321,7 +335,7 @@ export default function QRGenerator() {
                 <h3>How to use:</h3>
                 <ol>
                   <li>Enter the URL you want to encode in the QR code</li>
-                  <li>Optionally upload a logo image to place in the center</li>
+                  <li>Optionally upload a custom logo to replace the default wedding logo</li>
                   <li>Select the size that works best for your needs</li>
                   <li>Customize colors and styling options</li>
                   <li>The QR code will generate automatically as you type</li>
@@ -330,7 +344,8 @@ export default function QRGenerator() {
 
                 <h4>QR Code Features:</h4>
                 <ul>
-                  <li><strong>Logo Support:</strong> Add your wedding logo or any image to the center of the QR code</li>
+                  <li><strong>Default Wedding Logo:</strong> Pre-loaded with your wedding logo for immediate use</li>
+                  <li><strong>Custom Logo Support:</strong> Upload your own logo to replace the default</li>
                   <li><strong>Custom Styling:</strong> Choose colors, dot styles, and corner designs</li>
                   <li><strong>High Quality:</strong> Generate PNG images perfect for printing</li>
                   <li><strong>Reliable:</strong> Uses advanced QR code generation for maximum compatibility</li>
