@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "export": "next build && next export",
+    "deploy": "surge ./out wedding-tien-n-huyen.surge.sh",
     "start": "next start",
     "lint": "eslint"
   },

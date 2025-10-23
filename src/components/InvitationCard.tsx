@@ -33,7 +33,7 @@ export default function InvitationCard({
   const cardStyle: React.CSSProperties = {
     width: `${currentSize.width}px`,
     height: `${currentSize.height}px`,
-    backgroundImage: 'url(/images/invitation_card_bg.svg)',
+    backgroundImage: 'url(/images/invitation_card_bg.png)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
