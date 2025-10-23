@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface QRCodeGeneratorProps {
   url: string;
   logoUrl?: string;
   size?: number;
   className?: string;
-  onGenerated?: (qrCode: any) => void;
+  onGenerated?: (qrCode: unknown) => void;
 }
 
 export default function QRCodeGenerator({
@@ -17,31 +17,22 @@ export default function QRCodeGenerator({
   className = '',
   onGenerated
 }: QRCodeGeneratorProps) {
-  const [qrCode, setQrCode] = useState<any>(null);
+  const [qrCode, setQrCode] = useState<unknown>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const qrRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (url) {
-      generateQRCode();
-    }
-  }, [url, logoUrl, size]);
+  const isValidQRCode = (code: unknown): code is object => {
+    return code !== null && typeof code === 'object';
+  };
 
-  useEffect(() => {
-    if (qrRef.current && qrCode) {
-      qrRef.current.innerHTML = '';
-      qrCode.append(qrRef.current);
-    }
-  }, [qrCode]);
-
-  const generateQRCode = async () => {
+  const generateQRCode = useCallback(async () => {
     if (!url.trim()) return;
 
     setIsGenerating(true);
 
     try {
       // Dynamic import to avoid Turbopack issues
-      const { QRCodeStyling } = await import('qr-code-styling');
+      const { default: QRCodeStyling } = await import('qr-code-styling');
 
       const qr = new QRCodeStyling({
         width: size,
@@ -77,11 +68,27 @@ export default function QRCodeGenerator({
     } finally {
       setIsGenerating(false);
     }
-  };
+  }, [url, logoUrl, size, onGenerated]);
+
+  useEffect(() => {
+    if (url) {
+      generateQRCode();
+    }
+  }, [url, logoUrl, size, generateQRCode]);
+
+  useEffect(() => {
+    if (qrRef.current && qrCode && typeof qrCode === 'object' && qrCode !== null && 'append' in qrCode) {
+      qrRef.current.innerHTML = '';
+      (qrCode as { append: (container: HTMLElement) => void }).append(qrRef.current);
+    }
+  }, [qrCode]);
 
   const downloadQR = () => {
-    if (qrCode) {
-      qrCode.download({ name: 'qr-code', extension: 'png' });
+    if (qrCode && typeof qrCode === 'object' && qrCode !== null && 'download' in qrCode) {
+      (qrCode as { download: (options: { name: string; extension: string }) => void }).download({
+        name: 'qr-code',
+        extension: 'png'
+      });
     }
   };
 
@@ -113,7 +120,7 @@ export default function QRCodeGenerator({
         )}
       </div>
 
-      {qrCode && (
+      {isValidQRCode(qrCode) && (
         <div className="mt-3 text-center">
           <button
             className="btn btn-success btn-sm"

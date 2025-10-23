@@ -50,7 +50,7 @@ export default function ReliableQRCode({
 
     try {
       // Use qr-code-styling library with proper form values
-      const QRCodeStyling = (await import('qr-code-styling')).default;
+      const { default: QRCodeStyling } = await import('qr-code-styling');
 
       const qr = new QRCodeStyling({
         width: size - 5,
@@ -172,7 +172,7 @@ export default function ReliableQRCode({
       console.error('Error generating QR code:', error);
       setIsGenerating(false);
     }
-  }, [url, size, styleOptions, logoUrl, onGenerated]);
+  }, [url, size, styleOptions, logoUrl, onGenerated, totalSize]);
 
   const downloadQR = () => {
     if (qrInstance && typeof qrInstance === 'object' && qrInstance !== null && 'download' in qrInstance) {

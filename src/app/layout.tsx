@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata } from "next";
 import "./globals.css";
-// import Link from "next/link";
 import ClientScripts from "@/components/ClientScripts";
 // Local fonts are now defined in globals.css
 
@@ -39,12 +38,6 @@ export default function RootLayout({
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">
-                  <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/invitation">Invitation</a></li>
-                    <li><a href="/services">Services</a></li>
-                    <li><a href="/qr-generator">QR Generator</a></li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -57,12 +50,6 @@ export default function RootLayout({
               <div className="row row-bottom-padded-sm">
                 <div className="col-md-12">
                   <div className="fh5co-social">
-                    <ul className="fh5co-social">
-                      <li><a href="#"><i className="icon-facebook"></i></a></li>
-                      <li><a href="#"><i className="icon-twitter"></i></a></li>
-                      <li><a href="#"><i className="icon-instagram"></i></a></li>
-                      <li><a href="#"><i className="icon-linkedin"></i></a></li>
-                    </ul>
                   </div>
                 </div>
               </div>
