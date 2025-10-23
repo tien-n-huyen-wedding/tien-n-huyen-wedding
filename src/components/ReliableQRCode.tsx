@@ -12,6 +12,13 @@ interface QRCodeStyleOptions {
   cornersDotType: 'square' | 'dot';
   logoMargin: number;
   logoSize: number;
+  // Circle styling options
+  isCircular: boolean;
+  topText: string;
+  bottomText: string;
+  textColor: string;
+  textSize: number;
+  strokeColor: string;
 }
 
 interface ReliableQRCodeProps {
@@ -34,6 +41,7 @@ export default function ReliableQRCode({
   const [isGenerating, setIsGenerating] = useState(false);
   const [qrInstance, setQrInstance] = useState<unknown>(null);
   const qrRef = useRef<HTMLDivElement>(null);
+  const totalSize = size * Math.sqrt(2) + 30;
 
   const generateQRCode = useCallback(async () => {
     if (!url.trim()) return;
@@ -45,8 +53,8 @@ export default function ReliableQRCode({
       const QRCodeStyling = (await import('qr-code-styling')).default;
 
       const qr = new QRCodeStyling({
-        width: size,
-        height: size,
+        width: size - 5,
+        height: size - 5,
         type: 'svg',
         data: url,
         image: logoUrl || undefined,
@@ -77,10 +85,73 @@ export default function ReliableQRCode({
       const container = document.createElement('div');
       qr.append(container);
 
-      // Display the SVG directly
+      // Display the SVG directly with custom circular styling
       if (qrRef.current) {
         qrRef.current.innerHTML = '';
-        qrRef.current.appendChild(container);
+
+        if (styleOptions.isCircular && styleOptions.topText) {
+          // Create circular text overlay
+          const wrapper = document.createElement('div');
+          wrapper.style.position = 'relative';
+          wrapper.style.display = 'inline-block';
+          wrapper.style.width = `${totalSize}px`;
+          wrapper.style.height = `${totalSize}px`;
+
+          // Add QR code container and center it
+          container.style.position = 'absolute';
+          container.style.top = '50%';
+          container.style.left = '50%';
+          container.style.transform = 'translate(-50%, -50%)';
+          wrapper.appendChild(container);
+
+          // Create SVG overlay for circular text
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('width', totalSize.toString());
+          svg.setAttribute('height', totalSize.toString());
+          svg.style.position = 'absolute';
+          svg.style.top = '0';
+          svg.style.left = '0';
+          svg.style.pointerEvents = 'none';
+
+          const radius = (size * Math.sqrt(2)) / 2; // Radius for text circle: diameter = QR size × √2
+          // Ensure the circle fits within the container with some padding
+          const maxRadius = totalSize / 2; // Leave 20px padding
+          const finalRadius = Math.min(radius, maxRadius);
+          const centerX = totalSize / 2;
+          const centerY = totalSize / 2;
+
+          // Create circular path for text
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          const pathData = `M ${centerX - finalRadius} ${centerY} A ${finalRadius} ${finalRadius} 0 1 1 ${centerX + finalRadius} ${centerY} A ${finalRadius} ${finalRadius} 0 1 1 ${centerX - finalRadius} ${centerY}`;
+          path.setAttribute('d', pathData);
+          path.setAttribute('id', 'textPath');
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', styleOptions.strokeColor || '#758362');
+          path.setAttribute('stroke-width', '30');
+          svg.appendChild(path);
+
+          // Add top text along the circle
+          if (styleOptions.topText) {
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
+            textPath.setAttribute('href', '#textPath');
+            textPath.setAttribute('startOffset', '25%');
+            textPath.textContent = styleOptions.topText;
+            text.appendChild(textPath);
+            text.setAttribute('font-size', (styleOptions.textSize || 16).toString());
+            text.setAttribute('fill', styleOptions.textColor || '#000000');
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('dominant-baseline', 'middle');
+            svg.appendChild(text);
+          }
+
+          qrRef.current.appendChild(wrapper);
+          wrapper.appendChild(svg);
+        } else {
+          // Display QR code directly without circular styling
+          qrRef.current.appendChild(container);
+        }
+
         setQrInstance(qr);
         setIsGenerating(false);
       }
@@ -141,8 +212,8 @@ export default function ReliableQRCode({
             border: '1px solid #ddd',
             borderRadius: '8px',
             backgroundColor: '#f9f9f9',
-            minHeight: `${size}px`,
-            minWidth: `${size}px`,
+            minHeight: `${totalSize}px`,
+            minWidth: `${totalSize}px`,
             textAlign: 'center',
             padding: '10px'
           }}
@@ -154,13 +225,6 @@ export default function ReliableQRCode({
           </div>
         )}
       </div>
-
-      {logoUrl && (
-        <div className="mt-3 text-center">
-          <img src={logoUrl} alt="Logo" style={{ width: '100px', height: '100px' }} />
-        </div>
-      )}
-
       {qrInstance !== null && !isGenerating && (
         <div className="mt-3 text-center">
           <button

@@ -6,19 +6,25 @@ import ReliableQRCode from '@/components/ReliableQRCode';
 export default function QRGenerator() {
   const [url, setUrl] = useState('https://wedding-tien-n-huyen.surge.sh');
   const [logoUrl, setLogoUrl] = useState('/images/QR-logo.png');
-  const [size, setSize] = useState(500);
+  const [size, setSize] = useState(300);
 
   // Style options for QR code customization
   const [styleOptions, setStyleOptions] = useState({
     dotsColor: '#758362',
     dotsType: 'dots' as 'square' | 'rounded' | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'transparent',
     cornersSquareColor: '#758362',
     cornersSquareType: 'dot' as 'square' | 'dot' | 'extra-rounded',
     cornersDotColor: '#758362',
     cornersDotType: 'dot' as 'square' | 'dot',
     logoMargin: 0,
-    logoSize: 0.45
+    logoSize: 0.45,
+    // Circle styling options
+    isCircular: true,
+    topText: 'Scan for something sweet 💞',
+    bottomText: 'June 15, 2024',
+    textColor: '#ffffff',
+    textSize: 24
   });
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -308,6 +314,101 @@ export default function QRGenerator() {
                       </select>
                       <small className="help-block">Choose the style of the corner dots</small>
                     </div>
+
+                    <h4>Circular Design Options</h4>
+
+                    <div className="form-group">
+                      <div className="checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={styleOptions.isCircular}
+                            onChange={(e) => setStyleOptions(prev => ({ ...prev, isCircular: e.target.checked }))}
+                          />
+                          Enable Circular Design
+                        </label>
+                      </div>
+                      <small className="help-block">Create a circular QR code with border and text decorations</small>
+                    </div>
+
+                    {styleOptions.isCircular && (
+                      <>
+
+
+                        <div className="form-group">
+                          <label htmlFor="topText">Top Text:</label>
+                          <input
+                            type="text"
+                            id="topText"
+                            className="form-control"
+                            placeholder="Enter text for top of circle"
+                            value={styleOptions.topText}
+                            onChange={(e) => setStyleOptions(prev => ({ ...prev, topText: e.target.value }))}
+                          />
+                          <small className="help-block">Text that appears above the circular QR code</small>
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="bottomText">Bottom Text:</label>
+                          <input
+                            type="text"
+                            id="bottomText"
+                            className="form-control"
+                            placeholder="Enter text for bottom of circle"
+                            value={styleOptions.bottomText}
+                            onChange={(e) => setStyleOptions(prev => ({ ...prev, bottomText: e.target.value }))}
+                          />
+                          <small className="help-block">Text that appears below the circular QR code</small>
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="textSize">Text Size:</label>
+                          <input
+                            type="range"
+                            id="textSize"
+                            className="form-control"
+                            min="12"
+                            max="36"
+                            step="2"
+                            value={styleOptions.textSize}
+                            onChange={(e) => setStyleOptions(prev => ({ ...prev, textSize: parseInt(e.target.value) }))}
+                          />
+                          <small className="help-block">
+                            Text size: {styleOptions.textSize}px
+                          </small>
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="textColor">Text Color:</label>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <input
+                                type="color"
+                                id="textColor"
+                                className="form-control"
+                                value={styleOptions.textColor}
+                                onChange={(e) => setStyleOptions(prev => ({ ...prev, textColor: e.target.value }))}
+                              />
+                            </div>
+                            <div className="col-md-6">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="758362"
+                                value={styleOptions.textColor.replace('#', '')}
+                                onChange={(e) => {
+                                  const hexValue = e.target.value.replace('#', '');
+                                  if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
+                                    setStyleOptions(prev => ({ ...prev, textColor: `#${hexValue}` }));
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <small className="help-block">Enter hex code without # (e.g., 758362)</small>
+                        </div>
+                      </>
+                    )}
               </div>
             </div>
           </div>
@@ -346,6 +447,8 @@ export default function QRGenerator() {
                 <ul>
                   <li><strong>Default Wedding Logo:</strong> Pre-loaded with your wedding logo for immediate use</li>
                   <li><strong>Custom Logo Support:</strong> Upload your own logo to replace the default</li>
+                  <li><strong>Circular Design:</strong> Create beautiful circular QR codes with borders and text</li>
+                  <li><strong>Text Decorations:</strong> Add custom text above and below the QR code</li>
                   <li><strong>Custom Styling:</strong> Choose colors, dot styles, and corner designs</li>
                   <li><strong>High Quality:</strong> Generate PNG images perfect for printing</li>
                   <li><strong>Reliable:</strong> Uses advanced QR code generation for maximum compatibility</li>
@@ -360,6 +463,10 @@ export default function QRGenerator() {
                   <li><strong>Logo Margin:</strong> Control the white space around the logo</li>
                   <li><strong>Dots Type:</strong> Choose from square, rounded, dots, classy, classy-rounded, or rounded</li>
                   <li><strong>Corner Types:</strong> Customize corner squares and dots styles</li>
+                  <li><strong>Circular Design:</strong> Enable circular QR codes with customizable borders</li>
+                  <li><strong>Text Decorations:</strong> Add top and bottom text to circular designs</li>
+                  <li><strong>Border Customization:</strong> Adjust border width and color for circular designs</li>
+                  <li><strong>Text Styling:</strong> Customize text size and color for decorations</li>
                   <li><strong>Color Input:</strong> Use color picker or enter hex codes without # (e.g., 2E8B57)</li>
                 </ul>
 
