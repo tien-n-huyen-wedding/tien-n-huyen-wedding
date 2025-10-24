@@ -24,7 +24,7 @@ export const isEmptyString = (str: any) => {
   return str === null || str === undefined || (typeof str === 'string' && str.trim() === '');
 }
 
-export const CHANGEABLE_FIELDS = ['invitationText', 'invitationSecondText', 'guestName', 'thanksText'];
+export const CHANGEABLE_FIELDS = ['party', 'invitationText', 'invitationSecondText', 'guestName', 'thanksText'];
 
 export interface InvitationProps {
   party: keyof typeof PACKAGES | string;
