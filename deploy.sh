@@ -119,7 +119,7 @@ else
     print_warning "Wedding remote not found. Setting up remote..."
     print_info "Adding wedding remote..."
     git remote add wedding $WEDDING_REPO
-    
+
     print_info "Pushing to wedding repository..."
     if git push wedding $DEPLOY_BRANCH; then
         print_status "Pushed to wedding repository"
