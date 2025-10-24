@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-css-tags */
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import "./globals.css";
 import ClientScripts from "@/components/ClientScripts";
 // Local fonts are now defined in globals.css
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tien-n-huyen-wedding.github.io'),
   title: "Wedding - Quang Tiến & Lệ Huyền",
   description: "We are getting married! Join us for our special day on 30 November 2025 in Gia Huy Palace, Đà Nẵng",
   keywords: [
@@ -66,16 +67,17 @@ export const metadata: Metadata = {
     apple: "/favicon.ico",
   },
   manifest: "/manifest.json",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
   verification: {
     // Add your verification tokens if needed
     // google: "your-google-verification-token",
     // yandex: "your-yandex-verification-token",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -86,6 +88,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Favicon Tags */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#758362" />
+        <meta name="msapplication-TileImage" content="/favicon.ico" />
+        <meta name="theme-color" content="#758362" />
+
+        {/* Meta Image Tags */}
+        <meta property="og:image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta property="og:image:secure_url" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="800" />
+        <meta property="og:image:alt" content="Quang Tiến & Lệ Huyền Wedding" />
+        <meta property="og:image:type" content="image/png" />
+
+        <meta name="twitter:image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta name="twitter:image:alt" content="Quang Tiến & Lệ Huyền Wedding" />
+
+        <meta name="image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta itemProp="image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+
+        {/* Stylesheets */}
         <link rel="stylesheet" href="/css/animate.css" />
         <link rel="stylesheet" href="/css/icomoon.css" />
         <link rel="stylesheet" href="/css/bootstrap.css" />
@@ -103,7 +129,7 @@ export default function RootLayout({
               <div className="row">
                 <div className="col-xs-2">
                   <div id="fh5co-logo">
-                    <Image src="/images/second-qr-logo.png" alt="Wedding" width={100} height={100} />
+                    <Image src="/images/main-qr-code.png" alt="Wedding" width={100} height={100} />
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">
