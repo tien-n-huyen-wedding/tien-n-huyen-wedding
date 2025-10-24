@@ -30,7 +30,7 @@ jobs:
       with:
         personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         external_repository: tien-n-huyen-wedding/tien-n-huyen-wedding
-        publish_branch: gh-pages
+        publish_branch: main
         publish_dir: ./out
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
