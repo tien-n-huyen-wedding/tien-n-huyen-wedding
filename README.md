@@ -1,2 +1,2 @@
-- Access wedding website 👫 at: wedding-tien-n-huyen.surge.sh
+- Access wedding website 👫 at: https://tien-n-huyen-wedding.github.io/.surge.sh
 - Based on HTML theme https://freehtml5.co/wedding-free-html5-bootstrap-template-for-wedding-websites
