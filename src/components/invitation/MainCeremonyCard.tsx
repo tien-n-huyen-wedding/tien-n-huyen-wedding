@@ -1,38 +1,59 @@
 'use client';
 
+import { MainCeremonyCardProps } from '@/utils/constants';
 import React from 'react';
 
-interface MainCeremonyCardProps {
-  groomName: string;
-  brideName: string;
-  groomParents: {
-    father: string;
-    mother: string;
-    address: string;
-  };
-  brideParents: {
-    father: string;
-    mother: string;
-    address: string;
-  };
-  ceremonyDate: string;
-  ceremonyTime: string;
-  ceremonyDateLunar: string;
-  bridePronouns: string;
-  groomPronouns: string;
-  className?: string;
-}
+const parentsSectionStyle: React.CSSProperties = {
+  fontFamily: "'UTM Avo', sans-serif",
+  fontWeight: '100',
+};
+
+const parentLabelStyle: React.CSSProperties = {
+  fontSize: '1.2rem',
+  color: 'var(--text-medium)',
+  marginBottom: '6px',
+  textAlign: 'right',
+};
+
+const parentNameStyle: React.CSSProperties = {
+  fontSize: '1.5rem',
+  color: 'var(--text-dark)',
+  marginBottom: '4px',
+  lineHeight: '1.3',
+  textAlign: 'right',
+};
+
+const parentAddressStyle: React.CSSProperties = {
+  fontSize: '1rem',
+  color: 'var(--text-light)',
+  fontStyle: 'italic',
+  textAlign: 'right',
+  marginBottom: '15px',
+};
+
+const ParentInfo = ({pronouns, father, mother, address}: {pronouns: string, father?: string, mother: string, address: string}) => (
+  <div>
+  <div style={parentLabelStyle}>{pronouns}</div>
+
+  <div style={parentNameStyle}>
+    {father && father.length > 0 ? `${father?.toUpperCase()} & ${mother?.toUpperCase()}` : `${mother?.toUpperCase()}`}
+  </div>
+  <div style={parentAddressStyle}>
+    {address}
+  </div>
+</div>
+)
 
 export default function MainCeremonyCard({
   groomName,
   brideName,
-  groomParents,
-  brideParents,
+  ceremonyTitle,
+  firstParentInfo,
+  location,
   ceremonyDate,
   ceremonyTime,
   ceremonyDateLunar,
-  bridePronouns,
-  groomPronouns,
+  secondParentInfo,
   className = ''
 }: MainCeremonyCardProps) {
   const cardStyle: React.CSSProperties = {
@@ -56,7 +77,7 @@ export default function MainCeremonyCard({
   };
 
   const headerStyle: React.CSSProperties = {
-    paddingTop: '40%',
+    paddingTop: '35%',
     paddingRight: '20%',
   };
 
@@ -65,10 +86,18 @@ export default function MainCeremonyCard({
     fontSize: '2.4rem',
     fontWeight: '100',
     color: 'var(--text-dark)',
-    marginBottom: '8px',
     fontFamily: "'UTM Amherst', serif",
     letterSpacing: '1px',
     lineHeight: '1.2',
+  };
+
+  const coupleNameSeparatorStyle: React.CSSProperties = {
+    textAlign: 'right',
+    fontSize: '2.4rem',
+    fontWeight: '100',
+    color: 'var(--text-dark)',
+    fontFamily: "'UTM Amherst', serif",
+    letterSpacing: '1px',
   };
 
   const leafDecorationStyle: React.CSSProperties = {
@@ -77,34 +106,6 @@ export default function MainCeremonyCard({
     marginTop: '10px',
     fontFamily: "'UTM Amherst', serif",
     paddingLeft: '13%',
-  };
-
-  const parentsSectionStyle: React.CSSProperties = {
-    fontFamily: "'UTM Avo', sans-serif",
-    fontWeight: '100',
-  };
-
-  const parentLabelStyle: React.CSSProperties = {
-    fontSize: '1.2rem',
-    color: 'var(--text-medium)',
-    marginBottom: '6px',
-    textAlign: 'right',
-  };
-
-  const parentNameStyle: React.CSSProperties = {
-    fontSize: '1.5rem',
-    color: 'var(--text-dark)',
-    marginBottom: '4px',
-    lineHeight: '1.3',
-    textAlign: 'right',
-  };
-
-  const parentAddressStyle: React.CSSProperties = {
-    fontSize: '1rem',
-    color: 'var(--text-light)',
-    fontStyle: 'italic',
-    textAlign: 'right',
-    marginBottom: '15px',
   };
 
   const ceremonySectionStyle: React.CSSProperties = {
@@ -147,10 +148,7 @@ export default function MainCeremonyCard({
       {/* Header with couple names */}
       <div style={headerStyle}>
         <div style={coupleNameStyle}>
-          {groomName.toUpperCase()}
-        </div>
-        <div style={coupleNameStyle}>
-          &
+          {groomName.toUpperCase()} &
         </div>
         <div style={coupleNameStyle}>
           {brideName.toUpperCase()}
@@ -158,33 +156,15 @@ export default function MainCeremonyCard({
 
         {/* Leaf decoration */}
         <div style={leafDecorationStyle}>
-          Út Nam & Quý Nữ
+          Út nam & Quý nữ
         </div>
       </div>
 
       {/* Parents information */}
       <div style={parentsSectionStyle}>
-        {/* Groom's parents */}
-        <div>
-          <div style={parentLabelStyle}>{groomPronouns}</div>
-          <div style={parentNameStyle}>
-            {groomParents.father.toUpperCase()} & {groomParents.mother.toUpperCase()}
-          </div>
-          <div style={parentAddressStyle}>
-            {groomParents.address}
-          </div>
-        </div>
+        <ParentInfo {...firstParentInfo} />
 
-        {/* Bride's parents */}
-        <div style={{ marginBottom: '20px' }}>
-          <div style={parentLabelStyle}>{bridePronouns}</div>
-          <div style={parentNameStyle}>
-            {brideParents.mother.toUpperCase()}
-          </div>
-          <div style={parentAddressStyle}>
-            {brideParents.address}
-          </div>
-        </div>
+        <ParentInfo {...secondParentInfo} />
       </div>
 
       {/* Ceremony details */}
@@ -193,10 +173,10 @@ export default function MainCeremonyCard({
           TRÂN TRỌNG BÁO TIN
         </div>
         <div style={ceremonySubtitleStyle}>
-          <span style={ceremonyBoldStyle}>LỄ THÀNH HÔN</span> CỦA CON CHÚNG TÔI
+          <span style={ceremonyBoldStyle}>{ceremonyTitle.toUpperCase()}</span> CỦA CON CHÚNG TÔI
         </div>
         <div style={ceremonySubtitleStyle}>
-          HÔN LỄ ĐƯỢC CỬ HÀNH TẠI TƯ GIA NAM
+          HÔN LỄ ĐƯỢC CỬ HÀNH TẠI {location.toUpperCase()}
         </div>
 
         <div style={dateTimeStyle}>
@@ -206,7 +186,7 @@ export default function MainCeremonyCard({
           <span style={ceremonyBoldStyle}>{ceremonyDate}</span>
         </div>
         <div style={lunarDateStyle}>
-          NHẰM NGÀY {ceremonyDateLunar}
+          NHẰM {ceremonyDateLunar.toUpperCase()}
         </div>
       </div>
     </div>

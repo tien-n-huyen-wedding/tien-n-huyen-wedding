@@ -1,36 +1,22 @@
 'use client';
 
-import { MAIN_WEDDING_PARTY_INFO } from '@/utils/constants';
 import React from 'react';
-
-interface WeddingPartyCardProps {
-  className?: string;
-  invitationText?: string;
-  guestName?: string;
-  restaurantName?: string;
-  restaurantAddress?: string;
-  city?: string;
-  mapUrl?: string;
-  time?: string;
-  lunaDateStr?: string;
-  thanksText?: string;
-  openAt?: string;
-  partyAt?: string;
-}
+import { WeddingPartyCardProps } from '@/utils/constants';
 
 export default function WeddingPartyCard({
   className = '',
-  invitationText = "Trân trọng kính mời:",
-  guestName = "Người Bạn Thân",
-  restaurantName = MAIN_WEDDING_PARTY_INFO.restaurant,
-  restaurantAddress = MAIN_WEDDING_PARTY_INFO.location,
-  city = MAIN_WEDDING_PARTY_INFO.city,
-  mapUrl = MAIN_WEDDING_PARTY_INFO.google_map_url,
-  time = MAIN_WEDDING_PARTY_INFO.atStr,
-  lunaDateStr = MAIN_WEDDING_PARTY_INFO.lunaDateStr,
-  thanksText = "Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.",
-  openAt = MAIN_WEDDING_PARTY_INFO.openAt,
-  partyAt = MAIN_WEDDING_PARTY_INFO.partyAt,
+  invitationText,
+  guestName,
+  invitationSecondText,
+  restaurantName,
+  restaurantAddress,
+  city,
+  mapUrl,
+  time,
+  lunaDate,
+  thanksText,
+  openAt,
+  partyAt,
 }: WeddingPartyCardProps) {
   const cardStyle: React.CSSProperties = {
     width: '500px',
@@ -57,6 +43,7 @@ export default function WeddingPartyCard({
 
   const invitationTextStyle: React.CSSProperties = {
     fontSize: '1.5rem',
+    marginBottom: '3%',
   };
 
   const guestNameStyle: React.CSSProperties = {
@@ -68,42 +55,50 @@ export default function WeddingPartyCard({
   };
 
   const restaurantNameStyle: React.CSSProperties = {
+    marginTop: '3%',
     fontSize: '2.0rem',
     fontWeight: '500',
     color: 'var(--text-dark)',
   };
 
   const dateTimeStyle: React.CSSProperties = {
+    marginTop: '3%',
     fontWeight: 900,
     color: 'var(--text-dark)',
   };
 
   const lunarDateStyle: React.CSSProperties = {
     fontStyle: 'italic',
-    marginBottom: '1%',
+    marginBottom: '3%',
   };
 
   const openAtStyle: React.CSSProperties = {
-    marginBottom: '1%',
-    marginTop: '1%',
+    marginBottom: '3%',
+    marginTop: '3%',
+  };
+  const marginBottomStyle: React.CSSProperties = {
+    marginBottom: '3%',
+  };
+
+  const lastTextStyle: React.CSSProperties = {
+    fontStyle: 'italic',
   };
 
   return (
     <div className={`wedding-party-card ${className}`} style={cardStyle}>
       {/* Header */}
-      <div style={invitationTextStyle}>
-        <div>
+      <div>
+        <div style={invitationTextStyle}>
           {invitationText}
         </div>
         <div style={guestNameStyle}>
           {guestName.toUpperCase()}
         </div>
-        <div>
-          Đến dự buổi tiệc
-        </div>
-        <div>
-          Chung vui cùng gia đình chúng tôi tại
-        </div>
+        {invitationSecondText.split('\n').map((element, index) => (
+          <div key={index}>
+            {element.trim()}
+          </div>
+        ))}
         <div style={restaurantNameStyle}>
           <a href={mapUrl} target="_blank" rel="noopener noreferrer">
             {restaurantName.toUpperCase()}
@@ -120,10 +115,10 @@ export default function WeddingPartyCard({
           </a>
         </div>
         <div style={dateTimeStyle}>
-          VÀO LÚC {time.toUpperCase()}
+          VÀO LÚC {openAt.toUpperCase()} | {time.toUpperCase()}
         </div>
         <div style={lunarDateStyle}>
-          (Nhằm {lunaDateStr.toUpperCase()})
+          (Nhằm {lunaDate.toUpperCase()})
         </div>
         {thanksText.split('\n').map((element, index) => (
           <div key={index}>
@@ -133,8 +128,8 @@ export default function WeddingPartyCard({
         <div style={openAtStyle}>
           ĐÓN KHÁCH: {openAt.toUpperCase()} | KHAI TIỆC: {partyAt.toUpperCase()}
         </div>
-        <div>
-          Rất hân hạnh được đón tiếp
+        <div style={lastTextStyle}>
+          Rất hân hạnh được đón tiếp!
         </div>
       </div>
     </div>
