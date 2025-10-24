@@ -6,9 +6,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true
   },
-  // For root domain deployment, remove basePath and assetPrefix
-  // assetPrefix: process.env.NODE_ENV === 'production' ? '/tien-n-huyen-wedding' : '',
-  // basePath: process.env.NODE_ENV === 'production' ? '/tien-n-huyen-wedding' : '',
+  // For GitHub Pages root domain deployment
+  assetPrefix: '',
+  basePath: '',
   distDir: 'out'
 };
 
