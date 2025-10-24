@@ -11,6 +11,7 @@ export default function QRGenerator() {
   // Style options for QR code customization
   const [styleOptions, setStyleOptions] = useState({
     dotsColor: '#758362',
+    randomDotsColor: '#758362',
     dotsType: 'dots' as 'square' | 'rounded' | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded',
     backgroundColor: 'transparent',
     cornersSquareColor: '#758362',
@@ -141,7 +142,37 @@ export default function QRGenerator() {
                           />
                         </div>
                       </div>
-                      <small className="help-block">Enter hex code without # (e.g., 2E8B57) | Popular: 8B4513, 2E8B57, 4682B4, 800080</small>
+                      <small className="help-block">Enter hex code without # (e.g., 2E8B57) | Popular: 758362, 2E8B57, 4682B4, 800080</small>
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="randomDotsColor">Random Dots Color:</label>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <input
+                            type="color"
+                            id="randomDotsColor"
+                            className="form-control"
+                            value={styleOptions.randomDotsColor}
+                            onChange={(e) => setStyleOptions(prev => ({ ...prev, randomDotsColor: e.target.value }))}
+                          />
+                        </div>
+                        <div className="col-md-6">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="758362"
+                            value={styleOptions.randomDotsColor.replace('#', '')}
+                            onChange={(e) => {
+                              const hexValue = e.target.value.replace('#', '');
+                              if (/^[0-9A-Fa-f]{6}$/.test(hexValue)) {
+                                setStyleOptions(prev => ({ ...prev, randomDotsColor: `#${hexValue}` }));
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <small className="help-block">Second color for random dots effect - creates gradient/random color pattern | Popular: 758362, 2E8B57, 4682B4, 800080</small>
                     </div>
 
                     <div className="form-group">
@@ -201,7 +232,7 @@ export default function QRGenerator() {
                           />
                         </div>
                       </div>
-                      <small className="help-block">Enter hex code without # (e.g., 2E8B57) | Popular: 8B4513, 2E8B57, 4682B4, 800080</small>
+                      <small className="help-block">Enter hex code without # (e.g., 2E8B57) | Popular: 758362, 2E8B57, 4682B4, 800080</small>
                     </div>
 
                     <div className="form-group">
@@ -231,7 +262,7 @@ export default function QRGenerator() {
                           />
                         </div>
                       </div>
-                      <small className="help-block">Enter hex code without # (e.g., 2E8B57) | Popular: 8B4513, 2E8B57, 4682B4, 800080</small>
+                      <small className="help-block">Enter hex code without # (e.g., 2E8B57) | Popular: 758362, 2E8B57, 4682B4, 800080</small>
                     </div>
 
                     <div className="form-group">
@@ -457,6 +488,7 @@ export default function QRGenerator() {
                 <h4>Customization Options:</h4>
                 <ul>
                   <li><strong>Dots Color:</strong> Change the color of the QR code dots</li>
+                  <li><strong>Random Dots Color:</strong> Second color for creating gradient or random color effects</li>
                   <li><strong>Background Color:</strong> Set the background color of the QR code</li>
                   <li><strong>Corner Colors:</strong> Customize corner squares and dots colors</li>
                   <li><strong>Logo Size:</strong> Adjust logo size from 10% to 40% of QR code</li>

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface QRCodeStyleOptions {
   dotsColor: string;
+  randomDotsColor: string;
   dotsType: 'square' | 'rounded' | 'dots' | 'classy' | 'classy-rounded' | 'extra-rounded';
   backgroundColor: string;
   cornersSquareColor: string;
@@ -209,7 +210,7 @@ export default function ReliableQRCode({
               dot.setAttribute('cx', x.toString());
               dot.setAttribute('cy', y.toString());
               dot.setAttribute('r', dotSize.toString());
-              dot.setAttribute('fill', styleOptions.strokeColor || '#758362');
+              dot.setAttribute('fill', styleOptions.randomDotsColor || styleOptions.dotsColor || '#758362');
 
               svg.appendChild(dot);
             }
@@ -231,7 +232,7 @@ export default function ReliableQRCode({
               dot.setAttribute('cx', x.toString());
               dot.setAttribute('cy', y.toString());
               dot.setAttribute('r', dotSize.toString());
-              dot.setAttribute('fill', styleOptions.strokeColor || '#758362');
+              dot.setAttribute('fill', styleOptions.randomDotsColor || styleOptions.dotsColor || '#758362');
 
               svg.appendChild(dot);
             }
@@ -243,7 +244,7 @@ export default function ReliableQRCode({
           path.setAttribute('d', pathData);
           path.setAttribute('id', 'textPath');
           path.setAttribute('fill', 'none');
-          path.setAttribute('stroke', styleOptions.strokeColor || '#758362');
+          path.setAttribute('stroke', styleOptions.dotsColor || '#758362');
           path.setAttribute('stroke-width', '30');
           svg.appendChild(path);
 
