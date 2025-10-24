@@ -25,12 +25,17 @@ jobs:
     - name: Build static site
       run: npm run build
       
+    - name: Copy to docs directory
+      run: |
+        mkdir -p docs
+        cp -r out/* docs/
+      
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         external_repository: tien-n-huyen-wedding/tien-n-huyen-wedding
         publish_branch: main
-        publish_dir: ./out
+        publish_dir: ./docs
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'

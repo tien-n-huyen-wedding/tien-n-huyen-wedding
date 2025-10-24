@@ -17,9 +17,10 @@ fi
 
 echo "✅ Build completed successfully!"
 
-# Copy static files to root
-echo "📁 Copying static files to root directory..."
-cp -r out/* .
+# Copy static files to docs directory
+echo "📁 Copying static files to docs directory..."
+mkdir -p docs
+cp -r out/* docs/
 
 # Add all files
 echo "📝 Adding files to git..."
@@ -27,7 +28,7 @@ git add .
 
 # Commit changes
 echo "💾 Committing changes..."
-git commit -m "Deploy wedding website to main branch - $(date)"
+git commit -m "Deploy wedding website to docs directory on main branch - $(date)"
 
 # Push to wedding repository
 echo "🚀 Pushing to wedding repository..."
@@ -45,5 +46,5 @@ else
 fi
 
 echo "🎊 Deployment complete!"
-echo "Your wedding website is now deployed to the main branch."
-echo "Configure GitHub Pages to use the main branch for deployment."
+echo "Your wedding website is now deployed to the docs directory on main branch."
+echo "Configure GitHub Pages to use the main branch with /docs folder for deployment."
