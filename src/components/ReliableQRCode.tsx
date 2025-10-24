@@ -120,6 +120,123 @@ export default function ReliableQRCode({
           const centerX = totalSize / 2;
           const centerY = totalSize / 2;
 
+          // Generate dots line by line inside the circular area
+          const dotSize = 3; // Fixed dot size
+          const lineSpacing = 8; // Space between lines
+          const dotSpacing = 6; // Space between dots in a line
+          const generateLines = (x: number): { linesX: { startX: number; endX: number; startY: number; endY: number }[]; linesY: { startX: number; endX: number; startY: number; endY: number; orientation: string }[] } => {
+            const r = (x * Math.sqrt(2)) / 2
+            const inner = x / 2 + 1;
+            const maxOffset = r - inner + lineSpacing;
+
+            if (maxOffset <= 0) return { linesX: [], linesY: [] };
+
+            const nEachSide = Math.floor(maxOffset / lineSpacing);
+            const linesX = [];
+            const linesY = [];
+
+            for (let i = 0; i <= nEachSide; i++) {
+              const offset = inner + i * lineSpacing;
+
+              const yTop = centerY - offset;
+              const xLenTop = Math.sqrt(r * r - (yTop - centerY) ** 2);
+              linesX.push({
+                startX: centerX - xLenTop,
+                endX: centerX + xLenTop,
+                startY: yTop,
+                endY: yTop
+              });
+
+              const yBottom = centerY + offset - lineSpacing;
+              const xLenBottom = Math.sqrt(r * r - (yBottom - centerY) ** 2);
+              linesX.push({
+                startX: centerX - xLenBottom,
+                endX: centerX + xLenBottom,
+                startY: yBottom,
+                endY: yBottom
+              });
+            }
+
+            for (let i = 0; i <= nEachSide; i++) {
+              const offset = inner + i * lineSpacing;
+
+              const xLeft = centerX - offset;
+              if (Math.abs(xLeft - centerX) < r) {
+                const dy = Math.sqrt(r * r - (xLeft - centerX) ** 2);
+                linesY.push({
+                  startX: xLeft,
+                  endX: xLeft,
+                  startY: centerY - dy,
+                  endY: centerY + dy,
+                  orientation: 'v',
+                });
+              }
+
+              // Phải
+              const xRight = centerX + offset;
+              if (Math.abs(xRight - centerX) < r) {
+                const dy = Math.sqrt(r * r - (xRight - centerX) ** 2);
+                linesY.push({
+                  startX: xRight,
+                  endX: xRight,
+                  startY: centerY - dy,
+                  endY: centerY + dy,
+                  orientation: 'v',
+                });
+              }
+            }
+
+            return { linesX, linesY };
+          }
+
+          // Generate lines using your function
+          const { linesX, linesY } = generateLines(size);
+
+          // Draw random dots on each line
+          linesX.forEach((line) => {
+            const lineLength = (line.endX - line.startX);
+            const numDotsInLine = Math.floor(lineLength / dotSpacing);
+
+            // Generate dots in this line with random placement
+            for (let dotIndex = 0; dotIndex < numDotsInLine; dotIndex++) {
+              // Random chance to skip this dot (40% chance to skip)
+              if (Math.random() < 0.5) continue;
+
+              const x = line.startX + (dotIndex * dotSpacing);
+              const y = line.startY;
+
+              const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+              dot.setAttribute('cx', x.toString());
+              dot.setAttribute('cy', y.toString());
+              dot.setAttribute('r', dotSize.toString());
+              dot.setAttribute('fill', styleOptions.strokeColor || '#758362');
+
+              svg.appendChild(dot);
+            }
+          });
+
+          linesY.forEach((line) => {
+            const lineLength = (line.endY - line.startY);
+            const numDotsInLine = Math.floor(lineLength / dotSpacing);
+
+            // Generate dots in this line with random placement
+            for (let dotIndex = 0; dotIndex < numDotsInLine; dotIndex++) {
+              // Random chance to skip this dot (40% chance to skip)
+              if (Math.random() < 0.5) continue;
+
+              const x = line.startX;
+              const y = line.startY + (dotIndex * dotSpacing);
+
+              const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+              dot.setAttribute('cx', x.toString());
+              dot.setAttribute('cy', y.toString());
+              dot.setAttribute('r', dotSize.toString());
+              dot.setAttribute('fill', styleOptions.strokeColor || '#758362');
+
+              svg.appendChild(dot);
+            }
+          });
+
           // Create circular path for text
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
           const pathData = `M ${centerX - finalRadius} ${centerY} A ${finalRadius} ${finalRadius} 0 1 1 ${centerX + finalRadius} ${centerY} A ${finalRadius} ${finalRadius} 0 1 1 ${centerX - finalRadius} ${centerY}`;
@@ -195,12 +312,12 @@ export default function ReliableQRCode({
       const html2canvas = (await import('html2canvas')).default;
 
       const canvas = await html2canvas(wrapper, {
-        background: '#ffffff',
         useCORS: true,
-        allowTaint: true
-      });
+        allowTaint: true,
+        logging: false,
+        backgroundColor: null
+      } as any);
 
-      // Convert canvas to blob and download
       canvas.toBlob((blob) => {
         if (blob) {
           const url = URL.createObjectURL(blob);

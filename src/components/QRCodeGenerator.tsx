@@ -91,12 +91,12 @@ export default function QRCodeGenerator({
       const html2canvas = (await import('html2canvas')).default;
 
       const canvas = await html2canvas(qrRef.current, {
-        background: '#ffffff',
         useCORS: true,
-        allowTaint: true
-      });
+        allowTaint: true,
+        logging: false,
+        backgroundColor: null
+      } as any);
 
-      // Convert canvas to blob and download
       canvas.toBlob((blob) => {
         if (blob) {
           const url = URL.createObjectURL(blob);

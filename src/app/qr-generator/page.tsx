@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ReliableQRCode from '@/components/ReliableQRCode';
 
 export default function QRGenerator() {
-  const [url, setUrl] = useState('https://wedding-tien-n-huyen.surge.sh');
+  const [url, setUrl] = useState('http://wedding-tien-n-huyen.surge.sh');
   const [logoUrl, setLogoUrl] = useState('/images/QR-logo.png');
   const [size, setSize] = useState(300);
 
