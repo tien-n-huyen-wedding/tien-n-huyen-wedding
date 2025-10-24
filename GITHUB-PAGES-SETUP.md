@@ -17,7 +17,11 @@ The GitHub Actions workflow is failing because GitHub Pages hasn't been enabled 
 ### Step 3: Alternative - Use Branch Deployment
 If GitHub Actions doesn't work, use this instead:
 1. Under **Source**, select **"Deploy from a branch"**
+<<<<<<< HEAD
 2. Under **Branch**, select **"gh-pages"**
+=======
+2. Under **Branch**, select **"main"**
+>>>>>>> gh-pages
 3. Under **Folder**, select **"/docs"**
 4. Click **Save**
 
@@ -36,17 +40,25 @@ If GitHub Actions still doesn't work, you can deploy manually:
 # Build the static site
 npm run build
 
+<<<<<<< HEAD
 # Switch to gh-pages branch
 git checkout gh-pages
 
+=======
+>>>>>>> gh-pages
 # Copy static files to docs directory
 mkdir -p docs
 cp -r out/* docs/
 
 # Commit and push
 git add .
+<<<<<<< HEAD
 git commit -m "Deploy wedding website to docs directory"
 git push origin gh-pages
+=======
+git commit -m "Deploy wedding website to docs directory on main branch"
+git push origin main
+>>>>>>> gh-pages
 ```
 
 ## 🎊 Your Wedding Website Features

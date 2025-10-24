@@ -38,7 +38,6 @@ export default function ClientScripts() {
       <Script src="/js/jquery.magnific-popup.min.js" strategy="afterInteractive" />
       <Script src="/js/magnific-popup-options.js" strategy="afterInteractive" />
       <Script src="/js/jquery.countTo.js" strategy="afterInteractive" />
-      {/* simplyCountdown is now imported as TypeScript module */}
       <Script src="/js/main.js" strategy="afterInteractive" />
     </>
   );

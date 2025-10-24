@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata } from "next";
 import "./globals.css";
-// import Link from "next/link";
 import ClientScripts from "@/components/ClientScripts";
 // Local fonts are now defined in globals.css
 
@@ -39,29 +38,6 @@ export default function RootLayout({
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">
-                  {/* <ul>
-                    <li><Link href="/">Home</Link></li>
-                    <li><Link href="/about">Story</Link></li>
-                    <li className="has-dropdown">
-                      <Link href="/services">Services</Link>
-                      <ul className="dropdown">
-                        <li><Link href="#">Web Design</Link></li>
-                        <li><Link href="#">eCommerce</Link></li>
-                        <li><Link href="#">Branding</Link></li>
-                        <li><Link href="#">API</Link></li>
-                      </ul>
-                    </li>
-                    <li className="has-dropdown">
-                      <Link href="/gallery">Gallery</Link>
-                      <ul className="dropdown">
-                        <li><Link href="#">HTML5</Link></li>
-                        <li><Link href="#">CSS3</Link></li>
-                        <li><Link href="#">Sass</Link></li>
-                        <li><Link href="#">jQuery</Link></li>
-                      </ul>
-                    </li>
-                    <li><Link href="/contact">Contact</Link></li>
-                  </ul> */}
                 </div>
               </div>
             </div>
@@ -74,12 +50,6 @@ export default function RootLayout({
               <div className="row row-bottom-padded-sm">
                 <div className="col-md-12">
                   <div className="fh5co-social">
-                    <ul className="fh5co-social">
-                      <li><a href="#"><i className="icon-facebook"></i></a></li>
-                      <li><a href="#"><i className="icon-twitter"></i></a></li>
-                      <li><a href="#"><i className="icon-instagram"></i></a></li>
-                      <li><a href="#"><i className="icon-linkedin"></i></a></li>
-                    </ul>
                   </div>
                 </div>
               </div>

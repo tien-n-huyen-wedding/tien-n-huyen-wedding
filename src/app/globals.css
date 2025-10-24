@@ -29,6 +29,17 @@
   --font-sacramento: 'Sacramento', cursive;
 }
 
+/* Sage Green Color Scheme */
+:root {
+  --sage-green: #6B8E6B;
+  --sage-green-light: #8FBC8F;
+  --sage-green-dark: #556B55;
+  --sage-green-muted: #A8C8A8;
+  --text-dark: #2C3E50;
+  --text-medium: #5A6C7D;
+  --text-light: #7A8B99;
+}
+
 /* Responsive background positioning for hero section */
 #fh5co-header.fh5co-cover {
   background-position: center center !important;
@@ -50,3 +61,201 @@
 
 /* Template styles will be loaded from the template CSS files */
 /* This file is kept minimal to avoid conflicts with template styles */
+
+/* Invitation Card Styles */
+.invitation-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.invitation-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4) !important;
+}
+
+.invitation-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #D4AF37, #FFD700, #D4AF37);
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Invitation Card Content */
+.invitation-card h1 {
+  font-family: var(--font-sacramento);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.invitation-card p {
+  font-family: var(--font-work-sans);
+  line-height: 1.6;
+}
+
+/* Responsive adjustments for invitation cards */
+@media (max-width: 768px) {
+  .invitation-card {
+    transform: scale(0.8) !important;
+    margin: 1rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .invitation-card {
+    transform: scale(0.7) !important;
+    margin: 0.5rem auto;
+  }
+}
+
+/* Elegant theme styles */
+.invitation-card.elegant {
+  background: linear-gradient(135deg, #f5f5dc 0%, #f0e68c 100%);
+  border: 2px solid #D4AF37;
+}
+
+.invitation-card.elegant h1 {
+  color: #8B4513;
+  text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.3);
+}
+
+/* Romantic theme styles */
+.invitation-card.romantic {
+  background: linear-gradient(135deg, #ffe4e1 0%, #ffb6c1 100%);
+  border: 2px solid #FF69B4;
+}
+
+.invitation-card.romantic h1 {
+  color: #8B0000;
+  text-shadow: 1px 1px 2px rgba(255, 105, 180, 0.3);
+}
+
+/* Modern theme styles */
+.invitation-card.modern {
+  background: linear-gradient(135deg, #f8f8ff 0%, #e6e6fa 100%);
+  border: 2px solid #9370DB;
+}
+
+.invitation-card.modern h1 {
+  color: #4B0082;
+  text-shadow: 1px 1px 2px rgba(147, 112, 219, 0.3);
+}
+
+/* Classic theme styles */
+.invitation-card.classic {
+  background: linear-gradient(135deg, #fff8dc 0%, #f5deb3 100%);
+  border: 2px solid #CD853F;
+}
+
+.invitation-card.classic h1 {
+  color: #8B4513;
+  text-shadow: 1px 1px 2px rgba(205, 133, 63, 0.3);
+}
+
+/* Animation for invitation card appearance */
+@keyframes invitationFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.invitation-card {
+  animation: invitationFadeIn 0.8s ease-out;
+}
+
+/* Print styles for invitation cards */
+@media print {
+  .invitation-card {
+    transform: none !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    margin: 0;
+  }
+
+  .invitation-card:hover {
+    transform: none !important;
+  }
+}
+
+/* Vietnamese Invitation Card Styles */
+.main-ceremony-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAFAFA 100%);
+  border: 1px solid var(--sage-green-muted);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.main-ceremony-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(107, 142, 107, 0.2) !important;
+}
+
+.wedding-party-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAFAFA 100%);
+  border: 1px solid var(--sage-green-muted);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.wedding-party-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(107, 142, 107, 0.2) !important;
+}
+
+/* Sage Green Theme Styles */
+.sage-green-theme {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%);
+  border: 2px solid var(--sage-green);
+}
+
+.sage-green-theme h1 {
+  color: var(--text-dark);
+  text-shadow: 1px 1px 2px rgba(107, 142, 107, 0.3);
+}
+
+/* Leaf decoration styles */
+.leaf-decoration {
+  color: var(--sage-green);
+  font-size: 1.2rem;
+  margin: 10px 0;
+  text-align: center;
+}
+
+/* Vietnamese text styling */
+.vietnamese-text {
+  font-family: var(--font-work-sans);
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+/* Responsive adjustments for Vietnamese invitation cards */
+@media (max-width: 768px) {
+  .main-ceremony-card,
+  .wedding-party-card {
+    transform: scale(0.85) !important;
+    margin: 1rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-ceremony-card,
+  .wedding-party-card {
+    transform: scale(0.75) !important;
+    margin: 0.5rem auto;
+  }
+}

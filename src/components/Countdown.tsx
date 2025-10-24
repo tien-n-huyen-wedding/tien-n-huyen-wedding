@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { THE_GROOM_FAMILY_INFO } from '@/utils/constants';
+import { MAIN_WEDDING_PARTY_INFO } from '@/utils/constants';
 
 interface TimeLeft {
   days: number;
@@ -25,7 +25,7 @@ export default function Countdown({ targetDate }: CountdownProps) {
     }
 
     // Parse the date string from constants: "30/11/2025 11:00 +07:00"
-    const dateString = THE_GROOM_FAMILY_INFO.at;
+    const dateString = MAIN_WEDDING_PARTY_INFO.at;
     const [datePart, timePart] = dateString.split(' ');
     const [day, month, year] = datePart.split('/').map(Number);
     const [time] = timePart.split(' ');
