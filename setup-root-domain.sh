@@ -47,15 +47,15 @@ echo "3. Click 'Rename'"
 echo "4. Then run this script again"
 echo ""
 
-# Check if repository has been renamed
+# Check if repository is configured correctly
 CURRENT_REPO=$(git remote get-url wedding 2>/dev/null || echo "")
 if [[ "$CURRENT_REPO" == *"tien-n-huyen-wedding.github.io"* ]]; then
-    print_status "Repository appears to be renamed correctly!"
+    print_status "Repository configured correctly for root domain!"
 else
-    print_error "Repository not renamed yet. Please rename it first."
+    print_error "Repository not configured correctly."
     echo ""
-    print_info "After renaming, run:"
-    echo "  git remote set-url wedding https://github.com/tien-n-huyen-wedding/tien-n-huyen-wedding.github.io.git"
+    print_info "Current remote: $CURRENT_REPO"
+    print_info "Expected: https://github.com/tien-n-huyen-wedding/tien-n-huyen-wedding.github.io.git"
     exit 1
 fi
 

@@ -14,8 +14,8 @@ PURPLE='\033[0;35m'
 NC='\033[0m' # No Color
 
 # Configuration
-WEDDING_REPO="https://github.com/tien-n-huyen-wedding/tien-n-huyen-wedding.git"
-WEDDING_REPO_SSH="git@github.com:tien-n-huyen-wedding/tien-n-huyen-wedding.git"
+WEDDING_REPO="https://github.com/tien-n-huyen-wedding/tien-n-huyen-wedding.github.io.git"
+WEDDING_REPO_SSH="git@github.com:tien-n-huyen-wedding/tien-n-huyen-wedding.github.io.git"
 DEPLOY_BRANCH="main"
 DEPLOY_DIR="docs"
 
@@ -142,14 +142,14 @@ echo "  • Directory: $DEPLOY_DIR"
 echo "  • Repository: $WEDDING_REPO"
 echo ""
 print_info "🌐 Next Steps:"
-echo "  1. Go to: https://github.com/tien-n-huyen-wedding/tien-n-huyen-wedding/settings/pages"
+echo "  1. Go to: https://github.com/tien-n-huyen-wedding/tien-n-huyen-wedding.github.io/settings/pages"
 echo "  2. Configure GitHub Pages:"
 echo "     - Source: 'Deploy from a branch'"
 echo "     - Branch: 'main'"
-echo "     - Folder: '/docs'"
+echo "     - Folder: '/ (root)' ⬅️ For root domain!"
 echo "  3. Click Save"
 echo ""
 print_info "🎉 Your website will be live at:"
-echo "   https://tien-n-huyen-wedding.github.io/tien-n-huyen-wedding/"
+echo "   https://tien-n-huyen-wedding.github.io/"
 echo ""
 print_status "Wedding website deployment completed successfully! 💒"
