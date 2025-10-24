@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata } from "next";
+import Image from "next/image";
 import "./globals.css";
 import ClientScripts from "@/components/ClientScripts";
 // Local fonts are now defined in globals.css
@@ -34,7 +35,7 @@ export default function RootLayout({
               <div className="row">
                 <div className="col-xs-2">
                   <div id="fh5co-logo">
-                    {/* <Link href="/">Wedding<strong>.</strong></Link> */}
+                    <Image src="/images/second-qr-logo.png" alt="Wedding" width={100} height={100} />
                   </div>
                 </div>
                 <div className="col-xs-10 text-right menu-1">
@@ -56,7 +57,6 @@ export default function RootLayout({
               <div className="row">
                 <div className="col-md-12">
                   <div className="fh5co-copyright">
-                    <p>&copy; 2016 Free HTML5 Template. All Rights Reserved. <br />Made with <i className="icon-heart"></i> by <a href="http://freehtml5.co/" target="_blank" rel="noopener noreferrer">FreeHTML5.co</a> / Demo Images: <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unsplash</a></p>
                   </div>
                 </div>
               </div>

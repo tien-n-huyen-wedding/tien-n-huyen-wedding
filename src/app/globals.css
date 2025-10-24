@@ -23,10 +23,52 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'UTM Amherst';
+  src: url('/fonts/UTM Amherst.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTM Avo/UTM Avo.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTM Avo/UTM AvoBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTM Avo/UTM AvoItalic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTM Avo/UTM AvoBold_Italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* CSS Variables for fonts */
 :root {
   --font-work-sans: 'Work Sans', Arial, sans-serif;
   --font-sacramento: 'Sacramento', cursive;
+  --font-utm-amherst: 'UTM Amherst', serif;
+  --font-utm-avo: 'UTM Avo', sans-serif;
 }
 
 /* Sage Green Color Scheme */

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ReliableQRCode from '@/components/ReliableQRCode';
+import ReliableQRCode from '@/components/qr_code/ReliableQRCode';
 
 export default function QRGenerator() {
   const [url, setUrl] = useState('https://tien-n-huyen-wedding.github.io/');

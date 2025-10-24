@@ -1,11 +1,10 @@
 'use client';
 
-import Banner from '@/components/Banner';
-import CoupleSection from '@/components/CoupleSection';
-import EventsSection from '@/components/EventsSection';
-import StorySection from '@/components/StorySection';
-import GallerySection from '@/components/GallerySection';
-import InvitationSection from '@/components/InvitationSection';
+import Banner from '@/components/main_page_sections/Banner';
+import CoupleSection from '@/components/main_page_sections/CoupleSection';
+import EventsSection from '@/components/main_page_sections/EventsSection';
+import StorySection from '@/components/main_page_sections/StorySection';
+import GallerySection from '@/components/main_page_sections/GallerySection';
 
 export default function Home() {
   return (
@@ -15,9 +14,6 @@ export default function Home() {
       <EventsSection />
       <StorySection />
       <GallerySection />
-
-      {/* Invitation Section */}
-      <InvitationSection />
     </>
   );
 }
