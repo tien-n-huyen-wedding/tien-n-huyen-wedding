@@ -174,12 +174,54 @@ export default function ReliableQRCode({
     }
   }, [url, size, styleOptions, logoUrl, onGenerated, totalSize]);
 
-  const downloadQR = () => {
-    if (qrInstance && typeof qrInstance === 'object' && qrInstance !== null && 'download' in qrInstance) {
-      (qrInstance as { download: (options: { name: string; extension: string }) => void }).download({
-        name: 'qr-code',
-        extension: 'png'
+  const downloadQR = async () => {
+    if (!qrRef.current) return;
+
+    try {
+      // Get the wrapper element that contains both QR code and circular elements
+      const wrapper = qrRef.current.querySelector('div[style*="position: relative"]') as HTMLElement;
+      if (!wrapper) {
+        // Fallback to original QR code download if no wrapper found
+        if (qrInstance && typeof qrInstance === 'object' && qrInstance !== null && 'download' in qrInstance) {
+          (qrInstance as { download: (options: { name: string; extension: string }) => void }).download({
+            name: 'qr-code',
+            extension: 'png'
+          });
+        }
+        return;
+      }
+
+      // Use html2canvas to capture the entire circular design
+      const html2canvas = (await import('html2canvas')).default;
+
+      const canvas = await html2canvas(wrapper, {
+        background: '#ffffff',
+        useCORS: true,
+        allowTaint: true
       });
+
+      // Convert canvas to blob and download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'wedding-qr-code.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }, 'image/png');
+    } catch (error) {
+      console.error('Error downloading circular QR code:', error);
+      // Fallback to original download method
+      if (qrInstance && typeof qrInstance === 'object' && qrInstance !== null && 'download' in qrInstance) {
+        (qrInstance as { download: (options: { name: string; extension: string }) => void }).download({
+          name: 'qr-code',
+          extension: 'png'
+        });
+      }
     }
   };
 

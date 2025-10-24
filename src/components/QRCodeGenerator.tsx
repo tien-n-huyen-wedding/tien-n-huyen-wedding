@@ -83,12 +83,41 @@ export default function QRCodeGenerator({
     }
   }, [qrCode]);
 
-  const downloadQR = () => {
-    if (qrCode && typeof qrCode === 'object' && qrCode !== null && 'download' in qrCode) {
-      (qrCode as { download: (options: { name: string; extension: string }) => void }).download({
-        name: 'qr-code',
-        extension: 'png'
+  const downloadQR = async () => {
+    if (!qrRef.current) return;
+
+    try {
+      // Use html2canvas to capture the QR code with better quality
+      const html2canvas = (await import('html2canvas')).default;
+
+      const canvas = await html2canvas(qrRef.current, {
+        background: '#ffffff',
+        useCORS: true,
+        allowTaint: true
       });
+
+      // Convert canvas to blob and download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'qr-code.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }
+      }, 'image/png');
+    } catch (error) {
+      console.error('Error downloading QR code:', error);
+      // Fallback to original download method
+      if (qrCode && typeof qrCode === 'object' && qrCode !== null && 'download' in qrCode) {
+        (qrCode as { download: (options: { name: string; extension: string }) => void }).download({
+          name: 'qr-code',
+          extension: 'png'
+        });
+      }
     }
   };
 
