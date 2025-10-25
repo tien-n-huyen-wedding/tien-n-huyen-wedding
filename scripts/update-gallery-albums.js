@@ -11,7 +11,7 @@ const imageSize = require('image-size').default;
 const ExifParser = require('exif-parser');
 
 const GALLERY_PATH = path.join(__dirname, '../public/images/gallery');
-const OUTPUT_FILE = path.join(__dirname, '../src/lib/galleryAlbums.ts');
+const OUTPUT_DIR = path.join(__dirname, '../src/lib/gallery-data');
 
 // Get all image files from a folder with their dimensions
 function getImageFiles(folderPath) {
@@ -75,97 +75,32 @@ function getImageFiles(folderPath) {
   }
 }
 
-// Generate the photo objects array for TypeScript
-function generatePhotoArray(folderName, imageData) {
-  const arrayItems = imageData.map(img =>
-    `  {\n    src: '/images/gallery/${folderName}/${img.filename}',\n    width: ${img.width},\n    height: ${img.height},\n    alt: '${folderName} - ${img.filename}'\n  }`
-  ).join(',\n');
-  return `// ${folderName} Album\nconst ${folderName.toLowerCase()}Photos: Photo[] = [\n${arrayItems}\n];`;
+// Convert image data to Photo objects for JSON
+function convertToPhotoObjects(folderName, imageData) {
+  return imageData.map(img => ({
+    src: `/images/gallery/${folderName}/${img.filename}`,
+    width: img.width,
+    height: img.height,
+    alt: `${folderName} - ${img.filename}`
+  }));
 }
 
-// Generate complete TypeScript file content
-function generateFullTypeScript(photoData) {
-  const imports = `// Gallery Albums Configuration
-export interface Photo {
-  src: string;
-  width: number;
-  height: number;
-  alt?: string;
-}
-
-export interface Album {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  photoCount: number;
-  photos: Photo[];
-  colorClass?: string;
-}
-
-`;
-
-  const photoArrays = Object.keys(photoData).map(folder =>
-    generatePhotoArray(folder, photoData[folder])
-  ).join('\n\n');
-
-  const albums = `
-// Export all albums
-export const albums: Album[] = [
-  {
-    id: 'coffee',
-    title: 'Coffee Shop',
-    description: 'Cozy moments at our favorite coffee spot',
-    thumbnail: '/images/gallery/COFFEE/thumbnail.jpg',
-    photoCount: ${photoData.COFFEE.length},
-    photos: coffeePhotos,
-    colorClass: 'color-1'
-  },
-  {
-    id: 'outdoor',
-    title: 'Outdoor Adventures',
-    description: 'Beautiful outdoor photography sessions',
-    thumbnail: '/images/gallery/OUTDOOR/thumbnail.jpg',
-    photoCount: ${photoData.OUTDOOR.length},
-    photos: outdoorPhotos,
-    colorClass: 'color-2'
-  },
-  {
-    id: 'studio',
-    title: 'Studio Sessions',
-    description: 'Professional studio photography moments',
-    thumbnail: '/images/gallery/STUDIO/thumbnail.jpg',
-    photoCount: ${photoData.STUDIO.length},
-    photos: studioPhotos,
-    colorClass: 'color-3'
-  },
-  {
-    id: 'couple',
-    title: 'Couple Moments',
-    description: 'Special moments captured together',
-    thumbnail: '/images/gallery/COUPLE/thumbnail.jpg',
-    photoCount: ${photoData.COUPLE.length},
-    photos: couplePhotos,
-    colorClass: 'color-4'
-  },
-  {
-    id: 'all',
-    title: 'All Photos',
-    description: 'All photos from our special day',
-    thumbnail: '/images/gallery/COFFEE/thumbnail.jpg',
-    photoCount: ${photoData.COFFEE.length + photoData.OUTDOOR.length + photoData.STUDIO.length + photoData.COUPLE.length},
-    photos: [...coffeePhotos, ...outdoorPhotos, ...studioPhotos, ...couplePhotos],
-    colorClass: 'color-5'
+// Save photo data as JSON files
+function savePhotoDataAsJSON(photoData) {
+  // Create output directory if it doesn't exist
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
-];
 
-// Helper to get album by id
-export const getAlbumById = (id: string): Album | undefined => {
-  return albums.find(album => album.id === id);
-};
-`;
-
-  return imports + photoArrays + albums;
+  // Save each album's photos to a separate JSON file
+  Object.keys(photoData).forEach(folder => {
+    const photos = convertToPhotoObjects(folder, photoData[folder]);
+    const filename = `${folder.toLowerCase()}-photos.json`;
+    const filepath = path.join(OUTPUT_DIR, filename);
+    
+    fs.writeFileSync(filepath, JSON.stringify(photos, null, 2), 'utf8');
+    console.log(`   ✅ Saved ${filename} (${photos.length} photos)`);
+  });
 }
 
 // Main function
@@ -183,7 +118,7 @@ function main() {
 
     console.log(`📁 ${folder}: ${imageData.length} photos`);
     if (imageData.length > 0) {
-      const samples = imageData.slice(0, 2).map(img =>
+      const samples = imageData.slice(0, 2).map(img => 
         `${img.filename} (${img.width}x${img.height})`
       ).join(', ');
       console.log(`   └─ ${samples}${imageData.length > 2 ? '...' : ''}`);
@@ -191,13 +126,13 @@ function main() {
   });
 
   console.log('\n✅ Photo data with dimensions generated successfully!');
-  console.log('✍️  Writing to', OUTPUT_FILE);
+  console.log('✍️  Saving JSON files to', OUTPUT_DIR);
+  console.log('');
 
-  const tsContent = generateFullTypeScript(photoData);
-  fs.writeFileSync(OUTPUT_FILE, tsContent, 'utf8');
+  savePhotoDataAsJSON(photoData);
 
-  console.log('✅ File updated successfully!');
-  console.log('\n💡 The galleryAlbums.ts file has been updated with actual image dimensions.');
+  console.log('\n✅ All JSON files saved successfully!');
+  console.log('💡 Photo data is now available in src/lib/gallery-data/*.json');
 }
 
 main();

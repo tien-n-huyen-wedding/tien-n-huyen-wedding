@@ -4,11 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { RowsPhotoAlbum, MasonryPhotoAlbum } from 'react-photo-album';
 import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css';
-import "react-photo-album/masonry.css";
-import "react-photo-album/rows.css";
 import { Album } from '@/lib/galleryAlbums';
 import { Fullscreen, Slideshow, Thumbnails, Zoom } from 'yet-another-react-lightbox/plugins';
+import "react-photo-album/masonry.css";
+import "react-photo-album/rows.css";
+import 'yet-another-react-lightbox/styles.css';
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+
 
 interface AlbumPageContentProps {
   album: Album;
