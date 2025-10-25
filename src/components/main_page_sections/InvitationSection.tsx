@@ -5,6 +5,7 @@ import Invitation, { CHANGEABLE_FIELDS, InvitationProps } from '../invitation/In
 import { PACKAGES } from '@/utils/constants';
 import { getBackgroundImageStyle } from '@/lib/images/utils';
 import { backgroundImages } from '@/lib/images';
+import EventsSection from './EventsSection';
 
 export default function InvitationSection() {
   const [props, setProps] = useState<Partial<InvitationProps>>({});
@@ -43,5 +44,5 @@ export default function InvitationSection() {
       </div>
     );
   }
-  return <></>;
+  return <EventsSection />;
 }
