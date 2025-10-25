@@ -10,7 +10,7 @@ export default function NotFound() {
               <h1 style={{ fontSize: '72px', marginBottom: '20px' }}>404</h1>
               <h2 style={{ marginBottom: '20px' }}>Album Not Found</h2>
               <p style={{ fontSize: '18px', marginBottom: '30px', color: '#999' }}>
-                Sorry, the album you're looking for doesn't exist.
+                Sorry, the album you&apos;re looking for doesn&apos;t exist.
               </p>
               <Link
                 href="/#fh5co-gallery"

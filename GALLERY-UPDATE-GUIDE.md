@@ -36,9 +36,13 @@ node scripts/update-gallery-albums.js
 - ✅ Scans all gallery folders for images
 - ✅ Detects actual image dimensions (width and height)
 - ✅ Handles EXIF orientation for rotated photos
-- ✅ Automatically updates `src/lib/galleryAlbums.ts`
+- ✅ Generates JSON files in `src/lib/gallery-data/` for each album
+  - `coffee-photos.json`
+  - `outdoor-photos.json`
+  - `studio-photos.json`
+  - `couple-photos.json`
 - ✅ Maintains thumbnail.jpg as the first photo in each album
-- ✅ Updates photo counts for all albums
+- ✅ Easy to read and edit photo data directly in JSON format
 
 **Example output:**
 ```
