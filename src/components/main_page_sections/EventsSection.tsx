@@ -20,19 +20,19 @@ interface EventsSectionProps {
 const defaultEvents: Event[] = [
   {
     title: "Main Ceremony",
-    startTime: "4:00 PM",
-    endTime: "6:00 PM",
-    date: "Monday 28",
-    month: "November, 2016",
-    description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean."
+    startTime: "09:30 AM",
+    endTime: "10:30 AM",
+    date: "Ngày 30",
+    month: "Tháng 11",
+    description: "Chúng tôi nói “I do” — bắt đầu chương mới của câu chuyện tình yêu.\nLễ thành hôn chính thức tại Tư gia Nam, với sự chứng kiến của nội ngoại hai bên gia đình."
   },
   {
     title: "Wedding Party",
-    startTime: "7:00 PM",
-    endTime: "12:00 AM",
-    date: "Monday 28",
-    month: "November, 2016",
-    description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean."
+    startTime: "11:00 AM",
+    endTime: "01:00 AM",
+    date: "Ngày 30",
+    month: "Tháng 11",
+    description: "Bữa tiệc không chỉ là sự kiện, mà là niềm vui được chia sẻ cùng những người thân yêu – nơi tình yêu được nâng ly và lan tỏa trong từng nụ cười."
   }
 ];
 

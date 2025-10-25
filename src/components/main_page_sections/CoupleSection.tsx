@@ -12,14 +12,22 @@ interface CoupleSectionProps {
   brideDescription?: string;
 }
 
+const Description = ({ description }: { description: string }) => {
+  return (
+    <p>
+      {description.split('\n').map((line, index) => <span key={index}>{line}<br /></span>)}
+    </p>
+  )
+};
+
 export default function CoupleSection({
   weddingDate = "30 November 2025",
   weddingLocation = "Gia Huy Palace, Đà Nẵng",
   invitationMessage = "We invited you to celebrate our wedding",
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
-  groomDescription = "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove",
-  brideDescription = "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove"
+  groomDescription = "Một developer trực tính.\nĐẹp trai, hào hoa và tiêu sái là những tính từ gần đủ chính xác để mô tả về anh ấy",
+  brideDescription = "Một HR tận tâm, mang vẻ đẹp dịu dàng và nụ cười tỏa nắng.\nẨn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến."
 }: CoupleSectionProps) {
   return (
     <div id="fh5co-couple">
@@ -38,7 +46,7 @@ export default function CoupleSection({
             </div>
             <div className="desc-groom">
               <h3>{groomName}</h3>
-              <p>{groomDescription}</p>
+              <Description description={groomDescription} />
             </div>
           </div>
           <p className="heart text-center"><i className="icon-heart2"></i></p>
@@ -48,7 +56,7 @@ export default function CoupleSection({
             </div>
             <div className="desc-bride">
               <h3>{brideName}</h3>
-              <p>{brideDescription}</p>
+              <Description description={brideDescription} />
             </div>
           </div>
         </div>

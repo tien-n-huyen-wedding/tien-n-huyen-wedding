@@ -139,26 +139,5 @@ Preloads multiple images for better performance.
 5. **Alt Text**: Always provide meaningful alt text for accessibility
 6. **Responsive Images**: Use the responsive image utilities for different screen sizes
 
-## File Structure
-
-```
-public/images/
-├── bride.jpg              # Bride portrait
-├── groom.jpg              # Groom portrait
-├── couple-1.jpg           # Couple photos
-├── couple-2.jpg
-├── couple-3.jpg
-├── gallery-1.jpg          # Gallery photos
-├── gallery-2.jpg
-├── ...
-├── gallery-9.jpg
-├── img_bg_1.jpg           # Background images
-├── img_bg_2.jpg
-├── img_bg_3.jpg
-├── img_bg_4.jpg
-├── img_bg_5.jpg
-├── loader.gif             # Icons
-└── loc.png
-```
 
 This system makes it easy to manage all your wedding website images in one place! 🎉

@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Invitation, { CHANGEABLE_FIELDS, InvitationProps } from '../invitation/Invitation';
 import { PACKAGES } from '@/utils/constants';
+import { getBackgroundImageStyle } from '@/lib/images/utils';
+import { backgroundImages } from '@/lib/images';
 
 export default function InvitationSection() {
   const [props, setProps] = useState<Partial<InvitationProps>>({});
@@ -33,8 +35,9 @@ export default function InvitationSection() {
 
   if (isLoaded && props["party"] && props["party"] in PACKAGES) {
     return (
-      <div id="fh5co-gallery" className="fh5co-section-gray">
-        <div className="container">
+      <div id="fh5co-invitation" className="fh5co-bg" style={getBackgroundImageStyle(backgroundImages.event)}>
+        <div className="overlay"></div>
+        <div className="container" style={{ paddingBottom: '3em' }}>
           <Invitation {...props as InvitationProps} />
         </div>
       </div>

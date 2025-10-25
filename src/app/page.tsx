@@ -13,8 +13,8 @@ export default function Home() {
       <Banner />
       <CoupleSection />
       <InvitationSection />
-      <EventsSection />
       <StorySection />
+      <EventsSection />
       <GallerySection />
     </>
   );
