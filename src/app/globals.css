@@ -301,3 +301,11 @@
     margin: 0.5rem auto;
   }
 }
+
+/* Override jQuery Waypoints animation that hides elements by default */
+/* Ensure all animate-box elements are visible on page load */
+.js .animate-box,
+.animate-box {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
