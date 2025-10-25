@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { RowsPhotoAlbum, MasonryPhotoAlbum } from 'react-photo-album';
+import { MasonryPhotoAlbum } from 'react-photo-album';
 import Lightbox from 'yet-another-react-lightbox';
 import { Album } from '@/lib/galleryAlbums';
 import { Fullscreen, Slideshow, Thumbnails, Zoom } from 'yet-another-react-lightbox/plugins';

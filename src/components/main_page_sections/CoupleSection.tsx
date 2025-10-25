@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import { coupleImages } from '@/lib/images';
 import { getOptimizedImageProps } from '@/lib/images/utils';
+import { CHANGEABLE_FIELDS, InvitationProps } from '../invitation/Invitation';
+import { useInvitationProps } from '@/hooks/useInvitationProps';
 
 interface CoupleSectionProps {
   weddingDate?: string;
   weddingLocation?: string;
-  invitationMessage?: string;
   groomName?: string;
   brideName?: string;
   groomDescription?: string;
@@ -23,20 +24,21 @@ const Description = ({ description }: { description: string }) => {
 export default function CoupleSection({
   weddingDate = "30 November 2025",
   weddingLocation = "Gia Huy Palace, Đà Nẵng",
-  invitationMessage = "We invited you to celebrate our wedding",
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
   groomDescription = "Một developer trực tính.\nĐẹp trai, hào hoa và tiêu sái là những tính từ gần đủ chính xác để mô tả về anh ấy",
   brideDescription = "Một HR tận tâm, mang vẻ đẹp dịu dàng và nụ cười tỏa nắng.\nẨn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến."
 }: CoupleSectionProps) {
+  const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
+  const guestName = isLoaded && props.guestName ? props.guestName : null;
   return (
     <div id="fh5co-couple">
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-            <h2>Hello!</h2>
+            <h2>Hello{guestName ? `, ${guestName} !!!` : '!'}</h2>
             <h3>{weddingDate} {weddingLocation}</h3>
-            <p>{invitationMessage}</p>
+            <p>We invited {guestName ? guestName : 'you'} to celebrate our wedding</p>
           </div>
         </div>
         <div className="couple-wrap animate-box">

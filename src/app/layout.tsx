@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata, Viewport } from "next";
-import Image from "next/image";
 import "./globals.css";
 import ClientScripts from "@/components/ClientScripts";
+import Navigation from "@/components/Navigation";
 // Local fonts are now defined in globals.css
 
 export const metadata: Metadata = {
@@ -124,19 +124,7 @@ export default function RootLayout({
         <div className="fh5co-loader"></div>
 
         <div id="page">
-          <nav className="fh5co-nav" role="navigation">
-            <div className="container">
-              <div className="row">
-                <div className="col-xs-2">
-                  <div id="fh5co-logo">
-                    <Image src="/images/main-qr-code.png" alt="Wedding" width={100} height={100} />
-                  </div>
-                </div>
-                <div className="col-xs-10 text-right menu-1">
-                </div>
-              </div>
-            </div>
-          </nav>
+          <Navigation />
 
           {children}
 

@@ -1,3 +1,6 @@
+// LocalStorage keys
+export const STORAGE_KEY = 'invitation_props';
+
 export const THE_GROOM_FAMILY_INFO = {
   full_name: "Phan Quang Tiến",
   name: "Quang Tiến",
