@@ -70,21 +70,10 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
         }}>
           <Link
             href="/#fh5co-gallery"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '10px 20px',
-              background: '#f5f5f5',
-              color: '#333',
-              textDecoration: 'none',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '15px',
-              transition: 'all 0.3s ease'
-            }}
             className="back-button"
           >
-            <span style={{ marginRight: '8px' }}>←</span> Back to Gallery
+            <span className="back-icon">←</span>
+            <span className="back-text">Back to Gallery</span>
           </Link>
         </div>
 
@@ -160,9 +149,51 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
           }
 
-          .back-button:hover {
-            background: #e5e5e5 !important;
-            border-color: #ccc !important;
+          :global(.back-button) {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            color: #333;
+            text-decoration: none;
+            border-radius: 50px;
+            border: 2px solid #e9ecef;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          }
+
+          :global(.back-button:hover) {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-color: #F14E95;
+            color: #F14E95;
+            box-shadow: 0 4px 12px rgba(241, 78, 149, 0.15);
+            transform: translateY(-2px);
+          }
+
+          :global(.back-icon) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          :global(.back-button:hover .back-icon) {
+            background: #F14E95;
+            color: white;
+            transform: translateX(-3px);
+          }
+
+          :global(.back-text) {
+            font-family: 'Work Sans', Arial, sans-serif;
+            letter-spacing: 0.3px;
           }
 
           @media (max-width: 768px) {
