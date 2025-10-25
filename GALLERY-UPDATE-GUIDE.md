@@ -55,8 +55,15 @@ node scripts/update-gallery-albums.js
    └─ thumbnail.jpg (7008x4672), TMN_9496-14.jpg (4024x6036)...
 
 ✅ Photo data with dimensions generated successfully!
-✍️  Writing to src/lib/galleryAlbums.ts
-✅ File updated successfully!
+✍️  Saving JSON files to src/lib/gallery-data
+
+   ✅ Saved coffee-photos.json (17 photos)
+   ✅ Saved outdoor-photos.json (20 photos)
+   ✅ Saved studio-photos.json (17 photos)
+   ✅ Saved couple-photos.json (1 photos)
+
+✅ All JSON files saved successfully!
+💡 Photo data is now available in src/lib/gallery-data/*.json
 ```
 
 ### Step 3: Test Locally (Optional but Recommended)
@@ -151,30 +158,61 @@ public/images/gallery/
 
 ## 🔧 Advanced: Manual Configuration
 
-If you need to manually edit the gallery configuration, you can modify `src/lib/galleryAlbums.ts`:
+### Photo Data Structure
 
-```typescript
-// Each photo has this structure:
-{
-  src: '/images/gallery/COFFEE/photo.jpg',
-  width: 4528,
-  height: 3024,
-  alt: 'COFFEE - photo.jpg'
-}
+Photo data is stored in separate JSON files in `src/lib/gallery-data/`:
 
-// Each album has this structure:
-{
-  id: 'coffee',
-  title: 'Coffee Shop',
-  description: 'Cozy moments at our favorite coffee spot',
-  thumbnail: '/images/gallery/COFFEE/thumbnail.jpg',
-  photoCount: 17,
-  photos: coffeePhotos,
-  colorClass: 'color-1'
-}
+- `coffee-photos.json`
+- `outdoor-photos.json`
+- `studio-photos.json`
+- `couple-photos.json`
+
+**Example JSON structure** (`coffee-photos.json`):
+```json
+[
+  {
+    "src": "/images/gallery/COFFEE/thumbnail.jpg",
+    "width": 4528,
+    "height": 3024,
+    "alt": "COFFEE - thumbnail.jpg"
+  },
+  {
+    "src": "/images/gallery/COFFEE/photo1.jpg",
+    "width": 3024,
+    "height": 4528,
+    "alt": "COFFEE - photo1.jpg"
+  }
+]
 ```
 
-**Note:** Manual edits will be overwritten when you run `node scripts/update-gallery-albums.js`. Only use manual editing if you need custom configurations that the script doesn't provide.
+### Album Configuration
+
+Album metadata (title, description, etc.) is configured in `src/lib/galleryAlbums.ts`:
+
+```typescript
+export const albums: Album[] = [
+  {
+    id: 'coffee',
+    title: 'Coffee Shop',
+    description: 'Cozy moments at our favorite coffee spot',
+    thumbnail: '/images/gallery/COFFEE/thumbnail.jpg',
+    photoCount: coffeePhotos.length,
+    photos: coffeePhotos,
+    colorClass: 'color-1'
+  }
+];
+```
+
+### Manual Editing
+
+You can manually edit the JSON files if needed:
+
+1. **Edit photo data**: Modify `src/lib/gallery-data/*.json`
+2. **Edit album info**: Modify `src/lib/galleryAlbums.ts`
+
+**Note:** JSON files will be overwritten when you run `node scripts/update-gallery-albums.js`. If you need custom photo data that the script doesn't generate, consider:
+- Adding custom fields to the script
+- Or maintaining a separate custom photos section
 
 ---
 

@@ -3,9 +3,9 @@ import { getAlbumById, albums } from '@/lib/galleryAlbums';
 import AlbumPageContent from '@/components/AlbumPageContent';
 
 interface AlbumPageProps {
-  params: {
+  params: Promise<{
     albumId: string;
-  };
+  }>;
 }
 
 // Generate static paths for all albums (required for static export)
@@ -15,8 +15,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function AlbumPage({ params }: AlbumPageProps) {
-  const album = getAlbumById(params.albumId);
+export default async function AlbumPage({ params }: AlbumPageProps) {
+  const { albumId } = await params;
+  const album = getAlbumById(albumId);
 
   if (!album) {
     notFound();

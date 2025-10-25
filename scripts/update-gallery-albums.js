@@ -97,7 +97,7 @@ function savePhotoDataAsJSON(photoData) {
     const photos = convertToPhotoObjects(folder, photoData[folder]);
     const filename = `${folder.toLowerCase()}-photos.json`;
     const filepath = path.join(OUTPUT_DIR, filename);
-    
+
     fs.writeFileSync(filepath, JSON.stringify(photos, null, 2), 'utf8');
     console.log(`   ✅ Saved ${filename} (${photos.length} photos)`);
   });
@@ -118,7 +118,7 @@ function main() {
 
     console.log(`📁 ${folder}: ${imageData.length} photos`);
     if (imageData.length > 0) {
-      const samples = imageData.slice(0, 2).map(img => 
+      const samples = imageData.slice(0, 2).map(img =>
         `${img.filename} (${img.width}x${img.height})`
       ).join(', ');
       console.log(`   └─ ${samples}${imageData.length > 2 ? '...' : ''}`);
