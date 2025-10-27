@@ -7,16 +7,17 @@ import { PACKAGES, MainCeremonyCardProps, WeddingPartyCardProps } from '@/utils/
 
 const RenderInvitation = ({ ceremonyInfo, weddingPartyInfo }: { ceremonyInfo: MainCeremonyCardProps, weddingPartyInfo: WeddingPartyCardProps }) => {
   return (
-    <div className="row">
-      {/* Main Ceremony Card */}
-      <div className="col-md-6 text-center" style={{ marginBottom: '3rem' }}>
-        <MainCeremonyCard {...ceremonyInfo} />
+    <>
+      <div className="row invitation-row">
+        {/* Main Ceremony Card */}
+        <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12" style={{ marginBottom: '3rem' }}>
+          <MainCeremonyCard {...ceremonyInfo} />
+        </div>
+        <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <WeddingPartyCard {...weddingPartyInfo} />
+        </div>
       </div>
-
-      <div className="col-md-6 text-center" style={{ marginBottom: '3rem' }}>
-        <WeddingPartyCard {...weddingPartyInfo} />
-      </div>
-    </div>
+    </>
   );
 }
 

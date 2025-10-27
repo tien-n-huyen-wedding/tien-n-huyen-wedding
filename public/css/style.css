@@ -420,7 +420,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-counter,
 #fh5co-event,
 #fh5co-invitation {
-  height: 870px;
+  min-height: 870px;
   float: left;
 }
 #fh5co-counter .display-t,
@@ -429,7 +429,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-event .display-tc,
 #fh5co-invitation .display-t,
 #fh5co-invitation .display-tc {
-  height: 700px;
+  min-height: 700px;
   display: table;
   width: 100%;
 }

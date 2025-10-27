@@ -76,22 +76,18 @@ export default function Banner() {
             loadedCount++;
             setLoadedImages((prev) => new Set([...prev, index]));
             setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
-            console.log(`✅ Image ${index + 1}/${totalImages} loaded: ${src}`);
             resolve(true);
           };
 
           img.onerror = () => {
             loadedCount++;
             setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
-            console.error(`❌ Image ${index + 1}/${totalImages} failed: ${src}`);
             resolve(false);
           };
         });
       });
 
-      Promise.all(imagePromises).then((results) => {
-        const successCount = results.filter(r => r).length;
-        console.log(`🎉 Preloading complete: ${successCount}/${totalImages} images loaded successfully`);
+      Promise.all(imagePromises).then(() => {
         setIsLoaded(true);
       });
     };
@@ -100,26 +96,40 @@ export default function Banner() {
     preloadImages();
   }, []);
 
-  // Auto-advance slideshow only when playing
+  // Auto-advance slideshow only when playing, skip unloaded images
   useEffect(() => {
     if (!isLoaded || !isPlaying) return;
 
     const interval = setInterval(() => {
-      // Pick a random transition effect
-      const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
-      setTransitionEffect(randomEffect);
+      setCurrentImageIndex((prevIndex) => {
+        // Find next loaded image
+        let nextIndex = (prevIndex + 1) % slideshowImages.length;
+        let attempts = 0;
+        const maxAttempts = slideshowImages.length;
 
-      setCurrentImageIndex((prevIndex) =>
-        (prevIndex + 1) % slideshowImages.length
-      );
+        // Skip unloaded images
+        while (!loadedImages.has(nextIndex) && attempts < maxAttempts) {
+          nextIndex = (nextIndex + 1) % slideshowImages.length;
+          attempts++;
+        }
+
+        // If we found a loaded image, apply random transition effect
+        if (loadedImages.has(nextIndex)) {
+          const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
+          setTransitionEffect(randomEffect);
+          return nextIndex;
+        }
+
+        // If no images are loaded, stay on current
+        return prevIndex;
+      });
     }, 5000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
-  }, [isLoaded, isPlaying]);
+  }, [isLoaded, isPlaying, loadedImages]);
 
   const togglePlayPause = () => {
     if (!isLoaded) {
-      console.log('⏳ Please wait for images to finish loading...');
       return;
     }
     setIsPlaying(!isPlaying);
@@ -165,13 +175,18 @@ export default function Banner() {
         {slideshowImages.map((_, index) => (
           <button
             key={index}
-            className={`indicator ${index === currentImageIndex ? 'active' : ''}`}
+            className={`indicator ${index === currentImageIndex ? 'active' : ''} ${!loadedImages.has(index) ? 'not-loaded' : ''}`}
             onClick={() => {
+              if (!loadedImages.has(index)) {
+                return;
+              }
               const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
               setTransitionEffect(randomEffect);
               setCurrentImageIndex(index);
             }}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Go to slide ${index + 1}${!loadedImages.has(index) ? ' (loading...)' : ''}`}
+            title={!loadedImages.has(index) ? 'Loading...' : ''}
+            disabled={!loadedImages.has(index)}
           />
         ))}
       </div>
@@ -310,7 +325,15 @@ export default function Banner() {
           visibility: visible !important;
         }
 
+        :global(.simply-amount),
         :global(.simply-word) {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
+        /* Extra specificity for seconds section text */
+        :global(.simply-seconds-section) :global(.simply-amount),
+        :global(.simply-seconds-section) :global(.simply-word) {
           opacity: 1 !important;
           visibility: visible !important;
         }
@@ -482,24 +505,10 @@ export default function Banner() {
           animation: none !important;
         }
 
-        /* Countdown background pulse animation synced with seconds */
-        :global(.simply-seconds-section) {
-          animation: backgroundPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes backgroundPulse {
-          0% {
-            opacity: 1;
-          }
-          5% {
-            opacity: 0.7;
-          }
-          15% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 1;
-          }
+        /* Ensure seconds text is always fully visible */
+        :global(.simply-seconds-section .simply-amount),
+        :global(.simply-seconds-section .simply-word) {
+          opacity: 1 !important;
         }
 
         .compact-mode .names-container {
@@ -562,9 +571,11 @@ export default function Banner() {
           transition: none !important;
         }
 
-        /* Maintain seconds background animation in compact mode */
-        .compact-mode :global(.simply-seconds-section) {
-          animation: backgroundPulse 1s ease-in-out infinite !important;
+        /* Ensure seconds text stays visible in compact mode */
+        .compact-mode :global(.simply-seconds-section .simply-amount),
+        .compact-mode :global(.simply-seconds-section .simply-word) {
+          opacity: 1 !important;
+          visibility: visible !important;
         }
 
         .compact-mode .banner-actions {
@@ -610,6 +621,18 @@ export default function Banner() {
           border-color: white;
           width: 18px;
           border-radius: 6px;
+        }
+
+        /* Not loaded indicator */
+        .indicator.not-loaded {
+          opacity: 0.3;
+          cursor: not-allowed;
+          border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .indicator.not-loaded:hover {
+          transform: none;
+          background: transparent;
         }
 
         /* Play/Pause Button */

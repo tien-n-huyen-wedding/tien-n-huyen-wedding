@@ -85,7 +85,8 @@ export default function WeddingPartyCard({
   };
 
   return (
-    <div className={`wedding-party-card ${className}`} style={cardStyle}>
+    <>
+      <div className={`wedding-party-card ${className}`} style={cardStyle}>
       {/* Header */}
       <div>
         <div style={invitationTextStyle}>
@@ -132,6 +133,7 @@ export default function WeddingPartyCard({
           Rất hân hạnh được đón tiếp!
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

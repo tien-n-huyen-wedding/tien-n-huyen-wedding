@@ -25,7 +25,7 @@
 
 @font-face {
   font-family: 'UTM Amherst';
-  src: url('/fonts/UTM Amherst.ttf') format('truetype');
+  src: url('/fonts/UTM-Amherst.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -290,15 +290,15 @@
   .main-ceremony-card,
   .wedding-party-card {
     transform: scale(0.85) !important;
-    margin: 1rem auto;
+    transform-origin: left center !important;
   }
 }
 
 @media (max-width: 480px) {
   .main-ceremony-card,
   .wedding-party-card {
-    transform: scale(0.75) !important;
-    margin: 0.5rem auto;
+    transform: scale(0.69) !important;
+    transform-origin: left center !important;
   }
 }
 

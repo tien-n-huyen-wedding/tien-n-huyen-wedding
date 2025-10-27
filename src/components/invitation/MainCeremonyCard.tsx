@@ -144,7 +144,8 @@ export default function MainCeremonyCard({
   };
 
   return (
-    <div className={`main-ceremony-card ${className}`} style={cardStyle}>
+    <>
+      <div className={`main-ceremony-card ${className}`} style={cardStyle}>
       {/* Header with couple names */}
       <div style={headerStyle}>
         <div style={coupleNameStyle}>
@@ -189,6 +190,17 @@ export default function MainCeremonyCard({
           NHẰM {ceremonyDateLunar.toUpperCase()}
         </div>
       </div>
-    </div>
+      </div>
+
+      <style jsx>{`
+        /* Center card on mobile */
+        @media (max-width: 767px) {
+          .main-ceremony-card {
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+        }
+      `}</style>
+    </>
   );
 }
