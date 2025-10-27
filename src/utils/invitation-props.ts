@@ -52,6 +52,36 @@ export function getInvitationProps(
     urlProps.party = party;
   }
 
+  // Check for package parameter (alias for party)
+  const packageParam = params.get('package');
+  if (packageParam) {
+    urlProps.party = packageParam;
+  }
+
+  // Check for guestName parameter
+  const guestName = params.get('guestName');
+  if (guestName) {
+    urlProps.guestName = guestName;
+  }
+
+  // Check for invitationText parameter
+  const invitationText = params.get('invitationText');
+  if (invitationText) {
+    urlProps.invitationText = invitationText;
+  }
+
+  // Check for invitationSecondText parameter
+  const invitationSecondText = params.get('invitationSecondText');
+  if (invitationSecondText) {
+    urlProps.invitationSecondText = invitationSecondText;
+  }
+
+  // Check for thanksText parameter
+  const thanksText = params.get('thanksText');
+  if (thanksText) {
+    urlProps.thanksText = thanksText;
+  }
+
   // 3. Merge: localStorage + URL params (URL params override)
   const mergedProps = { ...savedProps, ...urlProps };
 

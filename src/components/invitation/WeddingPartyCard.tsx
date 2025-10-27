@@ -18,6 +18,19 @@ export default function WeddingPartyCard({
   openAt,
   partyAt,
 }: WeddingPartyCardProps) {
+  // Default values for comparison
+  const defaultValues = {
+    guestName: 'Bạn Mến Yêu',
+    thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.'
+  };
+
+  // Apply guest name replacement logic
+  const processedThanksText =
+    thanksText === defaultValues.thanksText &&
+    guestName &&
+    guestName !== defaultValues.guestName
+      ? thanksText.replace('quý khách', guestName)
+      : thanksText;
   const cardStyle: React.CSSProperties = {
     width: '500px',
     height: '700px',
@@ -121,7 +134,7 @@ export default function WeddingPartyCard({
         <div style={lunarDateStyle}>
           (Nhằm {lunaDate.toUpperCase()})
         </div>
-        {thanksText.split('\n').map((element, index) => (
+        {processedThanksText.split('\n').map((element, index) => (
           <div key={index}>
             {element.toUpperCase().trim()}
           </div>

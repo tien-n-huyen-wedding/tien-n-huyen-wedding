@@ -379,22 +379,7 @@ export default function ReliableQRCode({
           }}
         />
 
-        {!isGenerating && url && (
-          <div className="text-center">
-            <p className="text-success">✓ QR Code generated successfully!</p>
-          </div>
-        )}
       </div>
-      {qrInstance !== null && !isGenerating && (
-        <div className="mt-3 text-center">
-          <button
-            className="btn btn-success btn-sm"
-            onClick={downloadQR}
-          >
-            Download QR Code
-          </button>
-        </div>
-      )}
 
     </div>
   );
