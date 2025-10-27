@@ -24,7 +24,7 @@ const defaultStories: StoryItem[] = [
   {
     title: "Tiếp cận gần hơn",
     date: "Tháng 5, Ngày 10, 2023",
-    description: "Mọi chuyện bắt đầu một cách âm thầm vào những ngày tháng 4, một năm sau đó. Anh dần bị thu hút bởi cô gái nhỏ ấy — qua những cuộc trò chuyện ngắn nơi bàn ăn trưa, những lần “vô tình” cùng làm ca đêm rồi bắt chuyện. Để có cớ tiếp cận, anh còn khéo léo tổ chức một giải bida nội bộ trong công ty và sắp xếp sao cho hai người cùng một đội. Nhờ những buổi “luyện tập”, “thi đấu” ấy, khoảng cách giữa hai người cũng dần được rút ngắn.",
+    description: "Mọi chuyện bắt đầu một cách âm thầm vào những ngày tháng 4, một năm sau đó. Anh dần bị thu hút bởi cô gái nhỏ ấy — qua những cuộc trò chuyện ngắn nơi bàn ăn trưa, những lần “vô tình” cùng làm “cú” rồi bắt chuyện. Để có cớ tiếp cận, anh còn khéo léo tổ chức một giải bida nội bộ trong công ty và sắp xếp sao cho hai người cùng một đội. Nhờ những buổi “luyện tập”, “thi đấu” ấy, khoảng cách giữa hai người cũng dần được rút ngắn.",
     image: "/images/our_story_images/2.png",
   },
   {
