@@ -1,6 +1,4 @@
-import { getBackgroundImageStyle } from "@/lib/images/utils";
 import Countdown from "../Countdown";
-import { backgroundImages } from "@/lib/images";
 import { MAIN_WEDDING_PARTY_INFO } from "@/utils/constants";
 import { useState, useEffect } from "react";
 
@@ -13,36 +11,92 @@ const slideshowImages = [
   "/images/gallery/STUDIO/TMN_8809-32.jpg",
   "/images/gallery/STUDIO/TMN_9000-34.jpg",
   "/images/gallery/STUDIO/TOM03826-8.jpg",
+  "/images/gallery/COFFEE/NOR_6068.JPG",
+  "/images/gallery/COFFEE/NOR_6149.JPG",
   "/images/gallery/COFFEE/NOR_6392.JPG",
+  "/images/gallery/COFFEE/NOR_6397.JPG",
+  "/images/gallery/COFFEE/NOR_6463.JPG",
+  "/images/gallery/COFFEE/NOR_6522.JPG",
+  "/images/gallery/COFFEE/NOR_6660.JPG",
+  "/images/gallery/COFFEE/NOR_6829.JPG",
   "/images/main_background.jpg",
+];
+
+// Random transition effects
+const transitionEffects = [
+  'fade',
+  'slide-left',
+  'slide-right',
+  'zoom-in',
+  'zoom-out',
+  'slide-up',
+  'slide-down',
 ];
 
 export default function Banner() {
   const [currentImageIndex, setCurrentImageIndex] = useState(slideshowImages.length - 1); // Start with main_background.jpg
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [transitionEffect, setTransitionEffect] = useState('fade');
+  const [isMounted, setIsMounted] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
-  // Preload all images
+  // Set mounted state immediately on first render
   useEffect(() => {
-    const preloadImages = async () => {
-      const imagePromises = slideshowImages.map((src) => {
-        return new Promise((resolve, reject) => {
+    setIsMounted(true);
+  }, []);
+
+  // Preload all images with progress tracking
+  useEffect(() => {
+    const preloadImages = () => {
+      // Create preload links in document head for high priority loading
+      slideshowImages.forEach((src, index) => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = src;
+        // First 3 images get highest priority
+        if (index < 3) {
+          link.fetchPriority = 'high';
+        }
+        document.head.appendChild(link);
+      });
+
+      // Track loading progress with Image objects
+      let loadedCount = 0;
+      const totalImages = slideshowImages.length;
+
+      const imagePromises = slideshowImages.map((src, index) => {
+        return new Promise((resolve) => {
           const img = new Image();
           img.src = src;
-          img.onload = resolve;
-          img.onerror = reject;
+
+          img.onload = () => {
+            loadedCount++;
+            setLoadedImages((prev) => new Set([...prev, index]));
+            setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
+            console.log(`✅ Image ${index + 1}/${totalImages} loaded: ${src}`);
+            resolve(true);
+          };
+
+          img.onerror = () => {
+            loadedCount++;
+            setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
+            console.error(`❌ Image ${index + 1}/${totalImages} failed: ${src}`);
+            resolve(false);
+          };
         });
       });
 
-      try {
-        await Promise.all(imagePromises);
+      Promise.all(imagePromises).then((results) => {
+        const successCount = results.filter(r => r).length;
+        console.log(`🎉 Preloading complete: ${successCount}/${totalImages} images loaded successfully`);
         setIsLoaded(true);
-      } catch (error) {
-        console.error("Error preloading images:", error);
-        setIsLoaded(true); // Continue anyway
-      }
+      });
     };
 
+    // Start preloading immediately
     preloadImages();
   }, []);
 
@@ -51,6 +105,10 @@ export default function Banner() {
     if (!isLoaded || !isPlaying) return;
 
     const interval = setInterval(() => {
+      // Pick a random transition effect
+      const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
+      setTransitionEffect(randomEffect);
+
       setCurrentImageIndex((prevIndex) =>
         (prevIndex + 1) % slideshowImages.length
       );
@@ -60,6 +118,10 @@ export default function Banner() {
   }, [isLoaded, isPlaying]);
 
   const togglePlayPause = () => {
+    if (!isLoaded) {
+      console.log('⏳ Please wait for images to finish loading...');
+      return;
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -72,12 +134,20 @@ export default function Banner() {
 
   return (
     <header id="fh5co-header" className="fh5co-cover banner-slideshow" role="banner" data-stellar-background-ratio="0.5">
+      {/* Hidden preload images for browser caching */}
+      <div style={{ display: 'none' }} aria-hidden="true">
+        {slideshowImages.map((src, index) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={`preload-${index}`} src={src} alt="" />
+        ))}
+      </div>
+
       {/* Slideshow backgrounds */}
       <div className="slideshow-container">
         {slideshowImages.map((image, index) => (
           <div
             key={index}
-            className={`slideshow-image ${index === currentImageIndex ? 'active' : ''}`}
+            className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
             style={{
               backgroundImage: `url(${image})`,
               backgroundSize: 'cover',
@@ -88,7 +158,7 @@ export default function Banner() {
         ))}
       </div>
 
-      <div className="overlay"></div>
+      <div className={`overlay ${isPlaying ? 'overlay-hidden' : ''}`}></div>
 
       {/* Slideshow indicators */}
       <div className="slideshow-indicators">
@@ -96,7 +166,11 @@ export default function Banner() {
           <button
             key={index}
             className={`indicator ${index === currentImageIndex ? 'active' : ''}`}
-            onClick={() => setCurrentImageIndex(index)}
+            onClick={() => {
+              const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
+              setTransitionEffect(randomEffect);
+              setCurrentImageIndex(index);
+            }}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
@@ -116,8 +190,8 @@ export default function Banner() {
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center">
-            <div className={`display-t ${isPlaying ? 'playing-mode' : ''}`}>
-              <div className={`display-tc animate-box ${isPlaying ? 'compact-mode' : ''}`} data-animate-effect="fadeIn">
+            <div className={`display-t ${isPlaying ? 'playing-mode' : ''} ${isMounted ? 'mounted' : ''}`}>
+              <div className={`display-tc ${isPlaying ? 'compact-mode' : ''} content-visible`}>
                 {/* Decorative top element */}
                 <div className="banner-decoration-top">
                 </div>
@@ -164,13 +238,23 @@ export default function Banner() {
         </div>
       </div>
 
-      {/* Play/Pause Button */}
+      {/* Play/Pause Button with Loading Indicator */}
       <button
-        className="play-pause-button"
+        className={`play-pause-button ${!isLoaded ? 'loading' : ''}`}
         onClick={togglePlayPause}
         aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
+        title={!isLoaded ? `Loading images... ${loadingProgress}%` : ''}
       >
-        {isPlaying ? (
+        {!isLoaded ? (
+          // Loading Spinner
+          <>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="spinner">
+              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" opacity="0.3"/>
+              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" className="spinner-circle"/>
+            </svg>
+            <span className="loading-text">{loadingProgress}%</span>
+          </>
+        ) : isPlaying ? (
           // Pause Icon
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <rect x="6" y="5" width="4" height="14" fill="white" rx="1"/>
@@ -193,6 +277,44 @@ export default function Banner() {
       </div>
 
       <style jsx>{`
+        /* Ensure content is always visible on initial render */
+        .display-tc {
+          visibility: visible !important;
+        }
+
+        .names-container,
+        .groom-name,
+        .bride-name,
+        .wedding-subtitle,
+        .wedding-date,
+        .date-text,
+        .countdown-wrapper {
+          visibility: visible !important;
+        }
+
+        /* Only override opacity when NOT in compact mode */
+        .display-tc:not(.compact-mode) .groom-name,
+        .display-tc:not(.compact-mode) .bride-name,
+        .display-tc:not(.compact-mode) .wedding-subtitle,
+        .display-tc:not(.compact-mode) .date-text,
+        .display-tc:not(.compact-mode) .countdown-wrapper {
+          opacity: 1 !important;
+        }
+
+        /* Countdown specific fixes */
+        .countdown-wrapper,
+        .countdown-wrapper *,
+        :global(.simply-countdown),
+        :global(.simply-countdown *),
+        :global(.simply-section) {
+          visibility: visible !important;
+        }
+
+        :global(.simply-word) {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+
         /* Slideshow styles */
         .banner-slideshow {
           position: relative;
@@ -208,6 +330,15 @@ export default function Banner() {
           z-index: 0;
         }
 
+        /* Overlay transition */
+        :global(.overlay) {
+          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        :global(.overlay-hidden) {
+          opacity: 0 !important;
+        }
+
         .slideshow-image {
           position: absolute;
           top: 0;
@@ -215,13 +346,80 @@ export default function Banner() {
           width: 100%;
           height: 100%;
           opacity: 0;
-          transition: opacity 1.5s ease-in-out;
-          will-change: opacity;
+          will-change: transform, opacity;
+          /* GPU acceleration for smooth transitions */
+          backface-visibility: hidden;
+          transform: translateZ(0);
         }
 
         .slideshow-image.active {
           opacity: 1;
           z-index: 1;
+        }
+
+        /* Fade effect */
+        .slideshow-image.effect-fade {
+          transition: opacity 1.5s ease-in-out;
+        }
+
+        /* Slide left effect */
+        .slideshow-image.effect-slide-left {
+          transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: translateX(100%);
+        }
+
+        .slideshow-image.effect-slide-left.active {
+          transform: translateX(0);
+        }
+
+        /* Slide right effect */
+        .slideshow-image.effect-slide-right {
+          transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: translateX(-100%);
+        }
+
+        .slideshow-image.effect-slide-right.active {
+          transform: translateX(0);
+        }
+
+        /* Zoom in effect */
+        .slideshow-image.effect-zoom-in {
+          transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: scale(1.3);
+        }
+
+        .slideshow-image.effect-zoom-in.active {
+          transform: scale(1);
+        }
+
+        /* Zoom out effect */
+        .slideshow-image.effect-zoom-out {
+          transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: scale(0.7);
+        }
+
+        .slideshow-image.effect-zoom-out.active {
+          transform: scale(1);
+        }
+
+        /* Slide up effect */
+        .slideshow-image.effect-slide-up {
+          transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: translateY(100%);
+        }
+
+        .slideshow-image.effect-slide-up.active {
+          transform: translateY(0);
+        }
+
+        /* Slide down effect */
+        .slideshow-image.effect-slide-down {
+          transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: translateY(-100%);
+        }
+
+        .slideshow-image.effect-slide-down.active {
+          transform: translateY(0);
         }
 
         /* Playing mode styles */
@@ -242,111 +440,138 @@ export default function Banner() {
         }
 
         .banner-decoration-top {
-          transition: opacity 0.5s ease;
+          transition: none !important;
         }
 
         .compact-mode .banner-decoration-top {
           opacity: 0;
+          transition: opacity 0.5s ease !important;
         }
 
         .save-date-badge {
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          transition: none !important;
         }
 
         .compact-mode .save-date-badge {
           opacity: 0;
           transform: translateY(-20px);
+          transition: opacity 0.5s ease, transform 0.5s ease !important;
         }
 
         /* Animated elements with staggered delays */
-        .names-container {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        .names-container,
+        .groom-name,
+        .bride-name,
+        .heart-divider,
+        .ampersand-container,
+        .wedding-subtitle,
+        .subtitle-text,
+        .subtitle-line,
+        .wedding-date,
+        .date-text,
+        .countdown-wrapper,
+        .banner-actions {
+          transition: none !important;
+          animation: none !important;
+        }
+
+        /* Remove number animations */
+        :global(.simply-amount),
+        :global(.simply-word) {
+          transition: none !important;
+          animation: none !important;
+        }
+
+        /* Countdown background pulse animation synced with seconds */
+        :global(.simply-seconds-section) {
+          animation: backgroundPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+          0% {
+            opacity: 1;
+          }
+          5% {
+            opacity: 0.7;
+          }
+          15% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 1;
+          }
         }
 
         .compact-mode .names-container {
           margin: 10px 0;
-        }
-
-        .groom-name,
-        .bride-name {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .compact-mode .groom-name,
         .compact-mode .bride-name {
           font-size: 60px !important;
-        }
-
-        .heart-divider {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s !important;
         }
 
         .compact-mode .heart-divider {
           font-size: 24px;
-        }
-
-        .ampersand-container {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.15s !important;
         }
 
         .compact-mode .ampersand-container {
           gap: 15px;
           margin: 5px 0;
-        }
-
-        .wedding-subtitle {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.15s !important;
         }
 
         .compact-mode .wedding-subtitle {
           margin: 10px 0 !important;
           font-size: 14px;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s !important;
         }
 
-        .subtitle-text {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
-        }
-
-        .subtitle-line {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+        .compact-mode .subtitle-text {
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s !important;
         }
 
         .compact-mode .subtitle-line {
           width: 40px;
-        }
-
-        .wedding-date {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s !important;
         }
 
         .compact-mode .wedding-date {
           margin: 10px 0;
-        }
-
-        .date-text {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.25s !important;
         }
 
         .compact-mode .date-text {
           font-size: 16px;
-        }
-
-        .countdown-wrapper {
-          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.25s !important;
         }
 
         .compact-mode .countdown-wrapper {
           margin: 15px 0;
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s !important;
         }
 
-        .banner-actions {
-          transition: opacity 0.4s ease, transform 0.4s ease;
+        /* Keep countdown visible in compact mode */
+        .compact-mode :global(.simply-amount),
+        .compact-mode :global(.simply-word) {
+          opacity: 1 !important;
+          visibility: visible !important;
+          transition: none !important;
+        }
+
+        /* Maintain seconds background animation in compact mode */
+        .compact-mode :global(.simply-seconds-section) {
+          animation: backgroundPulse 1s ease-in-out infinite !important;
         }
 
         .compact-mode .banner-actions {
           opacity: 0;
           transform: translateY(20px);
           pointer-events: none;
+          transition: opacity 0.4s ease, transform 0.4s ease !important;
         }
 
         /* Slideshow indicators */
@@ -427,6 +652,47 @@ export default function Banner() {
           transform: scale(1.1);
         }
 
+        /* Loading state */
+        .play-pause-button.loading {
+          cursor: wait;
+          background: rgba(0, 0, 0, 0.6);
+        }
+
+        .play-pause-button.loading:hover {
+          transform: scale(1);
+        }
+
+        /* Spinner animation */
+        .spinner {
+          position: absolute;
+        }
+
+        .spinner-circle {
+          animation: spin 1s linear infinite;
+          transform-origin: center;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        /* Loading percentage text */
+        .loading-text {
+          position: absolute;
+          font-size: 12px;
+          font-weight: bold;
+          color: white;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
         /* Floating hearts animation */
         .floating-hearts {
           position: absolute;
@@ -486,7 +752,6 @@ export default function Banner() {
         /* Save the Date Badge */
         .save-date-badge {
           margin-bottom: 30px;
-          animation: pulse 2s ease-in-out infinite;
         }
 
         .save-date-text {
@@ -504,15 +769,6 @@ export default function Banner() {
           // backdrop-filter: blur(10px);
         }
 
-        @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.05);
-          }
-        }
-
         /* Names styling */
         .names-container {
           margin: 30px 0;
@@ -520,23 +776,7 @@ export default function Banner() {
 
         .groom-name,
         .bride-name {
-          animation: fadeInScale 1s ease-out;
-        }
-
-        .bride-name {
-          animation-delay: 0.3s;
-          animation-fill-mode: both;
-        }
-
-        @keyframes fadeInScale {
-          0% {
-            opacity: 0;
-            transform: scale(0.8);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
+          opacity: 1;
         }
 
         /* Ampersand with hearts */
@@ -551,19 +791,6 @@ export default function Banner() {
         .heart-divider {
           font-size: 30px;
           color: rgba(255, 255, 255, 0.8);
-          animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-          0%, 100% {
-            transform: scale(1);
-          }
-          25% {
-            transform: scale(1.2);
-          }
-          50% {
-            transform: scale(1);
-          }
         }
 
         .ampersand {
@@ -578,32 +805,25 @@ export default function Banner() {
           justify-content: center;
           gap: 20px;
           margin: 30px 0 !important;
+          opacity: 1;
         }
 
         .subtitle-line {
           width: 60px;
           height: 1px;
           background: linear-gradient(90deg, transparent, white, transparent);
-          animation: expandLine 2s ease-in-out infinite;
-        }
-
-        @keyframes expandLine {
-          0%, 100% {
-            width: 60px;
-          }
-          50% {
-            width: 80px;
-          }
         }
 
         .subtitle-text {
           font-style: italic;
           letter-spacing: 2px;
+          opacity: 1;
         }
 
         /* Wedding Date */
         .wedding-date {
           margin: 25px 0;
+          opacity: 1;
         }
 
         .date-text {
@@ -613,11 +833,13 @@ export default function Banner() {
           letter-spacing: 1px;
           text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
           margin: 0;
+          opacity: 1;
         }
 
         /* Countdown wrapper */
         .countdown-wrapper {
           margin: 35px 0;
+          opacity: 1;
         }
 
         /* Banner actions */
@@ -627,6 +849,7 @@ export default function Banner() {
           justify-content: center;
           margin: 35px 0 20px 0;
           flex-wrap: wrap;
+          opacity: 1;
         }
 
         .btn-elegant {
