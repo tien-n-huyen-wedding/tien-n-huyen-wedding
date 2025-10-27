@@ -15,8 +15,7 @@ export default function Navigation() {
           <div className="col-xs-2">
             <Logo invitationProps={props} />
           </div>
-          <div className="col-xs-10 text-right menu-1">
-          </div>
+
         </div>
       </div>
     </nav>

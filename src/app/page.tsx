@@ -9,6 +9,7 @@ import GallerySection from '@/components/main_page_sections/GallerySection';
 import InvitationSection from '@/components/main_page_sections/InvitationSection';
 import BankAndMapSection from '@/components/main_page_sections/BankAndMapSection';
 import ContactSection from '@/components/main_page_sections/ContactSection';
+import WishesSection from '@/components/main_page_sections/WishesSection';
 import { PACKAGES } from '@/utils/constants';
 
 function HomeContent() {
@@ -57,6 +58,7 @@ function HomeContent() {
       <InvitationSection />
       <StorySection />
       <GallerySection />
+      <WishesSection />
       <BankAndMapSection />
       <ContactSection />
     </>

@@ -41,8 +41,7 @@ export default function Banner() {
   const [isMounted, setIsMounted] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const [loadingProgress, setLoadingProgress] = useState(0);
-
-  // Set mounted state immediately on first render
+  // Set mounted state
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -245,8 +244,6 @@ export default function Banner() {
                 {/* Call to action buttons */}
                 <div className="banner-actions">
                 </div>
-
-
               </div>
             </div>
           </div>
