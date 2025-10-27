@@ -9,6 +9,7 @@ export const QR_IMAGES = {
 };
 
 export const THE_GROOM_FAMILY_INFO = {
+  contact_name: "Tiến Phan",
   full_name: "Phan Quang Tiến",
   name: "Quang Tiến",
   phone: "0935253027",
