@@ -297,8 +297,24 @@
 @media (max-width: 480px) {
   .main-ceremony-card,
   .wedding-party-card {
-    transform: scale(0.69) !important;
-    transform-origin: left center !important;
+    transform: scale(0.8) !important;
+    transform-origin: left top !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .main-ceremony-card,
+  .wedding-party-card {
+    transform: scale(0.75) !important;
+    transform-origin: left top !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .main-ceremony-card,
+  .wedding-party-card {
+    transform: scale(0.7) !important;
+    transform-origin: left top !important;
   }
 }
 
