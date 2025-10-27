@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import Logo from './Logo';
 import { useInvitationProps } from '@/hooks/useInvitationProps';
 import { CHANGEABLE_FIELDS, InvitationProps } from './invitation/Invitation';
@@ -16,8 +17,8 @@ export default function Navigation() {
           </div>
           <div className="col-xs-10 text-right menu-1">
             <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="/admin">Admin</a></li>
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/admin">Admin</Link></li>
             </ul>
           </div>
         </div>

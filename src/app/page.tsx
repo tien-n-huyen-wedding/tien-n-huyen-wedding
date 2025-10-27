@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Banner from '@/components/main_page_sections/Banner';
 import CoupleSection from '@/components/main_page_sections/CoupleSection';
 import StorySection from '@/components/main_page_sections/StorySection';
@@ -11,7 +11,7 @@ import BankAndMapSection from '@/components/main_page_sections/BankAndMapSection
 import ContactSection from '@/components/main_page_sections/ContactSection';
 import { PACKAGES } from '@/utils/constants';
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const [invitationProps, setInvitationProps] = useState({
     package: 'mainParty',
@@ -60,5 +60,13 @@ export default function Home() {
       <BankAndMapSection />
       <ContactSection />
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
