@@ -1,5 +1,5 @@
 /**
- * Google Apps Script for Wedding Wishes
+ * Google Apps Script for Wedding Wishes - Static Web Compatible
  * Copy this entire code into Google Apps Script
  *
  * Setup Instructions:
@@ -9,7 +9,7 @@
  * 4. Paste this entire code
  * 5. Save the project
  * 6. Deploy as web app with execute permissions for "Anyone"
- * 7. Copy the web app URL and use it as NEXT_PUBLIC_GOOGLE_SCRIPT_URL
+ * 7. Copy the web app URL and use it as GOOGLE_SCRIPT_URL
  */
 
 // Configuration
@@ -46,7 +46,23 @@ function doPost(e) {
     initializeSheet();
 
     // Parse the request data
-    const data = JSON.parse(e.postData.contents);
+    let data;
+    try {
+      data = JSON.parse(e.postData.contents);
+    } catch (parseError) {
+      return createResponse({
+        success: false,
+        error: 'Invalid JSON data: ' + parseError.toString()
+      });
+    }
+
+    // Handle action parameter if present (for compatibility)
+    // POST requests to doPost are always treated as submit requests
+    // Action parameter is optional and ignored
+    if (data.action) {
+      // Remove action from data as it's not needed for submission
+      delete data.action;
+    }
 
     // Validate required fields
     if (!data.name || !data.message) {
@@ -91,9 +107,13 @@ function doPost(e) {
 
   } catch (error) {
     console.error('Error in doPost:', error);
+    console.error('Error stack:', error.stack);
+    console.error('Request data:', e.postData ? e.postData.contents : 'No post data');
+
     return createResponse({
       success: false,
-      error: error.toString()
+      error: 'Server error: ' + error.toString(),
+      details: error.stack ? error.stack.toString() : 'No stack trace'
     });
   }
 }
@@ -164,19 +184,17 @@ function getAllWishes() {
 }
 
 /**
- * Create a standardized response
+ * Create a standardized response with proper CORS headers
+ * Note: Google Apps Script automatically handles CORS for Web Apps deployed with "Anyone" access
+ * IMPORTANT: setHeaders() is NOT available on ContentService output - it will cause error!
  */
 function createResponse(data) {
   const response = ContentService.createTextOutput(JSON.stringify(data));
   response.setMimeType(ContentService.MimeType.JSON);
 
-  // Add CORS headers for web requests
-  response.setHeaders({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Max-Age': '3600'
-  });
+  // Note: CORS headers are automatically added by Google Apps Script
+  // when deployed with "Who has access" = "Anyone"
+  // We cannot manually set headers - setHeaders() method does not exist!
 
   return response;
 }

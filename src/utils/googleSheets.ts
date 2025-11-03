@@ -10,15 +10,19 @@ export interface Wish {
   timestamp: string;
 }
 
-// Hardcoded Google Script URL
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8Pcu5gO8AHK9e4zKcXOXFLcQ59gjWgMnKCu6i1_kM5HHUKmAX1wmg4Xb5GW2jLIn-VA/exec";
+// Google Apps Script Web App URL
+// IMPORTANT: This must be a Web App URL, not a Library URL!
+// Format: https://script.google.com/macros/s/[SCRIPT_ID]/exec
+// Get the correct URL from: Deploy > Manage deployments > Copy Web app URL
+// Make sure "Who has access" = "Anyone" for CORS to work
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPd6S9fDQ4FOVzWT0cFVyJHrx0oEGAPCsxztNOOoL8f4Q6xUq4sVu7F7_mIzZ0X4xG-Q/exec";
 
 export async function submitWish(wishData: WishData): Promise<Wish> {
   try {
     const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain;charset=utf-8',
       },
       body: JSON.stringify(wishData),
     });
@@ -27,9 +31,17 @@ export async function submitWish(wishData: WishData): Promise<Wish> {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result = await response.json();
+    let result;
+    try {
+      const text = await response.text();
+      result = JSON.parse(text);
+    } catch (parseError) {
+      console.error('Failed to parse response:', parseError);
+      throw new Error('Invalid response from server');
+    }
 
     if (!result.success) {
+      console.error('Server returned error:', result.error, result);
       throw new Error(result.error || 'Failed to submit wish');
     }
 
@@ -61,7 +73,7 @@ export async function fetchWishes(): Promise<Wish[]> {
     const response = await fetch(getUrl, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain;charset=utf-8',
       },
     });
 
@@ -69,9 +81,17 @@ export async function fetchWishes(): Promise<Wish[]> {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result = await response.json();
+    let result;
+    try {
+      const text = await response.text();
+      result = JSON.parse(text);
+    } catch (parseError) {
+      console.error('Failed to parse response:', parseError);
+      throw new Error('Invalid response from server');
+    }
 
     if (!result.success) {
+      console.error('Server returned error:', result.error, result);
       throw new Error(result.error || 'Failed to fetch wishes');
     }
 

@@ -9,7 +9,7 @@ export default function GoogleSheetsStatus() {
   useEffect(() => {
     // Check if Google Script URL is configured
     const checkConfiguration = () => {
-      const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbzPd6S9fDQ4FOVzWT0cFVyJHrx0oEGAPCsxztNOOoL8f4Q6xUq4sVu7F7_mIzZ0X4xG-Q/exec";
       setIsConfigured(!!scriptUrl);
       setIsChecking(false);
     };
