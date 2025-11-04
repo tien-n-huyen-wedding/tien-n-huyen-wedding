@@ -376,7 +376,7 @@ export default function AdminPage() {
                   </button>
                   <button
                     className="btn btn-info mr-2"
-                    onClick={() => copyUrl(useShortUrl ? shortUrl : generatedUrl)}
+                    onClick={() => copyUrl(shortUrl)}
                     title="Copy URL to clipboard"
                   >
                     🔗 Copy URL
