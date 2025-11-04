@@ -1,6 +1,9 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { InvitationProps } from './invitation/Invitation';
+import { useInvitationProps } from '@/hooks/useInvitationProps';
+import { CHANGEABLE_FIELDS, InvitationProps } from './invitation/Invitation';
 import { buildHomeUrl } from '@/utils/invitation-props';
 
 interface LogoProps {
@@ -9,7 +12,6 @@ interface LogoProps {
   width?: number;
   height?: number;
   className?: string;
-  invitationProps?: Partial<InvitationProps>;
 }
 
 export default function Logo({
@@ -17,10 +19,10 @@ export default function Logo({
   alt = 'Wedding',
   width = 50,
   height = 50,
-  className = '',
-  invitationProps = {}
+  className = ''
 }: LogoProps) {
-  const homeUrl = buildHomeUrl(invitationProps);
+  const { props } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
+  const homeUrl = buildHomeUrl(props);
 
   return (
     <div id="fh5co-logo" className={className}>

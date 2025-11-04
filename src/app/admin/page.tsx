@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import ReliableQRCode from '@/components/qr_code/ReliableQRCode';
 import WeddingPartyCard from '@/components/invitation/WeddingPartyCard';
 import { PACKAGES } from '@/utils/constants';
+import { compressUrl } from '@/lib/url-compress';
 
 interface ChangeableFields {
   party: string;
@@ -31,7 +32,9 @@ export default function AdminPage() {
   });
 
   const [generatedUrl, setGeneratedUrl] = useState('');
+  const [shortUrl, setShortUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
+  const [useShortUrl, setUseShortUrl] = useState(false);
 
   // Generate URL with query parameters
   const generateUrl = useCallback(() => {
@@ -57,8 +60,14 @@ export default function AdminPage() {
 
     const fullUrl = `${baseUrl}?${params.toString()}`;
     setGeneratedUrl(fullUrl);
-    setQrCodeUrl(fullUrl);
-  }, [fields]);
+
+    // Generate compressed short URL
+    const compressed = compressUrl(fullUrl);
+    setShortUrl(compressed);
+
+    // Use short URL for QR code if enabled, otherwise use full URL
+    setQrCodeUrl(useShortUrl ? compressed : fullUrl);
+  }, [fields, useShortUrl]);
 
   // Auto-generate URL when fields change
   useEffect(() => {
@@ -66,15 +75,16 @@ export default function AdminPage() {
   }, [generateUrl]);
 
   // Copy URL to clipboard
-  const copyUrl = async () => {
+  const copyUrl = async (urlToCopy?: string) => {
+    const url = urlToCopy || generatedUrl;
     try {
-      await navigator.clipboard.writeText(generatedUrl);
+      await navigator.clipboard.writeText(url);
       alert('URL copied to clipboard!');
     } catch (err) {
       console.error('Failed to copy URL:', err);
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
-      textArea.value = generatedUrl;
+      textArea.value = url;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand('copy');
@@ -272,28 +282,72 @@ export default function AdminPage() {
                 </div>
 
                 <div className="form-group">
-                  <h4>Generated URL:</h4>
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={generatedUrl}
-                      readOnly
-                      style={{ fontSize: '12px' }}
-                    />
-                    <div className="input-group-append">
-                      <button
-                        className="btn btn-outline-secondary"
-                        type="button"
-                        onClick={copyUrl}
-                        title="Copy URL"
-                      >
-                        📋 Copy URL
-                      </button>
+                  <h4>Generated URLs:</h4>
+
+                  <div className="mb-3">
+                    <label className="form-label">Full URL:</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={generatedUrl}
+                        readOnly
+                        style={{ fontSize: '11px' }}
+                      />
+                      <div className="input-group-append">
+                        <button
+                          className="btn btn-outline-secondary"
+                          type="button"
+                          onClick={() => copyUrl(generatedUrl)}
+                          title="Copy Full URL"
+                        >
+                          📋
+                        </button>
+                      </div>
                     </div>
                   </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Short URL (Compressed):</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={shortUrl}
+                        readOnly
+                        style={{ fontSize: '11px', color: '#28a745', fontWeight: 'bold' }}
+                      />
+                      <div className="input-group-append">
+                        <button
+                          className="btn btn-outline-success"
+                          type="button"
+                          onClick={() => copyUrl(shortUrl)}
+                          title="Copy Short URL"
+                        >
+                          📋
+                        </button>
+                      </div>
+                    </div>
+                    <small className="help-block text-success">
+                      ✨ Use this shorter URL for sharing! ({Math.round((1 - shortUrl.length / generatedUrl.length) * 100)}% shorter)
+                    </small>
+                  </div>
+
+                  <div className="form-check mb-3">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="useShortUrl"
+                      checked={useShortUrl}
+                      onChange={(e) => setUseShortUrl(e.target.checked)}
+                    />
+                    <label className="form-check-label" htmlFor="useShortUrl">
+                      Use short URL for QR code
+                    </label>
+                  </div>
+
                   <small className="help-block">
-                    Share this URL with your guest or use it to generate a QR code
+                    Share either URL with your guest. The short URL works the same way but is much shorter!
                   </small>
                 </div>
               </div>
@@ -322,7 +376,7 @@ export default function AdminPage() {
                   </button>
                   <button
                     className="btn btn-info mr-2"
-                    onClick={copyUrl}
+                    onClick={() => copyUrl(useShortUrl ? shortUrl : generatedUrl)}
                     title="Copy URL to clipboard"
                   >
                     🔗 Copy URL
