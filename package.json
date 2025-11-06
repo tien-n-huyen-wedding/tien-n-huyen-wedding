@@ -7,7 +7,7 @@
     "build": "next build",
     "export": "next build --turbopack",
     "build:copy": "npm run build && mkdir -p /Users/tienphan/workspace/phantien133/wedding-build && rsync -av --delete out/ /Users/tienphan/workspace/phantien133/wedding-build/",
-    "start": "npx serve out -p 3000",
+    "start": "npx serve out -p 80",
     "lint": "eslint"
   },
   "dependencies": {
