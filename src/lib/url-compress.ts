@@ -3,6 +3,8 @@
  * Compresses query parameters into a shorter format for static sites
  */
 
+import { getBaseUrl as getBaseUrlFromEnv } from './env';
+
 interface CompressedParams {
   [key: string]: string;
 }
@@ -126,8 +128,6 @@ function base64UrlDecode(str: string): string {
  * @deprecated Use getBaseUrl from '@/lib/env' instead
  */
 export function getBaseUrl(): string {
-  // Import here to avoid circular dependency
-  const { getBaseUrl: getBaseUrlFromEnv } = require('./env');
   return getBaseUrlFromEnv();
 }
 
