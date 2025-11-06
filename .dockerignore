@@ -43,6 +43,12 @@ yarn-error.log*
 dist
 build
 
+# Docker alternative files (not needed in image)
+Dockerfile.simple
+nginx.conf.simple
+nginx.conf.template
+docker-entrypoint.sh
+
 # Documentation (optional - remove if you want docs in image)
 *.md
 !README.md
