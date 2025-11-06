@@ -5,7 +5,7 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- Main Wedding Page -->
   <url>
-    <loc>https://tien-n-huyen-wedding.github.io/</loc>
+    <loc>https://tien-n-huyen-wedding.sevalla.app/</loc>
     <lastmod>2025-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -13,7 +13,7 @@
 
   <!-- QR Generator Page -->
   <url>
-    <loc>https://tien-n-huyen-wedding.github.io/qr-generator/</loc>
+    <loc>https://tien-n-huyen-wedding.sevalla.app/qr-generator/</loc>
     <lastmod>2025-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
