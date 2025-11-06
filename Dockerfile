@@ -22,7 +22,7 @@ COPY . .
 RUN node scripts/generate-sitemap-robots.js
 
 # Build the static site
-RUN npm run build && ls -la /app/out || (echo "Build failed or out directory not created" && exit 1)
+RUN npm run build:sevalla && ls -la /app/out || (echo "Build failed or out directory not created" && exit 1)
 
 # Expose port 80 (default for serve)
 EXPOSE 80
