@@ -31,9 +31,11 @@ git push origin main
    - **Region**: Choose the closest region to your users
    - **Pod Size**: Select appropriate size (small should work for static sites)
 
-### Step 3: Configure Build Settings
+### Step 3: Choose Deployment Method
 
-Since this is a Next.js static export, configure the build:
+You have two options for deployment:
+
+#### Option A: Static Site Deployment (Recommended for simple setup)
 
 1. In your Sevalla application settings, go to **Build Settings**
 2. Set the following:
@@ -43,6 +45,26 @@ Since this is a Next.js static export, configure the build:
    - **Install Command**: `npm install` (if separate field exists)
 
 **Note**: The `.sevalla.yml` file in the repository should automatically configure these settings. If Sevalla supports YAML configuration files, it will use those settings.
+
+#### Option B: Docker Deployment (Recommended for production)
+
+1. Ensure `Dockerfile` is in your repository (already included)
+2. In your Sevalla application settings:
+   - Set **Deployment Type**: `Docker`
+   - Set **Dockerfile Path**: `Dockerfile` (or leave default)
+   - Set **Port**: `80`
+3. Sevalla will automatically:
+   - Build the Docker image
+   - Run the container with nginx
+   - Serve your static site
+
+**Benefits of Docker deployment**:
+- ✅ Consistent environment across all deployments
+- ✅ Better caching and performance with nginx
+- ✅ Health checks included
+- ✅ Production-ready configuration
+
+See [DOCKER-DEPLOY.md](./DOCKER-DEPLOY.md) for detailed Docker deployment instructions.
 
 ### Step 4: Environment Variables (Optional)
 
