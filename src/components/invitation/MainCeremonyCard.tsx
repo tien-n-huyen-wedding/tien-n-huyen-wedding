@@ -89,6 +89,7 @@ export default function MainCeremonyCard({
     fontFamily: "'UTM Amherst', serif",
     letterSpacing: '1px',
     lineHeight: '1.2',
+    whiteSpace: 'nowrap',
   };
 
   const coupleNameSeparatorStyle: React.CSSProperties = {
