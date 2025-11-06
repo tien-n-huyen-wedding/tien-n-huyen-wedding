@@ -25,7 +25,7 @@ export default function CoupleSection({
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
   groomDescription = "“Cô ấy - một HR tận tâm, mang vẻ đẹp dịu dàng cùng nụ cười toả nắng. Ẩn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến.”",
-  brideDescription = "Anh ấy - một Developer đỉnh chóp trong lòng mình. Là người thẳng thắn, bộc trực nhưng luôn thể hiện tình yêu một cách dịu dàng và ấm áp.”"
+  brideDescription = "“Anh ấy - một Developer đỉnh chóp trong lòng mình. Là người thẳng thắn, bộc trực nhưng luôn thể hiện tình yêu một cách dịu dàng và ấm áp.”"
 }: CoupleSectionProps) {
   const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
   const guestName = isLoaded && props.guestName ? props.guestName : null;
@@ -34,8 +34,8 @@ export default function CoupleSection({
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-            <h2>Xin Chào{guestName ? `, ${guestName} !!!` : '!'}</h2>
-            <p>Sự hiện diện của {guestName ? guestName : 'bạn'} chính là lời chúc phúc tuyệt vời nhất dành cho chúng mình!
+            <h2>Xin chào{guestName ? `, ${guestName} !!!` : '!'}</h2>
+            <p>Một cột mốc quan trọng đang đến. Và chúng mình tin rằng, khoảnh khắc này sẽ ý nghĩa hơn rất nhiều nếu có sự chứng kiến và chung vui của {guestName ? guestName : 'bạn'}
             </p>
           </div>
         </div>
