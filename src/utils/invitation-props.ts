@@ -74,9 +74,13 @@ export function getInvitationProps(
     console.error('Error reading from localStorage:', error);
   }
 
-  // 6. If no URL params exist, return localStorage props
+  // 6. If no URL params exist, apply defaults and return localStorage props
   if (!hasUrlParams) {
-    return savedProps;
+    const propsWithDefaults = { ...savedProps };
+    if (!propsWithDefaults.coupleGreeting) {
+      propsWithDefaults.coupleGreeting = 'chúng mình';
+    }
+    return propsWithDefaults;
   }
 
   // 7. Read from merged URL params
@@ -127,10 +131,21 @@ export function getInvitationProps(
     urlProps.thanksText = thanksText;
   }
 
-  // 8. Merge: localStorage + URL params (URL params override)
-  const mergedProps = { ...urlProps };
+  // Check for coupleGreeting parameter
+  const coupleGreeting = mergedParams.get('coupleGreeting');
+  if (coupleGreeting) {
+    urlProps.coupleGreeting = coupleGreeting;
+  }
 
-  // 9. Save merged props to localStorage
+  // 8. Merge: localStorage + URL params (URL params override)
+  const mergedProps = { ...savedProps, ...urlProps };
+
+  // 9. Apply default values for fields that should always have a value
+  if (!mergedProps.coupleGreeting) {
+    mergedProps.coupleGreeting = 'chúng mình';
+  }
+
+  // 10. Save merged props to localStorage
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedProps));
   } catch (error) {

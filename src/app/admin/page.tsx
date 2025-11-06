@@ -13,6 +13,7 @@ interface ChangeableFields {
   invitationText: string;
   invitationSecondText: string;
   thanksText: string;
+  coupleGreeting: string;
 }
 
 // Default values for comparison
@@ -20,7 +21,8 @@ const defaultValues = {
   guestName: '',
   invitationText: 'Thân mời',
   invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
-  thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.'
+  thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.',
+  coupleGreeting: 'chúng mình'
 };
 
 export default function AdminPage() {
@@ -53,6 +55,9 @@ export default function AdminPage() {
     }
     if (fields.thanksText !== defaultValues.thanksText) {
       params.set('thanksText', fields.thanksText);
+    }
+    if (fields.coupleGreeting !== defaultValues.coupleGreeting) {
+      params.set('coupleGreeting', fields.coupleGreeting);
     }
 
     const fullUrl = `${baseUrl}?${params.toString()}`;
@@ -275,6 +280,21 @@ export default function AdminPage() {
                   />
                   <small className="help-block">
                     Thank you message that appears at the end of the invitation (use \n for line breaks)
+                  </small>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="coupleGreeting">Couple Greeting Text:</label>
+                  <input
+                    type="text"
+                    id="coupleGreeting"
+                    className="form-control"
+                    placeholder="e.g., chúng mình, chúng tôi, chúng em"
+                    value={fields.coupleGreeting}
+                    onChange={(e) => setFields(prev => ({ ...prev, coupleGreeting: e.target.value }))}
+                  />
+                  <small className="help-block">
+                    Middle part of the greeting phrase (e.g., &quot;chúng mình&quot;, &quot;chúng tôi&quot;, &quot;chúng em&quot;). Will be formatted as &quot;Và [your text] tin rằng&quot;
                   </small>
                 </div>
 
@@ -534,6 +554,11 @@ export default function AdminPage() {
                         <td><code>thanksText</code></td>
                         <td>Thank you message</td>
                         <td><code>Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.</code></td>
+                      </tr>
+                      <tr>
+                        <td><code>coupleGreeting</code></td>
+                        <td>Middle part of couple greeting (formatted as &quot;Và [value] tin rằng&quot;)</td>
+                        <td><code>chúng mình</code>, <code>chúng tôi</code>, <code>chúng em</code></td>
                       </tr>
                     </tbody>
                   </table>

@@ -29,13 +29,14 @@ export default function CoupleSection({
 }: CoupleSectionProps) {
   const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
   const guestName = isLoaded && props.guestName ? props.guestName : null;
+  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng mình';
   return (
     <div id="fh5co-couple">
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <h2>Xin chào{guestName ? `, ${guestName} !!!` : '!'}</h2>
-            <p>Một cột mốc quan trọng đang đến. Và chúng mình tin rằng, khoảnh khắc này sẽ ý nghĩa hơn rất nhiều nếu có sự chứng kiến và chung vui của {guestName ? guestName : 'bạn'}
+            <p>Một cột mốc quan trọng đang đến. Và {coupleGreeting} tin rằng, khoảnh khắc này sẽ ý nghĩa hơn rất nhiều nếu có sự chứng kiến và chung vui của {guestName ? guestName : 'bạn'}
             </p>
           </div>
         </div>
