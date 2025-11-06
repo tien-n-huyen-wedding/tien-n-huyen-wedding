@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useRef } from 'react';
 import { coupleImages } from '@/lib/images';
 
 interface StoryItem {
@@ -83,9 +86,74 @@ export default function StorySection({
   description = "Mời bạn cùng lật giở từng trang kỷ niệm để theo dõi những dấu mốc quan trọng trong hành trình từ người lạ thành người thương của chúng mình nhé!",
   stories = defaultStories
 }: StorySectionProps) {
+  const [showStories, setShowStories] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const toggleAllStories = () => {
+    const wasOpen = showStories;
+    setShowStories(prev => !prev);
+
+    // Nếu đang đóng lại (từ true -> false), scroll đến đầu section
+    if (wasOpen) {
+      setTimeout(() => {
+        sectionRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100); // Delay nhỏ để đảm bảo animation đóng hoàn tất
+    }
+  };
+
+  const getButtonStyle = (isClosed: boolean) => ({
+    padding: '12px 32px',
+    backgroundColor: '#8FBC8F',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '30px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: '600',
+    transition: 'all 0.3s ease',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '10px',
+    boxShadow: isClosed
+      ? '0 4px 20px rgba(143, 188, 143, 0.6)'
+      : '0 4px 12px rgba(143, 188, 143, 0.4)',
+    letterSpacing: '0.5px',
+    animation: isClosed ? 'breath 2s ease-in-out infinite' : 'none',
+    transform: isClosed ? 'scale(1)' : 'scale(1)',
+  } as React.CSSProperties);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.backgroundColor = '#A8C8A8';
+    e.currentTarget.style.transform = 'translateY(-3px)';
+    e.currentTarget.style.boxShadow = '0 6px 16px rgba(143, 188, 143, 0.5)';
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.backgroundColor = '#8FBC8F';
+    e.currentTarget.style.transform = 'translateY(0)';
+    e.currentTarget.style.boxShadow = '0 4px 12px rgba(143, 188, 143, 0.4)';
+  };
+
   return (
-    <div id="fh5co-couple-story">
-      <div className="container">
+    <div id="fh5co-couple-story" ref={sectionRef}>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes breath {
+            0%, 100% {
+              transform: scale(1);
+              box-shadow: 0 4px 20px rgba(143, 188, 143, 0.6);
+            }
+            50% {
+              transform: scale(1.05);
+              box-shadow: 0 6px 25px rgba(143, 188, 143, 0.8);
+            }
+          }
+        `
+      }} />
+        <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <span>{subtitle}</span>
@@ -94,6 +162,37 @@ export default function StorySection({
           </div>
         </div>
         <div className="row">
+          <div className="col-md-12 col-md-offset-0 text-center" style={{ marginBottom: '30px' }}>
+            <button
+              onClick={toggleAllStories}
+              className="story-toggle-all-btn"
+              style={getButtonStyle(!showStories)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <span>{showStories ? 'Tạm đóng lại' : 'Lật mở'}</span>
+              <span
+                style={{
+                  display: 'inline-block',
+                  transition: 'transform 0.3s ease',
+                  transform: showStories ? 'rotate(180deg)' : 'rotate(0deg)',
+                  fontSize: '14px'
+                }}
+              >
+                ▼
+              </span>
+            </button>
+          </div>
+        </div>
+        <div
+          className="row"
+          style={{
+            opacity: showStories ? 1 : 0,
+            maxHeight: showStories ? 'none' : 0,
+            overflow: showStories ? 'visible' : 'hidden',
+            transition: 'opacity 0.5s ease-in-out, max-height 0.5s ease-in-out',
+          }}
+        >
           <div className="col-md-12 col-md-offset-0">
             <ul className="timeline animate-box">
               {stories.map((story, index) => (
@@ -116,6 +215,31 @@ export default function StorySection({
             </ul>
           </div>
         </div>
+        {showStories && (
+          <div className="row">
+            <div className="col-md-12 col-md-offset-0 text-center" style={{ marginTop: '40px', marginBottom: '30px' }}>
+              <button
+                onClick={toggleAllStories}
+                className="story-toggle-all-btn-bottom"
+                style={getButtonStyle(false)}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <span>Tạm đóng lại</span>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    transition: 'transform 0.3s ease',
+                    transform: 'rotate(180deg)',
+                    fontSize: '14px'
+                  }}
+                >
+                  ▼
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
