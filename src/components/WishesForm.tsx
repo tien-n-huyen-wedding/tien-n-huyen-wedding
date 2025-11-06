@@ -23,22 +23,44 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
 
-    // Clear error when user starts typing
-    if (errors[name as keyof WishData]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+    // Validate name length in real-time and show error if exceeds
+    if (name === 'name') {
+      if (value.length > 30) {
+        setErrors(prev => ({
+          ...prev,
+          name: 'Tên không được vượt quá 30 ký tự'
+        }));
+      } else if (errors.name && value.length <= 30) {
+        // Clear error when length is valid
+        setErrors(prev => ({
+          ...prev,
+          name: ''
+        }));
+      }
+    } else {
+      // Clear error for other fields when user starts typing
+      if (errors[name as keyof WishData]) {
+        setErrors(prev => ({
+          ...prev,
+          [name]: ''
+        }));
+      }
     }
   };
 
   const validateForm = (): boolean => {
     const newErrors: Partial<WishData> = {};
+
+    // Validate name length (max 30 characters)
+    if (formData.name.trim() && formData.name.trim().length > 30) {
+      newErrors.name = 'Tên không được vượt quá 30 ký tự';
+    }
 
     // Không bắt buộc nhập tên, sẽ sử dụng "Một người bạn" nếu bỏ trống
     if (!formData.message.trim()) {
@@ -85,49 +107,53 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
             <p style={{color: 'var(--color-bg-primary)'}}>Chia sẻ niềm vui cùng chúng tôi trong ngày trọng đại</p>
           </div>
         </div>
-        <div className="row animate-box">
+        <div className="row animate-box" style={{marginBottom: '30px'}}>
           <div className="col-md-10 col-md-offset-1">
-            <form className="form-inline" onSubmit={handleSubmit}>
-              <div className="col-md-4 col-sm-4">
-                <div className="form-group" id="group_name">
-                  <label htmlFor="name" className="sr-only">Tên của bạn (tùy chọn)</label>
-                  <input
-                    type="text"
-                    className={`form-control ${errors.name ? 'error' : ''}`}
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Tên của bạn (tùy chọn)"
-                    disabled={isLoading}
-                  />
-                  {errors.name && (
-                    <p className="error-message">{errors.name}</p>
-                  )}
+            <form className="wishes-form" onSubmit={handleSubmit}>
+              <div className="wishes-form-inputs">
+                <div className="col-md-6 col-sm-6">
+                  <div className="form-group" style={{marginBottom: '20px'}} id="group_name">
+                    <label htmlFor="name" className="sr-only">Tên của bạn (tùy chọn)</label>
+                    <textarea
+                      className={`form-control ${errors.name ? 'error' : ''}`}
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Tên của bạn (tùy chọn)"
+                      rows={3}
+                      disabled={isLoading}
+                      style={{height: '100px'}}
+                    />
+                    {errors.name && (
+                      <p className="error-message">{errors.name}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="col-md-6 col-sm-6">
+                  <div className="form-group">
+                    <label htmlFor="message" className="sr-only">Lời chúc mừng</label>
+                    <textarea
+                      className={`form-control ${errors.message ? 'error' : ''}`}
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Lời chúc mừng của bạn..."
+                      rows={3}
+                      disabled={isLoading}
+                      style={{height: '100px'}}
+                    />
+                    {errors.message && (
+                      <p className="error-message">{errors.message}</p>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div className="col-md-4 col-sm-4">
-                <div className="form-group">
-                  <label htmlFor="message" className="sr-only">Lời chúc mừng</label>
-                  <textarea
-                    className={`form-control ${errors.message ? 'error' : ''}`}
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Lời chúc mừng của bạn..."
-                    rows={3}
-                    disabled={isLoading}
-                  />
-                  {errors.message && (
-                    <p className="error-message">{errors.message}</p>
-                  )}
-                </div>
-              </div>
-              <div className="col-md-4 col-sm-4">
+              <div className="wishes-form-button">
                 <button
                   type="submit"
-                  className="btn btn-default btn-block"
+                  className="btn btn-default"
                   disabled={isLoading}
                 >
                   {isLoading ? 'Đang gửi...' : 'Gửi Lời Chúc'}
@@ -144,6 +170,42 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
       </div>
 
       <style jsx>{`
+        .wishes-form {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .wishes-form-inputs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+
+        .wishes-form-inputs .col-md-6,
+        .wishes-form-inputs .col-sm-6 {
+          flex: 1 1 calc(50% - 7.5px);
+          min-width: 0;
+        }
+
+        @media (max-width: 768px) {
+          .wishes-form-inputs .col-md-6,
+          .wishes-form-inputs .col-sm-6 {
+            flex: 1 1 100%;
+          }
+        }
+
+        .wishes-form-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
+
+        .wishes-form-button .btn {
+          min-width: 200px;
+        }
+
         .error {
           border-color: #e74c3c !important;
           box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25) !important;
@@ -158,6 +220,18 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
 
         .form-control {
           resize: none;
+        }
+
+        #name.form-control,
+        #message.form-control {
+          padding-top: 35px;
+          line-height: 1.5;
+          vertical-align: middle;
+        }
+
+        #name.form-control::placeholder,
+        #message.form-control::placeholder {
+          line-height: 1.5;
         }
 
         .btn:disabled {

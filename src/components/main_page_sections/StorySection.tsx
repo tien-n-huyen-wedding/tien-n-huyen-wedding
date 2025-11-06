@@ -80,7 +80,7 @@ const defaultStories: StoryItem[] = [
 export default function StorySection({
   title = "Our Story",
   subtitle = "We Love Each Other",
-  description = "We started as strangers, became best friends, and now — partners for life. This is our story, written with love and laughter. 💫",
+  description = "💕💕💕",
   stories = defaultStories
 }: StorySectionProps) {
   return (

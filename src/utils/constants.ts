@@ -44,6 +44,7 @@ export const MAIN_WEDDING_PARTY_INFO = {
   dateOfWeek: "Chủ nhật",
   at: "30/11/2025 11:00 +07:00",
   atStr: "Ngày 30 tháng 11 năm 2025",
+  atStrEng: "November 30, 2025",
   lunaDate: "ngày 11 tháng 10 năm Ất Tỵ",
   time: "11:00",
   openAt: "11:00",
@@ -125,7 +126,7 @@ const BrideCeremonyInfo = {
   ceremonyTime: `07:30 - CHỦ NHẬT`,
 };
 const WeddingPartyInfo = {
-  invitationText: "Trân trọng kính mời:",
+  invitationText: "Thân mời",
   guestName: "Bạn Mến Yêu",
   invitationSecondText:
     "Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại",

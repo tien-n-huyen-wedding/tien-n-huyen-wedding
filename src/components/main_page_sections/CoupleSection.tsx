@@ -22,8 +22,6 @@ const Description = ({ description }: { description: string }) => {
 };
 
 export default function CoupleSection({
-  weddingDate = "30 November 2025",
-  weddingLocation = "Gia Huy Palace, Đà Nẵng",
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
   groomDescription = "Một developer trực tính.\nĐẹp trai, hào hoa và tiêu sái là những tính từ gần đủ chính xác để mô tả về anh ấy",
@@ -37,8 +35,7 @@ export default function CoupleSection({
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <h2>Hello{guestName ? `, ${guestName} !!!` : '!'}</h2>
-            <h3>{weddingDate} {weddingLocation}</h3>
-            <p>We invited {guestName ? guestName : 'you'} to celebrate our wedding</p>
+            <p>Chúng tôi rất mong {guestName ? guestName : 'bạn'} sẽ đến cùng vui và chứng kiến khoảnh khắc hạnh phúc của chúng tôi.</p>
           </div>
         </div>
         <div className="couple-wrap animate-box">

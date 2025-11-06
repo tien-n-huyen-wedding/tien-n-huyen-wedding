@@ -233,7 +233,7 @@ export default function Banner() {
 
                 {/* Wedding Date */}
                 <div className="wedding-date">
-                  <p className="date-text">{MAIN_WEDDING_PARTY_INFO.atStr}</p>
+                  <p className="date-text">{MAIN_WEDDING_PARTY_INFO.atStrEng}</p>
                 </div>
 
                 {/* Countdown */}

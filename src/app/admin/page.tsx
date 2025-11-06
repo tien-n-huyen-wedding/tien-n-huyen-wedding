@@ -17,7 +17,7 @@ interface ChangeableFields {
 // Default values for comparison
 const defaultValues = {
   guestName: 'Bạn Mến Yêu',
-  invitationText: 'Trân trọng kính mời:',
+  invitationText: 'Thân mời',
   invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
   thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.'
 };
@@ -25,10 +25,7 @@ const defaultValues = {
 export default function AdminPage() {
   const [fields, setFields] = useState<ChangeableFields>({
     party: 'mainParty',
-    guestName: 'Bạn Mến Yêu',
-    invitationText: 'Trân trọng kính mời:',
-    invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
-    thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.'
+    ...defaultValues,
   });
 
   const [generatedUrl, setGeneratedUrl] = useState('');
@@ -43,7 +40,6 @@ export default function AdminPage() {
 
     // Always include party
     params.set('party', fields.party);
-
     // Only include text fields if they differ from defaults
     if (fields.guestName !== defaultValues.guestName) {
       params.set('guestName', fields.guestName);
@@ -514,7 +510,7 @@ export default function AdminPage() {
                       <tr>
                         <td><code>invitationText</code></td>
                         <td>Opening invitation text</td>
-                        <td><code>Trân trọng kính mời:</code></td>
+                        <td><code>Thân mời</code></td>
                       </tr>
                       <tr>
                         <td><code>invitationSecondText</code></td>
