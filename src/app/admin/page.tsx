@@ -35,16 +35,10 @@ export default function AdminPage() {
   const [shortUrl, setShortUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [useShortUrl, setUseShortUrl] = useState(false);
-  const [baseUrl, setBaseUrl] = useState('https://tien-n-huyen-wedding.github.io/');
-
-  // Available base URLs
-  const baseUrlOptions = [
-    { value: 'https://tien-n-huyen-wedding.github.io/', label: 'GitHub Pages (tien-n-huyen-wedding.github.io)' },
-    { value: 'https://tien-n-huyen-wedding.sevalla.app/', label: 'Sevalla (tien-n-huyen-wedding.sevalla.app)' }
-  ];
 
   // Generate URL with query parameters
   const generateUrl = useCallback(() => {
+    const baseUrl = 'https://tien-n-huyen-wedding.github.io/';
     const params = new URLSearchParams();
 
     // Always include party
@@ -75,7 +69,7 @@ export default function AdminPage() {
 
     // Use short URL for QR code if enabled, otherwise use full URL
     setQrCodeUrl(useShortUrl ? compressed : fullUrl);
-  }, [fields, useShortUrl, baseUrl]);
+  }, [fields, useShortUrl]);
 
   // Auto-generate URL when fields change
   useEffect(() => {
@@ -226,25 +220,6 @@ export default function AdminPage() {
                   </select>
                   <small className="help-block">
                     Choose the wedding package (ceremony/party details)
-                  </small>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="baseUrl">Base URL:</label>
-                  <select
-                    id="baseUrl"
-                    className="form-control"
-                    value={baseUrl}
-                    onChange={(e) => setBaseUrl(e.target.value)}
-                  >
-                    {baseUrlOptions.map(option => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  <small className="help-block">
-                    Select the deployment platform for generating invitation URLs
                   </small>
                 </div>
 
