@@ -1,5 +1,5 @@
-# Multi-stage build for Next.js static export
-FROM node:20-alpine AS builder
+# Single-stage build for Next.js static export
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
@@ -14,16 +14,10 @@ RUN npm ci --only=production=false
 COPY . .
 
 # Build the static site
-RUN npm run build
+RUN npm run build && ls -la /app/out || (echo "Build failed or out directory not created" && exit 1)
 
-# Production stage - serve static files
-FROM nginx:alpine
+# Expose port 3000 (default for serve)
+EXPOSE 3000
 
-# Copy built static files from builder
-COPY --from=builder /app/out /usr/share/nginx/html
-
-# Copy custom nginx configuration (optional)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
-EXPOSE 80
+# Start the static file server
+CMD ["npm", "run", "start"]
