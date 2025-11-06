@@ -19,15 +19,23 @@ RUN npm run build
 # Production stage - serve static files
 FROM nginx:alpine
 
+# Install envsubst for template processing
+RUN apk add --no-cache gettext
+
 # Copy built static files from builder
 COPY --from=builder /app/out /usr/share/nginx/html
 
-# Copy custom nginx configuration (optional)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy custom nginx configuration template
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 
-# Expose port 80
+# Copy entrypoint script to handle dynamic port
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Expose port (will be set by environment variable or default to 80)
 EXPOSE 80
 
-# Start nginx
+# Use entrypoint script to handle dynamic port
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 
