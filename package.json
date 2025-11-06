@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "export": "next build --turbopack",
+    "build:copy": "npm run build && mkdir -p /Users/tienphan/workspace/phantien133/wedding-build && rsync -av --delete out/ /Users/tienphan/workspace/phantien133/wedding-build/",
     "start": "next start",
     "lint": "eslint"
   },
