@@ -6,6 +6,7 @@ import WeddingPartyCard from '@/components/invitation/WeddingPartyCard';
 import MainCeremonyCard from '@/components/invitation/MainCeremonyCard';
 import { PACKAGES } from '@/utils/constants';
 import { compressUrl } from '@/lib/url-compress';
+import { getBaseUrlWithSlash } from '@/lib/env';
 
 interface ChangeableFields {
   party: string;
@@ -38,7 +39,7 @@ export default function AdminPage() {
 
   // Generate URL with query parameters
   const generateUrl = useCallback(() => {
-    const baseUrl = 'https://tien-n-huyen-wedding.github.io/';
+    const baseUrl = getBaseUrlWithSlash();
     const params = new URLSearchParams();
 
     // Always include party

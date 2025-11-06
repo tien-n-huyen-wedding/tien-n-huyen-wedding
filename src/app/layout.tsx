@@ -3,10 +3,13 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ClientScripts from "@/components/ClientScripts";
 import Navigation from "@/components/Navigation";
+import { getBaseUrl } from "@/lib/env";
 // Local fonts are now defined in globals.css
 
+const baseUrl = getBaseUrl();
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tien-n-huyen-wedding.github.io'),
+  metadataBase: new URL(baseUrl),
   title: "Wedding - Quang Tiến & Lệ Huyền",
   description: "We are getting married! Join us for our special day on 30 November 2025 in Gia Huy Palace, Đà Nẵng",
   keywords: [
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "vi_VN",
     alternateLocale: ["en_US"],
-    url: "https://tien-n-huyen-wedding.github.io/",
+    url: `${baseUrl}/`,
     title: "Wedding - Quang Tiến & Lệ Huyền",
     description: "We are getting married! Join us for our special day on 30 November 2025 in Gia Huy Palace, Đà Nẵng",
     siteName: "Quang Tiến & Lệ Huyền Wedding",
@@ -98,18 +101,18 @@ export default function RootLayout({
         <meta name="theme-color" content="#758362" />
 
         {/* Meta Image Tags */}
-        <meta property="og:image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
-        <meta property="og:image:secure_url" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta property="og:image" content={`${baseUrl}/images/main-qr-code.png`} />
+        <meta property="og:image:secure_url" content={`${baseUrl}/images/main-qr-code.png`} />
         <meta property="og:image:width" content="800" />
         <meta property="og:image:height" content="800" />
         <meta property="og:image:alt" content="Quang Tiến & Lệ Huyền Wedding" />
         <meta property="og:image:type" content="image/png" />
 
-        <meta name="twitter:image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta name="twitter:image" content={`${baseUrl}/images/main-qr-code.png`} />
         <meta name="twitter:image:alt" content="Quang Tiến & Lệ Huyền Wedding" />
 
-        <meta name="image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
-        <meta itemProp="image" content="https://tien-n-huyen-wedding.github.io/images/main-qr-code.png" />
+        <meta name="image" content={`${baseUrl}/images/main-qr-code.png`} />
+        <meta itemProp="image" content={`${baseUrl}/images/main-qr-code.png`} />
 
         {/* Stylesheets */}
         <link rel="stylesheet" href="/css/animate.css" />

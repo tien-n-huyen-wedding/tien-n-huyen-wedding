@@ -32,6 +32,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_URL: https://tien-n-huyen-wedding.github.io
+          BASE_URL: https://tien-n-huyen-wedding.github.io
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

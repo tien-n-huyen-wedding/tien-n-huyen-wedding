@@ -123,11 +123,11 @@ function base64UrlDecode(str: string): string {
 
 /**
  * Get the base URL for the site
+ * @deprecated Use getBaseUrl from '@/lib/env' instead
  */
 export function getBaseUrl(): string {
-  if (typeof window !== 'undefined') {
-    return window.location.origin;
-  }
-  return 'https://tien-n-huyen-wedding.github.io';
+  // Import here to avoid circular dependency
+  const { getBaseUrl: getBaseUrlFromEnv } = require('./env');
+  return getBaseUrlFromEnv();
 }
 

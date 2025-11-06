@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/generate-sitemap-robots.js",
     "build": "next build",
+    "build:github": "NEXT_PUBLIC_BASE_URL=https://tien-n-huyen-wedding.github.io BASE_URL=https://tien-n-huyen-wedding.github.io npm run build",
+    "build:sevalla": "NEXT_PUBLIC_BASE_URL=https://tien-n-huyen-wedding.sevalla.app BASE_URL=https://tien-n-huyen-wedding.sevalla.app npm run build",
     "export": "next build --turbopack",
     "build:copy": "npm run build && mkdir -p /Users/tienphan/workspace/phantien133/wedding-build && rsync -av --delete out/ /Users/tienphan/workspace/phantien133/wedding-build/",
     "start": "npx serve out -p 80",

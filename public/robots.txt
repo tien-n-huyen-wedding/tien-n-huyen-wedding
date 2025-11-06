@@ -9,4 +9,3 @@ Sitemap: https://tien-n-huyen-wedding.github.io/sitemap.xml
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1
-
