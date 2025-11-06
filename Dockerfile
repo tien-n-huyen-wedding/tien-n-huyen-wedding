@@ -27,7 +27,3 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
-
-# Start nginx and tail logs
-CMD sh -c "nginx && tail -f /var/log/nginx/access.log /var/log/nginx/error.log"
-
