@@ -17,7 +17,7 @@ interface ChangeableFields {
 
 // Default values for comparison
 const defaultValues = {
-  guestName: 'Bạn Mến Yêu',
+  guestName: '',
   invitationText: 'Thân mời',
   invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
   thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.'
