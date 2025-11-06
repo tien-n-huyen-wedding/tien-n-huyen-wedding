@@ -18,25 +18,25 @@ const defaultStories: StoryItem[] = [
   {
     title: "Lần đầu gặp gỡ",
     date: "Ngày 07, Tháng 4, 2022",
-    description: "Họ gặp nhau lần đầu trong một buổi tiệc ở 18+ Station. Anh ấy ngồi cùng nhóm QA, còn cô ấy tham dự tiệc chia tay của một đồng nghiệp. Hai bàn tình cờ lại thuộc cùng một công ty. Khi ra về, ai cũng có người đưa đón, chỉ còn cô ấy lặng lẽ với chiếc xe Cup 50 nhỏ xinh. Thấy vậy, anh ấy quyết định đi theo để chắc rằng cô ấy về an toàn. Nhưng mọi chuyện chưa bắt đầu từ đó — cô ấy không biết anh ấy là ai, còn anh ta thì cũng chẳng nghĩ nhiều về lần gặp gỡ ấy.",
+    description: "Họ gặp nhau lần đầu trong một buổi tiệc ở 18+ Station. Anh ấy ngồi cùng nhóm QA, còn cô ấy tham dự tiệc chia tay của một đồng nghiệp - một sự tình cờ thú vị khi hai bàn lại cùng thuộc công ty S. Khi ra về, ai cũng có người đưa người đón, chỉ còn cô ấy lặng lẽ với chiếc xe CUP 50 nhỏ xinh. Thấy vậy, anh ấy quyết định âm thầm đi theo phía sau để chắc rằng cô ấy về an toàn. Nhưng mọi chuyện chưa bắt đầu từ đó - cô ấy không biết anh ấy là ai, còn anh ta thì cũng chẳng nghĩ nhiều về lần gặp gỡ ấy.",
     image: "/images/our_story_images/1.png",
   },
   {
     title: "Tiếp cận gần hơn",
     date: "Ngày 10, Tháng 5, 2023",
-    description: "Mọi chuyện bắt đầu một cách âm thầm vào những ngày tháng 4, một năm sau đó. Anh dần bị thu hút bởi cô gái nhỏ ấy — qua những cuộc trò chuyện ngắn nơi bàn ăn trưa, những lần “vô tình” cùng làm “cú” rồi bắt chuyện. Để có cớ tiếp cận, anh còn khéo léo tổ chức một giải bida nội bộ trong công ty và sắp xếp sao cho hai người cùng một đội. Nhờ những buổi “luyện tập”, “thi đấu” ấy, khoảng cách giữa hai người cũng dần được rút ngắn.",
+    description: "Mọi chuyện bắt đầu một cách âm thầm vào những ngày tháng 4, một năm sau đó. Anh dần bị thu hút bởi cô gái nhỏ nhắn ấy - qua những cuộc trò chuyện ngắn nơi bàn ăn trưa, những lần “vô tình” cùng làm “cú” rồi bắt chuyện. Để có cớ tiếp cận, anh còn khéo léo tổ chức một giải bida nội bộ trong công ty và sắp xếp sao cho hai người cùng một đội. Nhờ những buổi “luyện tập”, “thi đấu” ấy, khoảng cách giữa hai người cũng dần được rút ngắn.",
     image: "/images/our_story_images/2.png",
   },
   {
     title: "Kết nối mạnh mẽ",
     date: "Nhiều ngày năm 2023",
-    description: "Rồi những ngày sau đó, họ kết nối nhiều hơn — trò chuyện, tâm sự, chia sẻ đủ chuyện trên đời. Mỗi lần gặp, khoảng cách giữa hai người lại ngắn đi một chút. Có nhiều niềm vui hơn, nhiều nụ cười hơn... Trời ạ, nhìn nụ cười này đi, dù là người xa lạ nhất cũng nhận ra, cô ấy này đã “say” mất rồi và ai mà không yêu nụ cười này?",
+    description: "Rồi những ngày sau đó, họ kết nối nhiều hơn - trò chuyện, tâm sự, chia sẻ đủ chuyện trên đời. Mỗi lần gặp, khoảng cách giữa hai người lại ngắn đi một chút. Có nhiều niềm vui hơn, nhiều nụ cười hơn... Trời ạ, nhìn nụ cười này đi, dù là người xa lạ nhất cũng nhận ra, cô ấy đã “say” mất rồi và ai mà không yêu nụ cười này?",
     image: "/images/our_story_images/3.png",
   },
   {
-    title: "Chính thức yêu nhau",
-    date: "Giáng sinh hạnh phúc, năm 2023",
-    description: "Rồi sau bao lần e thẹn và hẹn sẽ trả lời sau, cuối cùng cô ấy cũng NGÃ vào lòng anh ấy. Ngã cả nghĩa đen và nghĩa bóng ấy nhé, tôi đang không cố ý nói là cô ấy thực sự bị ngã vào chiều hôm ấy đâu.",
+    title: "Và họ chính thức yêu nhau",
+    date: "Giáng sinh hạnh phúc, Năm 2023",
+    description: "Rồi sau bao lần e thẹn và hẹn sẽ trả lời sau, cuối cùng cô ấy cũng NGÃ vào lòng anh ấy. Ngã cả nghĩa đen và nghĩa bóng ấy nhé, tôi đang không cố ý nói là cô ấy thực sự bị ngã vào hôm được tỏ tình đâu.",
     image: "/images/our_story_images/4.jpg",
   },
   {
@@ -71,7 +71,7 @@ const defaultStories: StoryItem[] = [
   },
   {
     title: "Upcoming...",
-    date: "Suốt nửa năm sau đó...",
+    date: "Suốt nửa năm sau đó....",
     description: "Sau ngày đính hôn hạnh phúc 01.06.2025, họ đã cùng nhau tất bật chuẩn bị cho ngày trọng đại sắp tới. Và giờ đây, họ rất mong bạn sẽ đến để chung vui, và cùng họ viết tiếp câu chuyện hạnh phúc này. 💍",
     image: "/images/our_story_images/10.jpg",
   },
