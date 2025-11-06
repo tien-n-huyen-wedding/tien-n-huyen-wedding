@@ -174,7 +174,7 @@ export default function MainCeremonyCard({
           TRÂN TRỌNG BÁO TIN
         </div>
         <div style={ceremonySubtitleStyle}>
-          <span style={ceremonyBoldStyle}>{ceremonyTitle.toUpperCase()}</span> CỦA CON CHÚNG TÔI
+          <span style={ceremonyBoldStyle}>{ceremonyTitle.toUpperCase()}</span> CỦA CHÚNG TÔI
         </div>
         <div style={ceremonySubtitleStyle}>
           HÔN LỄ ĐƯỢC CỬ HÀNH TẠI {location.toUpperCase()}

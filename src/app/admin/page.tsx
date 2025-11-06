@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import ReliableQRCode from '@/components/qr_code/ReliableQRCode';
 import WeddingPartyCard from '@/components/invitation/WeddingPartyCard';
+import MainCeremonyCard from '@/components/invitation/MainCeremonyCard';
 import { PACKAGES } from '@/utils/constants';
 import { compressUrl } from '@/lib/url-compress';
 
@@ -355,40 +356,44 @@ export default function AdminPage() {
               <div className="blog-text">
                 <h3>QR Code Generator</h3>
 
-                <div className="mt-3 text-center mb-3">
-                  <button
-                    className="btn btn-success mr-2"
-                    onClick={copyQRCode}
-                    title="Copy QR Code to clipboard"
-                  >
-                    📋 Copy QR Code
-                  </button>
-                  <button
-                    className="btn btn-warning mr-2"
-                    onClick={downloadQRCode}
-                    title="Download QR Code as PNG"
-                  >
-                    💾 Download QR Code
-                  </button>
-                  <button
-                    className="btn btn-info mr-2"
-                    onClick={() => copyUrl(shortUrl)}
-                    title="Copy URL to clipboard"
-                  >
-                    🔗 Copy URL
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = generatedUrl;
-                      link.target = '_blank';
-                      link.click();
-                    }}
-                    title="Open invitation in new tab"
-                  >
-                    🌐 Open Invitation
-                  </button>
+                <div className="mt-3 mb-3">
+                  <div className="text-center mb-2">
+                    <button
+                      className="btn btn-success mr-2"
+                      onClick={copyQRCode}
+                      title="Copy QR Code to clipboard"
+                    >
+                      📋 Copy QR Code
+                    </button>
+                    <button
+                      className="btn btn-info"
+                      onClick={() => copyUrl(shortUrl)}
+                      title="Copy URL to clipboard"
+                    >
+                      🔗 Copy URL
+                    </button>
+                  </div>
+                  <div className="text-center">
+                    <button
+                      className="btn btn-warning mr-2"
+                      onClick={downloadQRCode}
+                      title="Download QR Code as PNG"
+                    >
+                      💾 Download QR Code
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        const link = document.createElement('a');
+                        link.href = generatedUrl;
+                        link.target = '_blank';
+                        link.click();
+                      }}
+                      title="Open invitation in new tab"
+                    >
+                      🌐 Open Invitation
+                    </button>
+                  </div>
                 </div>
 
                 <div className="qr-code-container">
@@ -418,31 +423,39 @@ export default function AdminPage() {
                 </div>
 
                 <div className="mt-3">
-                  <h5>Wedding Party Card Preview:</h5>
-                  <div style={{
-                    border: '2px solid #758362',
-                    borderRadius: '12px',
-                    padding: '20px',
-                    backgroundColor: '#f9f9f9',
-                    maxWidth: '600px',
-                    margin: '0 auto',
-                    transform: 'scale(0.7)',
-                    transformOrigin: 'top center'
-                  }}>
-                    <WeddingPartyCard
-                      invitationText={fields.invitationText}
-                      guestName={fields.guestName}
-                      invitationSecondText={fields.invitationSecondText}
-                      restaurantName={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.restaurantName || 'Nhà hàng tiệc cưới Gia Huy'}
-                      restaurantAddress={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.restaurantAddress || 'Đường Dương Sơn 4, phường Hoà Xuân'}
-                      city={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.city || 'Thành phố Đà Nẵng'}
-                      mapUrl={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.mapUrl || 'https://maps.app.goo.gl/FVBK3FssCvj1pptW6'}
-                      time={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.time || 'Ngày 30 tháng 11 năm 2025'}
-                      lunaDate={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.lunaDate || 'ngày 11 tháng 10 năm Ất Tỵ'}
-                      thanksText={fields.thanksText}
-                      openAt={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.openAt || '11:00'}
-                      partyAt={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.partyAt || '11:30'}
-                    />
+                  <h5>Invitation Cards Preview:</h5>
+                  <div className="row invitation-row">
+                    <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12" style={{ marginBottom: '3rem' }}>
+                      <WeddingPartyCard
+                        invitationText={fields.invitationText}
+                        guestName={fields.guestName}
+                        invitationSecondText={fields.invitationSecondText}
+                        restaurantName={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.restaurantName || 'Nhà hàng tiệc cưới Gia Huy'}
+                        restaurantAddress={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.restaurantAddress || 'Đường Dương Sơn 4, phường Hoà Xuân'}
+                        city={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.city || 'Thành phố Đà Nẵng'}
+                        mapUrl={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.mapUrl || 'https://maps.app.goo.gl/FVBK3FssCvj1pptW6'}
+                        time={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.time || 'Ngày 30 tháng 11 năm 2025'}
+                        lunaDate={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.lunaDate || 'ngày 11 tháng 10 năm Ất Tỵ'}
+                        thanksText={fields.thanksText}
+                        openAt={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.openAt || '11:00'}
+                        partyAt={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.partyAt || '11:30'}
+                      />
+                    </div>
+                  </div>
+                  <div className="row invitation-row">
+                    <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                      <MainCeremonyCard
+                        groomName={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.groomName || 'Tiên'}
+                        brideName={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.brideName || 'Huyền'}
+                        ceremonyTitle={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.ceremonyTitle || 'Lễ Thành Hôn'}
+                        firstParentInfo={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.firstParentInfo || 'Con trai ông bà'}
+                        location={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.location || 'Nhà thờ Đức Mẹ La Vang'}
+                        ceremonyDate={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.ceremonyDate || 'Ngày 30 tháng 11 năm 2025'}
+                        ceremonyTime={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.ceremonyTime || '07:00'}
+                        ceremonyDateLunar={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.ceremonyDateLunar || 'ngày 11 tháng 10 năm Ất Tỵ'}
+                        secondParentInfo={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.secondParentInfo || 'Con gái ông bà'}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

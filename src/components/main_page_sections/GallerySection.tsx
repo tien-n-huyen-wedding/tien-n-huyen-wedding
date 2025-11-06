@@ -10,7 +10,7 @@ interface GallerySectionProps {
 export default function GallerySection({
   title = "Wedding Gallery",
   subtitle = "Our Memories",
-  description = "Explore our beautiful wedding photo albums capturing every special moment of our journey together."
+  description = 'Album những lần chúng tôi "ngã vào lòng nhau" (cả nghĩa đen và nghĩa bóng)! Hãy ghé qua để cảm nhận những cung bậc cảm xúc "ngọt đến tiểu đường" của chúng mình nhé ^^'
 }: GallerySectionProps) {
   return (
     <div id="fh5co-gallery" className="fh5co-section-gray">

@@ -24,8 +24,8 @@ const Description = ({ description }: { description: string }) => {
 export default function CoupleSection({
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
-  groomDescription = "Một developer trực tính.\nĐẹp trai, hào hoa và tiêu sái là những tính từ gần đủ chính xác để mô tả về anh ấy",
-  brideDescription = "Một HR tận tâm, mang vẻ đẹp dịu dàng và nụ cười tỏa nắng.\nẨn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến."
+  groomDescription = "Một developer trực tính.\nĐẹp trai, hào hoa và tiêu sái là những tính từ gần như đủ chính xác để mô tả về anh ấy.",
+brideDescription = "Một HR tận tâm, mang vẻ đẹp dịu dàng và nụ cười tỏa nắng.\nẨn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến."
 }: CoupleSectionProps) {
   const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
   const guestName = isLoaded && props.guestName ? props.guestName : null;
@@ -34,8 +34,9 @@ export default function CoupleSection({
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-            <h2>Hello{guestName ? `, ${guestName} !!!` : '!'}</h2>
-            <p>Chúng tôi rất mong {guestName ? guestName : 'bạn'} sẽ đến cùng vui và chứng kiến khoảnh khắc hạnh phúc của chúng tôi.</p>
+            <h2>Xin Chào{guestName ? `, ${guestName} !!!` : '!'}</h2>
+            <p>Sự hiện diện của {guestName ? guestName : 'bạn'} chính là lời chúc phúc tuyệt vời nhất dành cho chúng mình!
+            </p>
           </div>
         </div>
         <div className="couple-wrap animate-box">

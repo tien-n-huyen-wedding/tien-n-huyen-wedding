@@ -17,13 +17,13 @@ interface StorySectionProps {
 const defaultStories: StoryItem[] = [
   {
     title: "Lần đầu gặp gỡ",
-    date: "Tháng 4, Ngày 07, 2022",
-    description: "Họ gặp nhau lần đầu trong một buổi tiệc ở 18+ Station. Anh ấy ngồi cùng nhóm QA, còn cô ấy tham dự tiệc chia tay của một đồng nghiệp. Hai bàn tình cờ lại thuộc cùng một công ty. Khi ra về, ai cũng có người đưa đón, chỉ còn cô ấy lặng lẽ với chiếc xe cúp 50 nhỏ xinh. Thấy vậy, anh ấy quyết định đi theo để chắc rằng cô ấy về an toàn. Nhưng mọi chuyện chưa bắt đầu từ đó — cô ấy không biết anh ấy là ai, còn anh ta thì cũng chẳng nghĩ nhiều về lần gặp gỡ ấy.",
+    date: "Ngày 07, Tháng 4, 2022",
+    description: "Họ gặp nhau lần đầu trong một buổi tiệc ở 18+ Station. Anh ấy ngồi cùng nhóm QA, còn cô ấy tham dự tiệc chia tay của một đồng nghiệp. Hai bàn tình cờ lại thuộc cùng một công ty. Khi ra về, ai cũng có người đưa đón, chỉ còn cô ấy lặng lẽ với chiếc xe Cup 50 nhỏ xinh. Thấy vậy, anh ấy quyết định đi theo để chắc rằng cô ấy về an toàn. Nhưng mọi chuyện chưa bắt đầu từ đó — cô ấy không biết anh ấy là ai, còn anh ta thì cũng chẳng nghĩ nhiều về lần gặp gỡ ấy.",
     image: "/images/our_story_images/1.png",
   },
   {
     title: "Tiếp cận gần hơn",
-    date: "Tháng 5, Ngày 10, 2023",
+    date: "Ngày 10, Tháng 5, 2023",
     description: "Mọi chuyện bắt đầu một cách âm thầm vào những ngày tháng 4, một năm sau đó. Anh dần bị thu hút bởi cô gái nhỏ ấy — qua những cuộc trò chuyện ngắn nơi bàn ăn trưa, những lần “vô tình” cùng làm “cú” rồi bắt chuyện. Để có cớ tiếp cận, anh còn khéo léo tổ chức một giải bida nội bộ trong công ty và sắp xếp sao cho hai người cùng một đội. Nhờ những buổi “luyện tập”, “thi đấu” ấy, khoảng cách giữa hai người cũng dần được rút ngắn.",
     image: "/images/our_story_images/2.png",
   },
@@ -35,8 +35,8 @@ const defaultStories: StoryItem[] = [
   },
   {
     title: "Chính thức yêu nhau",
-    date: "Giáng sinh hạnh phúc, Năm 2023",
-    description: "Rồi sau bao lần e thẹn và hẹn sẽ trả lời sau, Cuối cùng cô ấy cũng NGÃ vào lòng anh ấy. Ngã cả nghĩa đen và nghĩa bóng ấy nhé, tôi đang không cố ý nói là cô ấy thực sự bị ngã vào chiều hôm ấy đâu",
+    date: "Giáng sinh hạnh phúc, năm 2023",
+    description: "Rồi sau bao lần e thẹn và hẹn sẽ trả lời sau, cuối cùng cô ấy cũng NGÃ vào lòng anh ấy. Ngã cả nghĩa đen và nghĩa bóng ấy nhé, tôi đang không cố ý nói là cô ấy thực sự bị ngã vào chiều hôm ấy đâu.",
     image: "/images/our_story_images/4.jpg",
   },
   {
@@ -65,13 +65,13 @@ const defaultStories: StoryItem[] = [
   },
   {
     title: "Cô ấy say “Yes”",
-    date: "Tháng 3, Ngày 5, 2025",
+    date: "Ngày 5, Tháng 3, 2025",
     description: "Vâng, cô ấy say “Yes” và câu chuyện bận rộn của họ bắt đầu từ đó.",
     image: "/images/our_story_images/9.png",
   },
   {
     title: "Upcoming...",
-    date: "Suốt nữa năm sau đó....",
+    date: "Suốt nửa năm sau đó...",
     description: "Sau ngày đính hôn hạnh phúc 01.06.2025, họ đã cùng nhau tất bật chuẩn bị cho ngày trọng đại sắp tới. Và giờ đây, họ rất mong bạn sẽ đến để chung vui, và cùng họ viết tiếp câu chuyện hạnh phúc này. 💍",
     image: "/images/our_story_images/10.jpg",
   },
@@ -80,7 +80,7 @@ const defaultStories: StoryItem[] = [
 export default function StorySection({
   title = "Our Story",
   subtitle = "We Love Each Other",
-  description = "💕💕💕",
+  description = "Mời bạn cùng lật giở từng trang kỷ niệm để theo dõi những dấu mốc quan trọng trong hành trình từ người lạ thành người thương của chúng mình nhé!",
   stories = defaultStories
 }: StorySectionProps) {
   return (
