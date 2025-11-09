@@ -167,7 +167,7 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
           </div>
         </div>
 
-        {/* GoogleSheetsStatus - positioned at bottom right */}
+        {/* GoogleSheetsStatus - positioned at bottom right on desktop, above button on mobile */}
         <div className="google-sheets-status-container">
           <GoogleSheetsStatus />
         </div>
@@ -281,6 +281,16 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
           z-index: 10;
         }
 
+        @media (max-width: 768px) {
+          .google-sheets-status-container {
+            position: static;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 100%;
+          }
+        }
+
         .google-sheets-status-container :global(div) {
           background: none;
           border: none;
@@ -290,6 +300,14 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
           font-style: italic;
           text-align: center;
           min-width: 100px;
+        }
+
+        @media (max-width: 768px) {
+          .google-sheets-status-container :global(div) {
+            display: inline-block;
+            width: auto;
+            max-width: 90%;
+          }
         }
 
         .google-sheets-status-container :global(.font-bold) {
