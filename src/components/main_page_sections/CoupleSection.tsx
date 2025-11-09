@@ -24,8 +24,8 @@ const Description = ({ description }: { description: string }) => {
 export default function CoupleSection({
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
-  groomDescription = "“Cô ấy - một HR tận tâm, mang vẻ đẹp dịu dàng cùng nụ cười toả nắng. Ẩn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến.”",
-  brideDescription = "“Anh ấy - một Developer đỉnh chóp trong lòng mình. Là người thẳng thắn, bộc trực nhưng luôn thể hiện tình yêu một cách dịu dàng và ấm áp.”"
+  groomDescription = "“Anh ấy - một Developer đỉnh chóp trong lòng mình. Là người thẳng thắn, bộc trực nhưng luôn thể hiện tình yêu một cách dịu dàng và ấm áp.”",
+  brideDescription = "“Cô ấy - một HR tận tâm, mang vẻ đẹp dịu dàng cùng nụ cười toả nắng. Ẩn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến.”"
 }: CoupleSectionProps) {
   const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
   const guestName = isLoaded && props.guestName ? props.guestName : null;
