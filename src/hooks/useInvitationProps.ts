@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { InvitationProps } from '@/components/invitation/Invitation';
 import { getInvitationProps } from '@/utils/invitation-props';
 
@@ -12,16 +12,22 @@ import { getInvitationProps } from '@/utils/invitation-props';
 export function useInvitationProps(changeableFields: (keyof InvitationProps)[]) {
   const [props, setProps] = useState<Partial<InvitationProps>>({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const hasLoadedRef = useRef(false);
+  const fieldsRef = useRef(changeableFields);
+
+  // Update ref when fields change
+  fieldsRef.current = changeableFields;
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !hasLoadedRef.current) {
       const searchParams = new URLSearchParams(window.location.search);
-      const mergedProps = getInvitationProps(searchParams, changeableFields);
+      const mergedProps = getInvitationProps(searchParams, fieldsRef.current);
 
       setProps(mergedProps);
       setIsLoaded(true);
+      hasLoadedRef.current = true;
     }
-  }, [changeableFields]);
+  }, []); // Only run once on mount
 
   return {
     props,

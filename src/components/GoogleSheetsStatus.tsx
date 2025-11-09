@@ -1,10 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useInvitationProps } from '@/hooks/useInvitationProps';
 
 export default function GoogleSheetsStatus() {
   const [isConfigured, setIsConfigured] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
+  const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
+  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng mình';
 
   useEffect(() => {
     // Check if Google Script URL is configured
@@ -24,7 +27,7 @@ export default function GoogleSheetsStatus() {
   if (isConfigured) {
     return (
       <div className="bg-green-100 border mb-4">
-        <p className="text-sm mt-1">✅ Lời chúc sẽ được lưu trữ lâu dài trong Google Sheets</p>
+        <p className="text-sm mt-1">✅ Lời chúc sẽ được lưu trữ lâu dài <br /> và {coupleGreeting} sẽ xem đi xem lại nhiều lắm nhé !!!</p>
       </div>
     );
   }
