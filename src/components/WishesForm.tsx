@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import GoogleSheetsStatus from '@/components/GoogleSheetsStatus';
+import { useInvitationProps } from '@/hooks/useInvitationProps';
 
 interface WishData {
   name: string;
@@ -97,6 +98,9 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
     }
   };
 
+  const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
+  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng tôi';
+
   return (
     <div id="fh5co-started" className="fh5co-bg" style={{backgroundImage: 'url(/images/img_bg_4.jpg)'}}>
       <div className="overlay"></div>
@@ -104,7 +108,7 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
         <div className="row animate-box">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">
             <h2 style={{color: 'var(--color-bg-primary)'}}>Gửi Lời Chúc Mừng</h2>
-            <p style={{color: 'var(--color-bg-primary)'}}>Chia sẻ niềm vui cùng chúng tôi trong ngày trọng đại</p>
+            <p style={{color: 'var(--color-bg-primary)'}}>Chia sẻ niềm vui cùng {coupleGreeting} trong ngày trọng đại</p>
           </div>
         </div>
         <div className="row animate-box" style={{marginBottom: '30px'}}>

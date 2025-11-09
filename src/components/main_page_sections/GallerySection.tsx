@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { albums } from '@/lib/galleryAlbums';
+import { useInvitationProps } from '@/hooks/useInvitationProps';
 
 interface GallerySectionProps {
   title?: string;
@@ -12,6 +13,9 @@ export default function GallerySection({
   subtitle = "Our Memories",
   description = 'Album những lần chúng tôi "ngã vào lòng nhau" (cả nghĩa đen và nghĩa bóng)! Hãy ghé qua để cảm nhận những cung bậc cảm xúc "ngọt đến tiểu đường" của chúng mình nhé ^^'
 }: GallerySectionProps) {
+  const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
+  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng tôi';
+  const processedDescription = description && coupleGreeting ? description.replace(/chúng tôi/g, coupleGreeting) : description;
   return (
     <div id="fh5co-gallery" className="fh5co-section-gray">
       <div className="container">
@@ -19,7 +23,7 @@ export default function GallerySection({
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <span>{subtitle}</span>
             <h2>{title}</h2>
-            <p>{description}</p>
+            <p>{processedDescription}</p>
           </div>
         </div>
         <div className="row row-bottom-padded-md">
