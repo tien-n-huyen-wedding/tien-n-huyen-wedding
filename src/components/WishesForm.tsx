@@ -124,6 +124,8 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
                       rows={3}
                       disabled={isLoading}
                       style={{height: '100px'}}
+                      autoComplete="name"
+                      inputMode="text"
                     />
                     {errors.name && (
                       <p className="error-message">{errors.name}</p>
@@ -143,6 +145,8 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
                       rows={3}
                       disabled={isLoading}
                       style={{height: '100px'}}
+                      autoComplete="off"
+                      inputMode="text"
                     />
                     {errors.message && (
                       <p className="error-message">{errors.message}</p>
@@ -170,6 +174,19 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
       </div>
 
       <style jsx>{`
+        #fh5co-started {
+          position: relative;
+        }
+
+        #fh5co-started .overlay {
+          pointer-events: none;
+        }
+
+        #fh5co-started .container {
+          position: relative;
+          z-index: 1;
+        }
+
         .wishes-form {
           display: flex;
           flex-direction: column;
@@ -220,6 +237,10 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
 
         .form-control {
           resize: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          touch-action: manipulation;
         }
 
         #name.form-control,

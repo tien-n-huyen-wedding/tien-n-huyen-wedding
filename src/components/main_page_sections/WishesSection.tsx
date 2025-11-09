@@ -1,15 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import WishesForm from '@/components/WishesForm';
-import WishesDisplay, { Wish } from '@/components/WishesDisplay';
-import { submitWish, fetchWishes, mockWishes } from '../../utils/googleSheets';
+import WishesDisplay, { Wish, WishesDisplayRef } from '@/components/WishesDisplay';
+import { submitWish, fetchWishes } from '../../utils/googleSheets';
 
 export default function WishesSection() {
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const wishesDisplayRef = useRef<WishesDisplayRef>(null);
 
   // Load wishes on component mount
   useEffect(() => {
@@ -20,11 +21,14 @@ export default function WishesSection() {
     setIsLoading(true);
     try {
       const wishesData = await fetchWishes();
-      setWishes(wishesData);
+      // Sort wishes from oldest to newest by timestamp (numeric comparison)
+      const sortedWishes = [...wishesData].sort((a, b) => {
+        return Date.parse(a.timestamp) - Date.parse(b.timestamp);
+      });
+      setWishes(sortedWishes);
     } catch (error) {
       console.error('Error loading wishes:', error);
-      // fetchWishes already handles fallback to mock data
-      setWishes(mockWishes);
+      setWishes([]);
     } finally {
       setIsLoading(false);
     }
@@ -34,9 +38,19 @@ export default function WishesSection() {
     setIsSubmitting(true);
     try {
       const newWish = await submitWish(wishData);
-      setWishes(prev => [newWish, ...prev]);
+      // Add new wish and sort from oldest to newest (numeric comparison)
+      setWishes(prev => {
+        const updated = [...prev, newWish];
+        return updated.sort((a, b) => {
+          return Date.parse(a.timestamp) - Date.parse(b.timestamp);
+        });
+      });
       setShowSuccessMessage(true);
       setTimeout(() => setShowSuccessMessage(false), 5000);
+      // Navigate to last page after wish is added (with delay to ensure state update)
+      setTimeout(() => {
+        wishesDisplayRef.current?.goToLastPage();
+      }, 100);
     } catch (error) {
       console.error('Error submitting wish:', error);
       // submitWish already handles fallback, so this shouldn't happen
@@ -55,6 +69,7 @@ export default function WishesSection() {
           {/* Display Section */}
           <div className="max-w-7xl mx-auto">
             <WishesDisplay
+              ref={wishesDisplayRef}
               wishes={wishes}
               isLoading={isLoading}
               onRefresh={loadWishes}

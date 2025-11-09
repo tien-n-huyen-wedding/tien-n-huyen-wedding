@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
 
 export interface Wish {
   id: string;
@@ -15,100 +15,133 @@ interface WishesDisplayProps {
   onRefresh: () => void;
 }
 
-export default function WishesDisplay({ wishes, isLoading, onRefresh }: WishesDisplayProps) {
-  const [displayWishes, setDisplayWishes] = useState<Wish[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentGroup, setCurrentGroup] = useState(0);
-  const wishesPerGroup = 4;
+export interface WishesDisplayRef {
+  goToLastPage: () => void;
+}
 
-  // Calculate total groups and current group wishes
-  const totalGroups = displayWishes.length > 0 ? Math.ceil(displayWishes.length / wishesPerGroup) : 1;
-  const currentGroupWishes = displayWishes.length > 0 ? displayWishes.slice(
-    currentGroup * wishesPerGroup,
-    (currentGroup + 1) * wishesPerGroup
-  ) : [];
+const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
+  ({ wishes, isLoading, onRefresh }, ref) => {
+    const [displayWishes, setDisplayWishes] = useState<Wish[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentGroup, setCurrentGroup] = useState(0);
+    const wishesPerGroup = 4;
 
-  // Reset currentGroup when displayWishes changes
-  useEffect(() => {
-    if (displayWishes.length > 0) {
-      const newTotalGroups = Math.ceil(displayWishes.length / wishesPerGroup);
-      if (currentGroup >= newTotalGroups) {
-        setCurrentGroup(0);
+    // Calculate total groups and current group wishes
+    const totalGroups = displayWishes.length > 0 ? Math.ceil(displayWishes.length / wishesPerGroup) : 1;
+    const currentGroupWishes = displayWishes.length > 0 ? displayWishes.slice(
+      currentGroup * wishesPerGroup,
+      (currentGroup + 1) * wishesPerGroup
+    ) : [];
+
+    // Reset currentGroup when displayWishes changes
+    useEffect(() => {
+      if (displayWishes.length > 0) {
+        const newTotalGroups = Math.ceil(displayWishes.length / wishesPerGroup);
+        if (currentGroup >= newTotalGroups) {
+          setCurrentGroup(0);
+        }
       }
-    }
-  }, [displayWishes.length, currentGroup, wishesPerGroup]);
+    }, [displayWishes.length, currentGroup, wishesPerGroup]);
 
-  // Navigation functions
-  const goToNextGroup = () => {
-    if (totalGroups > 1) {
-      setCurrentGroup((prev) => {
-        const nextGroup = (prev + 1) % totalGroups;
-        console.log('Next group:', nextGroup, 'Total groups:', totalGroups);
-        return nextGroup;
+    // Navigation functions
+    const goToNextGroup = () => {
+      if (totalGroups > 1) {
+        setCurrentGroup((prev) => {
+          const nextGroup = (prev + 1) % totalGroups;
+          console.log('Next group:', nextGroup, 'Total groups:', totalGroups);
+          return nextGroup;
+        });
+      }
+    };
+
+    const goToPrevGroup = () => {
+      if (totalGroups > 1) {
+        setCurrentGroup((prev) => {
+          const prevGroup = (prev - 1 + totalGroups) % totalGroups;
+          console.log('Prev group:', prevGroup, 'Total groups:', totalGroups);
+          return prevGroup;
+        });
+      }
+    };
+
+    const goToLastPage = () => {
+      if (displayWishes.length > 0 && totalGroups > 0) {
+        setCurrentGroup(totalGroups - 1);
+      }
+    };
+
+    // Expose goToLastPage via ref
+    useImperativeHandle(ref, () => ({
+      goToLastPage,
+    }));
+
+    // Shuffle wishes for random display
+    const shuffleWishes = (wishes: Wish[]) => {
+      const shuffled = [...wishes];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    };
+
+    const prevWishesLengthRef = useRef(0);
+
+    useEffect(() => {
+      if (wishes.length > 0) {
+        const wasNewWishAdded = wishes.length > prevWishesLengthRef.current;
+        setDisplayWishes(shuffleWishes(wishes));
+
+        if (wasNewWishAdded && prevWishesLengthRef.current > 0) {
+          // New wish was added, navigate to last page after shuffle
+          setTimeout(() => {
+            const newTotalGroups = Math.ceil(wishes.length / wishesPerGroup);
+            if (newTotalGroups > 0) {
+              setCurrentGroup(newTotalGroups - 1);
+            }
+          }, 50);
+        } else {
+          // Initial load or refresh, reset to first page
+          setCurrentGroup(0);
+        }
+
+        prevWishesLengthRef.current = wishes.length;
+      }
+    }, [wishes, wishesPerGroup]);
+
+    // Auto-advance disabled - manual navigation only
+
+    const formatDate = (timestamp: string) => {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
       });
+    };
+
+    if (isLoading) {
+      return (
+        <div className="wishes-display-container">
+          <div className="text-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto mb-4"></div>
+            <p className="text-gray-600">Đang tải lời chúc...</p>
+          </div>
+        </div>
+      );
     }
-  };
 
-  const goToPrevGroup = () => {
-    if (totalGroups > 1) {
-      setCurrentGroup((prev) => {
-        const prevGroup = (prev - 1 + totalGroups) % totalGroups;
-        console.log('Prev group:', prevGroup, 'Total groups:', totalGroups);
-        return prevGroup;
-      });
+    if (wishes.length === 0) {
+      return (
+        <>
+        </>
+      );
     }
-  };
 
-  // Shuffle wishes for random display
-  const shuffleWishes = (wishes: Wish[]) => {
-    const shuffled = [...wishes];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  };
-
-  useEffect(() => {
-    if (wishes.length > 0) {
-      setDisplayWishes(shuffleWishes(wishes));
-      setCurrentGroup(0); // Reset to first page when wishes change
-    }
-  }, [wishes]);
-
-  // Auto-advance disabled - manual navigation only
-
-  const formatDate = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('vi-VN', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  if (isLoading) {
     return (
       <div className="wishes-display-container">
-        <div className="text-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Đang tải lời chúc...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (wishes.length === 0) {
-    return (
-      <>
-      </>
-    );
-  }
-
-  return (
-    <div className="wishes-display-container">
       <div className="container">
         <div className="row">
           {/* Title */}
@@ -406,6 +439,11 @@ export default function WishesDisplay({ wishes, isLoading, onRefresh }: WishesDi
         }
 
       `}</style>
-    </div>
-  );
-}
+      </div>
+    );
+  }
+);
+
+WishesDisplay.displayName = 'WishesDisplay';
+
+export default WishesDisplay;
