@@ -88,6 +88,7 @@ export interface WeddingPartyCardProps {
   thanksText: string;
   openAt: string;
   partyAt: string;
+  coupleGreeting?: string;
 }
 
 const CeremonyInfo = {

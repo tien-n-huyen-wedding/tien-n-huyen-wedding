@@ -1,6 +1,6 @@
-import { InvitationProps } from '@/components/invitation/Invitation';
-import { STORAGE_KEY } from './constants';
-import { decompressUrl } from '@/lib/url-compress';
+import { InvitationProps } from "@/components/invitation/Invitation";
+import { STORAGE_KEY } from "./constants";
+import { decompressUrl } from "@/lib/url-compress";
 
 /**
  * Get invitation props from localStorage and URL params
@@ -16,26 +16,27 @@ export function getInvitationProps(
   searchParams: URLSearchParams | string,
   changeableFields: (keyof InvitationProps)[]
 ): Partial<InvitationProps> {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return {};
   }
 
   // Convert string to URLSearchParams if needed
-  const originalParams = typeof searchParams === 'string'
-    ? new URLSearchParams(searchParams)
-    : searchParams;
+  const originalParams =
+    typeof searchParams === "string"
+      ? new URLSearchParams(searchParams)
+      : searchParams;
 
   // 1. Get regular params (excluding 'q' parameter)
   const regularParams = new URLSearchParams();
   originalParams.forEach((value, key) => {
-    if (key !== 'q') {
+    if (key !== "q") {
       regularParams.set(key, value);
     }
   });
 
   // 2. Get params from decompressed URL (if 'q' parameter exists)
   const decompressedParams = new URLSearchParams();
-  const compressed = originalParams.get('q');
+  const compressed = originalParams.get("q");
   if (compressed) {
     try {
       const currentUrl = window.location.href;
@@ -45,7 +46,7 @@ export function getInvitationProps(
         decompressedParams.set(key, value);
       });
     } catch (error) {
-      console.error('Error decompressing URL:', error);
+      console.error("Error decompressing URL:", error);
     }
   }
 
@@ -71,14 +72,14 @@ export function getInvitationProps(
       savedProps = JSON.parse(stored);
     }
   } catch (error) {
-    console.error('Error reading from localStorage:', error);
+    console.error("Error reading from localStorage:", error);
   }
 
   // 6. If no URL params exist, apply defaults and return localStorage props
   if (!hasUrlParams) {
     const propsWithDefaults = { ...savedProps };
     if (!propsWithDefaults.coupleGreeting) {
-      propsWithDefaults.coupleGreeting = 'chúng mình';
+      propsWithDefaults.coupleGreeting = "chúng mình";
     }
     return propsWithDefaults;
   }
@@ -96,60 +97,60 @@ export function getInvitationProps(
   );
 
   // Also check for party parameter
-  const party = mergedParams.get('party');
+  const party = mergedParams.get("party");
   if (party) {
     urlProps.party = party;
   }
 
   // Check for package parameter (alias for party)
-  const packageParam = mergedParams.get('package');
+  const packageParam = mergedParams.get("package");
   if (packageParam) {
     urlProps.party = packageParam;
   }
 
   // Check for guestName parameter
-  const guestName = mergedParams.get('guestName');
+  const guestName = mergedParams.get("guestName");
   if (guestName) {
     urlProps.guestName = guestName;
   }
 
   // Check for invitationText parameter
-  const invitationText = mergedParams.get('invitationText');
+  const invitationText = mergedParams.get("invitationText");
   if (invitationText) {
     urlProps.invitationText = invitationText;
   }
 
   // Check for invitationSecondText parameter
-  const invitationSecondText = mergedParams.get('invitationSecondText');
+  const invitationSecondText = mergedParams.get("invitationSecondText");
   if (invitationSecondText) {
     urlProps.invitationSecondText = invitationSecondText;
   }
 
   // Check for thanksText parameter
-  const thanksText = mergedParams.get('thanksText');
+  const thanksText = mergedParams.get("thanksText");
   if (thanksText) {
     urlProps.thanksText = thanksText;
   }
 
   // Check for coupleGreeting parameter
-  const coupleGreeting = mergedParams.get('coupleGreeting');
+  const coupleGreeting = mergedParams.get("coupleGreeting");
   if (coupleGreeting) {
     urlProps.coupleGreeting = coupleGreeting;
   }
 
-  // 8. Merge: localStorage + URL params (URL params override)
-  const mergedProps = { ...savedProps, ...urlProps };
+  // 8. Merge: URL params (URL params override)
+  const mergedProps = { ...urlProps };
 
   // 9. Apply default values for fields that should always have a value
   if (!mergedProps.coupleGreeting) {
-    mergedProps.coupleGreeting = 'chúng mình';
+    mergedProps.coupleGreeting = "chúng mình";
   }
 
   // 10. Save merged props to localStorage
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedProps));
   } catch (error) {
-    console.error('Error saving to localStorage:', error);
+    console.error("Error saving to localStorage:", error);
   }
 
   return mergedProps;
@@ -161,14 +162,14 @@ export function getInvitationProps(
  * @param props - Invitation props to save
  */
 export function saveInvitationProps(props: Partial<InvitationProps>): void {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return;
   }
 
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(props));
   } catch (error) {
-    console.error('Error saving to localStorage:', error);
+    console.error("Error saving to localStorage:", error);
   }
 }
 
@@ -178,7 +179,7 @@ export function saveInvitationProps(props: Partial<InvitationProps>): void {
  * @returns Invitation props from localStorage or empty object
  */
 export function getStoredInvitationProps(): Partial<InvitationProps> {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return {};
   }
 
@@ -188,7 +189,7 @@ export function getStoredInvitationProps(): Partial<InvitationProps> {
       return JSON.parse(stored);
     }
   } catch (error) {
-    console.error('Error reading from localStorage:', error);
+    console.error("Error reading from localStorage:", error);
   }
 
   return {};
@@ -198,14 +199,14 @@ export function getStoredInvitationProps(): Partial<InvitationProps> {
  * Clear invitation props from localStorage
  */
 export function clearInvitationProps(): void {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return;
   }
 
   try {
     localStorage.removeItem(STORAGE_KEY);
   } catch (error) {
-    console.error('Error clearing localStorage:', error);
+    console.error("Error clearing localStorage:", error);
   }
 }
 
@@ -215,21 +216,23 @@ export function clearInvitationProps(): void {
  * @param props - Invitation props to convert to query string
  * @returns Query string (without leading '?') or empty string if no props
  */
-export function buildInvitationQueryString(props: Partial<InvitationProps>): string {
+export function buildInvitationQueryString(
+  props: Partial<InvitationProps>
+): string {
   if (!props || Object.keys(props).length === 0) {
-    return '';
+    return "";
   }
 
   const params = new URLSearchParams();
 
   Object.entries(props).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
+    if (value !== undefined && value !== null && value !== "") {
       params.append(key, String(value));
     }
   });
 
   const queryString = params.toString();
-  return queryString ? `?${queryString}` : '';
+  return queryString ? `?${queryString}` : "";
 }
 
 /**
@@ -242,4 +245,3 @@ export function buildHomeUrl(props: Partial<InvitationProps>): string {
   const queryString = buildInvitationQueryString(props);
   return `/${queryString}`;
 }
-

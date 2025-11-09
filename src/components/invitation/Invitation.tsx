@@ -42,7 +42,10 @@ export default function Invitation({ party = "mainParty", ...props }:InvitationP
   CHANGEABLE_FIELDS.forEach((key) => {
     const value = props[key as keyof typeof props] as string | any;
     if (isEmptyString(value)) return;
-    selectedPackage.weddingPartyInfo[key as keyof WeddingPartyCardProps] = value;
+    // Only assign if the key exists in WeddingPartyCardProps
+    if (key === 'coupleGreeting' || key in selectedPackage.weddingPartyInfo) {
+      (selectedPackage.weddingPartyInfo as any)[key] = value;
+    }
   });
 
   return <RenderInvitation ceremonyInfo={selectedPackage.ceremonyInfo} weddingPartyInfo={selectedPackage.weddingPartyInfo} />

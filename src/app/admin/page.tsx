@@ -128,7 +128,13 @@ export default function AdminPage() {
               const url = URL.createObjectURL(blob);
               const link = document.createElement('a');
               link.href = url;
-              link.download = 'qr-code.png';
+              // Use guestName as filename, sanitize for filesystem
+              const guestName = fields.guestName || 'guest';
+              const sanitizedName = guestName
+                .replace(/[<>:"/\\|?*]/g, '') // Remove filesystem-invalid characters
+                .replace(/\s+/g, '-') // Replace spaces with hyphens
+                .trim() || 'guest';
+              link.download = `${sanitizedName}.png`;
               document.body.appendChild(link);
               link.click();
               document.body.removeChild(link);
@@ -168,7 +174,14 @@ export default function AdminPage() {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'wedding-qr-code.png';
+            // Use guestName as filename, sanitize for filesystem
+            // Remove invalid characters and replace spaces with hyphens
+            const guestName = fields.guestName || 'guest';
+            const sanitizedName = guestName
+              .replace(/[<>:"/\\|?*]/g, '') // Remove filesystem-invalid characters
+              .replace(/\s+/g, '-') // Replace spaces with hyphens
+              .trim() || 'guest';
+            link.download = `${sanitizedName}.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -460,6 +473,7 @@ export default function AdminPage() {
                         thanksText={fields.thanksText}
                         openAt={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.openAt || '11:00'}
                         partyAt={PACKAGES[fields.party as keyof typeof PACKAGES]?.weddingPartyInfo.partyAt || '11:30'}
+                        coupleGreeting={fields.coupleGreeting}
                       />
                     </div>
                   </div>

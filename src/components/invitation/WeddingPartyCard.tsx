@@ -17,20 +17,39 @@ export default function WeddingPartyCard({
   thanksText,
   openAt,
   partyAt,
+  coupleGreeting,
 }: WeddingPartyCardProps) {
   // Default values for comparison
   const defaultValues = {
     guestName: 'Bạn Mến Yêu',
-    thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.'
+    thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.',
+    invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
+    coupleGreeting: 'chúng tôi'
   };
 
-  // Apply guest name replacement logic
-  const processedThanksText =
-    thanksText === defaultValues.thanksText &&
-    guestName &&
-    guestName !== defaultValues.guestName
-      ? thanksText.replace('quý khách', guestName)
-      : thanksText;
+  // Apply guest name and couple greeting replacement logic
+  let processedThanksText = thanksText;
+
+  // Replace 'quý khách' with guestName if conditions are met
+  if (
+    thanksText === defaultValues.thanksText
+  ) {
+    if (guestName && guestName !== defaultValues.guestName) {
+      processedThanksText = processedThanksText.replace('quý khách', guestName);
+    }
+
+    // Replace 'chúng tôi' with coupleGreeting if provided
+    if (coupleGreeting && coupleGreeting !== defaultValues.coupleGreeting) {
+      processedThanksText = processedThanksText.replace(/chúng tôi/g, coupleGreeting);
+    }
+  }
+  let processedInvitationSecondText = invitationSecondText;
+  if (invitationSecondText === defaultValues.invitationSecondText) {
+    if (coupleGreeting && coupleGreeting !== defaultValues.coupleGreeting) {
+      processedInvitationSecondText = processedInvitationSecondText.replace(/chúng tôi/g, coupleGreeting);
+    }
+  }
+
   const cardStyle: React.CSSProperties = {
     width: '500px',
     height: '700px',
@@ -97,6 +116,7 @@ export default function WeddingPartyCard({
     fontStyle: 'italic',
   };
 
+  debugger;
   return (
     <>
       <div className={`wedding-party-card ${className}`} style={cardStyle}>
@@ -108,7 +128,7 @@ export default function WeddingPartyCard({
         <div style={guestNameStyle}>
           {guestName.toUpperCase()}
         </div>
-        {invitationSecondText.split('\n').map((element, index) => (
+        {processedInvitationSecondText.split('\n').map((element, index) => (
           <div key={index}>
             {element.trim()}
           </div>
