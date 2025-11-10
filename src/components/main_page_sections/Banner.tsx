@@ -210,9 +210,9 @@ export default function Banner() {
                 <div className="banner-decoration-top">
                 </div>
 
-                {/* Save the Date Badge */}
+                {/* We Are Getting Married */}
                 <div className="save-date-badge">
-                  <span className="save-date-text">Save The Date</span>
+                  <span className="save-date-text">We Are Getting Married</span>
                 </div>
 
                 {/* Names with elegant styling */}
@@ -223,13 +223,6 @@ export default function Banner() {
                   </div>
                   <h1 className="tp-lacosta-font bride-name">Lệ Huyền</h1>
                 </div>
-
-                {/* Subtitle with animation */}
-                <h2 className="wedding-subtitle">
-                  <span className="subtitle-line"></span>
-                  <span className="subtitle-text">We Are Getting Married</span>
-                  <span className="subtitle-line"></span>
-                </h2>
 
                 {/* Wedding Date */}
                 <div className="wedding-date">

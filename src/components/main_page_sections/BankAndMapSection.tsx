@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { QR_IMAGES, MAIN_WEDDING_PARTY_INFO } from '@/utils/constants';
+import { useInvitationProps } from '@/hooks/useInvitationProps';
 
 interface BankAndMapSectionProps {
   title?: string;
@@ -14,14 +15,17 @@ export default function BankAndMapSection({
   brideBankLabel = "Bride's Bank Account",
   restaurantMapLabel = "Restaurant Map"
 }: BankAndMapSectionProps) {
+  const { props, isLoaded } = useInvitationProps(['guestName', 'coupleGreeting']);
+  const guestName = isLoaded && props.guestName ? props.guestName : 'bạn';
+  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng mình';
   return (
     <div id="fh5co-bank-map" className="fh5co-section-gray">
       <div className="container">
         <div className="row">
-          <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+          <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box" style={{ paddingTop: '50px' }}>
             <span>Support & Directions</span>
             <h2>{title}</h2>
-            <p>If you would like to support us or need directions to the venue</p>
+            <p>Mọi tình cảm và lời chúc phúc từ {guestName} đều là món quà vô giá đối với {coupleGreeting}. Nếu {guestName} muốn gửi quà mừng online, vui lòng tham khảo thông tin ngân hàng bên dưới.Ngoài ra, {coupleGreeting} cũng đã gắn link và mã QR Google Maps để chỉ dẫn đến nhà hàng tiệc cưới. {guestName} hãy nhớ rằng, sự hiện diện của {guestName} chính là món quà lớn nhất với {coupleGreeting} trong ngày trọng đại ấy ❤</p>
           </div>
         </div>
         <div className="row">
@@ -39,6 +43,13 @@ export default function BankAndMapSection({
                 />
               </div>
               <h3>{groomBankLabel}</h3>
+              <p>
+                Ngân hàng: TP bank
+                <br />
+                Số tài khoản: 0935253027
+                <br />
+                Tên tài khoản: Phan Quang Tiến
+              </p>
             </div>
           </div>
 
@@ -56,6 +67,13 @@ export default function BankAndMapSection({
                 />
               </div>
               <h3>{brideBankLabel}</h3>
+              <p>
+                Ngân hàng: Techcombank
+                <br />
+                Số tài khoản: 19073423280016
+                <br />
+                Tên tài khoản: Nguyễn Thị Lệ Huyền
+              </p>
             </div>
           </div>
 
@@ -88,6 +106,14 @@ export default function BankAndMapSection({
                   {restaurantMapLabel}
                 </span>
               </h3>
+              <p>
+                Nhà Hàng Tiệc cưới Gia Huy
+                <br />
+                Đường Dương Sơn 4, phường Hoà Xuân
+                <br />
+                Thành phố Đà Nẵng
+                <br />
+              </p>
             </div>
           </div>
         </div>

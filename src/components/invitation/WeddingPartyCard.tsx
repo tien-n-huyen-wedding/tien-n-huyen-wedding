@@ -116,7 +116,6 @@ export default function WeddingPartyCard({
     fontStyle: 'italic',
   };
 
-  debugger;
   return (
     <>
       <div className={`wedding-party-card ${className}`} style={cardStyle}>

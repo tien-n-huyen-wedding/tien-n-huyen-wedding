@@ -377,13 +377,8 @@ export default function CSVUploadPage() {
                 const qrContainerId = `qr-container-${index}`;
                 return (
                   <div key={index} className="col-md-6 col-lg-4 mb-4">
-                    <div className="card">
+                    <div className="card" style={{ border: '1px solid #758362', marginBottom: '10px', padding: '10px', borderRadius: '1%' }}>
                       <div className="card-body">
-                        <h5 className="card-title">{invitation.row.guestName}</h5>
-                        <p className="card-text">
-                          <small className="text-muted">Party: {invitation.row.party}</small>
-                        </p>
-
                         <div className="mb-3">
                           <div id={qrContainerId} className="qr-code-container">
                             <ReliableQRCode
@@ -409,6 +404,10 @@ export default function CSVUploadPage() {
                               }}
                             />
                           </div>
+                          <h3 className="card-title" style={{ marginTop: '10px' }}>{invitation.row.guestName}</h3>
+                          <p className="card-text">
+                            <small className="text-muted">Party: {invitation.row.party}</small>
+                          </p>
                         </div>
 
                         <div className="btn-group btn-group-sm w-100" role="group">

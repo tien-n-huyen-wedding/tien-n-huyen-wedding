@@ -108,7 +108,8 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
         <div className="row animate-box">
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading">
             <h2 style={{color: 'var(--color-bg-primary)'}}>Gửi Lời Chúc Mừng</h2>
-            <p style={{color: 'var(--color-bg-primary)'}}>Chia sẻ niềm vui cùng {coupleGreeting} trong ngày trọng đại</p>
+            <p style={{color: 'var(--color-bg-primary)'}}>Mỗi lời chúc là một niềm hạnh phúc với {coupleGreeting}. Hãy chia sẻ niềm vui cùng {coupleGreeting} trong ngày trọng đại này nhé!
+            </p>
           </div>
         </div>
         <div className="row animate-box" style={{marginBottom: '30px'}}>

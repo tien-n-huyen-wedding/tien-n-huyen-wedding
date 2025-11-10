@@ -75,22 +75,12 @@ const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
       goToLastPage,
     }));
 
-    // Shuffle wishes for random display
-    const shuffleWishes = (wishes: Wish[]) => {
-      const shuffled = [...wishes];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-      return shuffled;
-    };
-
     const prevWishesLengthRef = useRef(0);
 
     useEffect(() => {
       if (wishes.length > 0) {
         const wasNewWishAdded = wishes.length > prevWishesLengthRef.current;
-        setDisplayWishes(shuffleWishes(wishes));
+        setDisplayWishes(wishes);
 
         if (wasNewWishAdded && prevWishesLengthRef.current > 0) {
           // New wish was added, navigate to last page after shuffle
@@ -147,7 +137,7 @@ const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
           {/* Title */}
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <h2>Lời Chúc Mừng</h2>
-            <span>Những lời chúc từ trái tim của gia đình và bạn bè</span>
+            <span>Gửi gắm yêu thương từ Gia đình, Bạn bè và những người thân thương nhất đến cô dâu & chú rễ</span>
           </div>
         </div>
         <div className="row">

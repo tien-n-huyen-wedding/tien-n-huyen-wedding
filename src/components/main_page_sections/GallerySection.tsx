@@ -10,8 +10,8 @@ interface GallerySectionProps {
 
 export default function GallerySection({
   title = "Wedding Gallery",
-  subtitle = "Our Memories",
-  description = 'Album những lần chúng tôi "ngã vào lòng nhau" (cả nghĩa đen và nghĩa bóng)! Hãy ghé qua để cảm nhận những cung bậc cảm xúc "ngọt đến tiểu đường" của chúng mình nhé ^^'
+  subtitle = "💞💞💞",
+  description = 'Album những lần chúng tôi "ngã vào lòng nhau" (cả nghĩa đen và nghĩa bóng)! Hãy ghé qua để cảm nhận những cung bậc cảm xúc "ngọt đến tiểu đường" của chúng tôi nhé ^^'
 }: GallerySectionProps) {
   const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
   const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng tôi';
