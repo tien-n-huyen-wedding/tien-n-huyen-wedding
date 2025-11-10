@@ -1,15 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MasonryPhotoAlbum } from 'react-photo-album';
 import Lightbox from 'yet-another-react-lightbox';
 import { Album } from '@/lib/galleryAlbums';
-import { Fullscreen, Slideshow, Thumbnails, Zoom } from 'yet-another-react-lightbox/plugins';
 import "react-photo-album/masonry.css";
-import "react-photo-album/rows.css";
 import 'yet-another-react-lightbox/styles.css';
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+
+// Dynamically import lightbox plugins only when needed
+let lightboxPlugins: {
+  Fullscreen: any;
+  Slideshow: any;
+  Thumbnails: any;
+  Zoom: any;
+} | null = null;
+
+const loadLightboxPlugins = async () => {
+  if (!lightboxPlugins) {
+    const plugins = await import('yet-another-react-lightbox/plugins');
+    lightboxPlugins = {
+      Fullscreen: plugins.Fullscreen,
+      Slideshow: plugins.Slideshow,
+      Thumbnails: plugins.Thumbnails,
+      Zoom: plugins.Zoom,
+    };
+  }
+  return lightboxPlugins;
+};
 
 
 interface AlbumPageContentProps {
@@ -18,6 +37,14 @@ interface AlbumPageContentProps {
 
 export default function AlbumPageContent({ album }: AlbumPageContentProps) {
   const [index, setIndex] = useState(-1);
+  const [plugins, setPlugins] = useState<typeof lightboxPlugins>(null);
+
+  // Load plugins only when lightbox is opened
+  useEffect(() => {
+    if (index >= 0 && !plugins) {
+      loadLightboxPlugins().then(setPlugins);
+    }
+  }, [index, plugins]);
 
   return (
     <>
@@ -87,17 +114,19 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
           <MasonryPhotoAlbum photos={album.photos} onClick={({ index }) => setIndex(index)} />
         </div>
 
-        {/* Lightbox */}
-        <Lightbox
-          slides={album.photos}
-          open={index >= 0}
-          index={index}
-          close={() => setIndex(-1)}
-          styles={{
-            container: { backgroundColor: 'rgba(0, 0, 0, 0.95)' }
-          }}
-          plugins={[Fullscreen, Slideshow, Thumbnails, Zoom]}
-        />
+        {/* Lightbox - only render when opened */}
+        {index >= 0 && (
+          <Lightbox
+            slides={album.photos}
+            open={index >= 0}
+            index={index}
+            close={() => setIndex(-1)}
+            styles={{
+              container: { backgroundColor: 'rgba(0, 0, 0, 0.95)' }
+            }}
+            plugins={plugins ? [plugins.Fullscreen, plugins.Slideshow, plugins.Thumbnails, plugins.Zoom] : []}
+          />
+        )}
 
         {/* Footer */}
         <footer style={{
