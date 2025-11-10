@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { coupleImages } from '@/lib/images';
 
 interface StoryItem {
@@ -88,6 +88,69 @@ export default function StorySection({
 }: StorySectionProps) {
   const [showStories, setShowStories] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+
+  // Lazy load images when they come into viewport
+  useEffect(() => {
+    if (!showStories) return;
+
+    let imageObserver: IntersectionObserver | null = null;
+    let imageElements: NodeListOf<Element> | null = null;
+
+    // Small delay to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      imageElements = document.querySelectorAll('.timeline-badge');
+      imageObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const indexStr = entry.target.getAttribute('data-image-index');
+              if (indexStr) {
+                const index = parseInt(indexStr, 10);
+                setLoadedImages((prev) => {
+                  if (!prev.has(index)) {
+                    return new Set([...prev, index]);
+                  }
+                  return prev;
+                });
+                imageObserver?.unobserve(entry.target);
+              }
+            }
+          });
+        },
+        {
+          rootMargin: '50px', // Start loading 50px before entering viewport
+        }
+      );
+
+      // Observe all elements
+      imageElements.forEach((el) => {
+        imageObserver?.observe(el);
+        // Also check if already in viewport and load immediately
+        const rect = el.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight + 50 && rect.bottom > -50;
+        if (isInViewport) {
+          const indexStr = el.getAttribute('data-image-index');
+          if (indexStr) {
+            const index = parseInt(indexStr, 10);
+            setLoadedImages((prev) => {
+              if (!prev.has(index)) {
+                return new Set([...prev, index]);
+              }
+              return prev;
+            });
+          }
+        }
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (imageObserver && imageElements) {
+        imageElements.forEach((el) => imageObserver?.unobserve(el));
+      }
+    };
+  }, [showStories]);
 
   const toggleAllStories = () => {
     const wasOpen = showStories;
@@ -199,7 +262,13 @@ export default function StorySection({
                 <li key={index} className={`animate-box ${(index) % 2 === 0 ? '' : 'timeline-inverted'}`}>
                   <div
                     className="timeline-badge"
-                    style={{ backgroundImage: `url(${story.image})` }}
+                    style={{
+                      backgroundImage: loadedImages.has(index) ? `url(${story.image})` : 'none',
+                      backgroundColor: loadedImages.has(index) ? 'transparent' : '#f0f0f0',
+                      transition: 'background-image 0.3s ease-in-out'
+                    }}
+                    data-image-src={story.image}
+                    data-image-index={index}
                   ></div>
                   <div className="timeline-panel">
                     <div className="timeline-heading">

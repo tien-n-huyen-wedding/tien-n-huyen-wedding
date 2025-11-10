@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { albums } from '@/lib/galleryAlbums';
 import { InvitationProps } from '@/components/invitation/Invitation';
@@ -19,6 +22,56 @@ export default function GallerySection({
 }: GallerySectionProps) {
   const coupleGreeting = isLoaded && invitationProps.coupleGreeting ? invitationProps.coupleGreeting : 'chúng tôi';
   const processedDescription = description && coupleGreeting ? description.replace(/chúng tôi/g, coupleGreeting) : description;
+  const [loadedThumbnails, setLoadedThumbnails] = useState<Set<string>>(new Set());
+
+  // Lazy load thumbnails when they come into viewport
+  useEffect(() => {
+    const thumbnailElements = document.querySelectorAll('[data-thumbnail-id]');
+    const thumbnailObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const thumbnailId = entry.target.getAttribute('data-thumbnail-id');
+            if (thumbnailId) {
+              setLoadedThumbnails((prev) => {
+                if (!prev.has(thumbnailId)) {
+                  return new Set([...prev, thumbnailId]);
+                }
+                return prev;
+              });
+              thumbnailObserver.unobserve(entry.target);
+            }
+          }
+        });
+      },
+      {
+        rootMargin: '100px', // Start loading 100px before entering viewport
+      }
+    );
+
+    // Observe all elements and check if already in viewport
+    thumbnailElements.forEach((el) => {
+      thumbnailObserver.observe(el);
+      // Also check if already in viewport and load immediately
+      const rect = el.getBoundingClientRect();
+      const isInViewport = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+      if (isInViewport) {
+        const thumbnailId = el.getAttribute('data-thumbnail-id');
+        if (thumbnailId) {
+          setLoadedThumbnails((prev) => {
+            if (!prev.has(thumbnailId)) {
+              return new Set([...prev, thumbnailId]);
+            }
+            return prev;
+          });
+        }
+      }
+    });
+
+    return () => {
+      thumbnailElements.forEach((el) => thumbnailObserver.unobserve(el));
+    };
+  }, []);
   return (
     <div id="fh5co-gallery" className="fh5co-section-gray">
       <div className="container">
@@ -37,7 +90,12 @@ export default function GallerySection({
                   key={album.id}
                   className="one-third animate-box"
                   data-animate-effect="fadeIn"
-                  style={{ backgroundImage: `url(${album.thumbnail})` }}
+                  data-thumbnail-id={album.id}
+                  style={{
+                    backgroundImage: loadedThumbnails.has(album.id) ? `url(${album.thumbnail})` : 'none',
+                    backgroundColor: loadedThumbnails.has(album.id) ? 'transparent' : '#f0f0f0',
+                    transition: 'background-image 0.3s ease-in-out'
+                  }}
                 >
                   <Link
                     href={`/gallery/${album.id}`}

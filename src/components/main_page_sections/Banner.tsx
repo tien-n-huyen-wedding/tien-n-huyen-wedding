@@ -46,6 +46,21 @@ export default function Banner() {
     setIsMounted(true);
   }, []);
 
+  // Preload main background image immediately on mount
+  useEffect(() => {
+    const mainBackgroundSrc = slideshowImages[slideshowImages.length - 1];
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = mainBackgroundSrc;
+    link.fetchPriority = 'high';
+    document.head.appendChild(link);
+
+    // Also preload with Image object to ensure it's cached
+    const img = new Image();
+    img.src = mainBackgroundSrc;
+  }, []);
+
   // Preload all images with progress tracking - only when play is clicked
   useEffect(() => {
     if (!isPlaying) return;
@@ -153,23 +168,32 @@ export default function Banner() {
         </div>
       )}
 
-      {/* Slideshow backgrounds - only render after play is clicked */}
-      {isPlaying && (
-        <div className="slideshow-container">
-          {slideshowImages.map((image, index) => (
-            <div
-              key={index}
-              className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
-              style={{
-                backgroundImage: `url(${image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* Slideshow backgrounds - main background always rendered */}
+      <div className="slideshow-container">
+        {/* Always render main background image - shown when not playing or when it's the current image */}
+        <div
+          className={`slideshow-image ${!isPlaying || currentImageIndex === slideshowImages.length - 1 ? 'active' : ''}`}
+          style={{
+            backgroundImage: `url(${slideshowImages[slideshowImages.length - 1]})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+        {/* Render all other slideshow images only when playing */}
+        {isPlaying && slideshowImages.slice(0, -1).map((image, index) => (
+          <div
+            key={index}
+            className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+        ))}
+      </div>
 
       <div className={`overlay ${isPlaying ? 'overlay-hidden' : ''}`}></div>
 
