@@ -113,7 +113,7 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             color: '#6c757d'
           }}>
             <p style={{ margin: 0, fontSize: '14px' }}>
-              &copy; 2025 Wedding. All Rights Reserved.
+            💞💞💞 Show ít thôi ạ 💞💞💞
             </p>
           </div>
         </footer>

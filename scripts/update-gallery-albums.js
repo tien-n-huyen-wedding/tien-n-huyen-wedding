@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const imageSize = require('image-size').default;
 const ExifParser = require('exif-parser');
 
@@ -19,7 +20,7 @@ function getImageFiles(folderPath) {
     const files = fs.readdirSync(folderPath);
     const imageFiles = files
       .filter(file => {
-        const isImage = /\.(jpg|jpeg|png|gif)$/i.test(file);
+        const isImage = /\.(jpg|jpeg|png|gif|heic)$/i.test(file);
         return isImage;
       })
       .sort((a, b) => {
@@ -33,6 +34,32 @@ function getImageFiles(folderPath) {
     return imageFiles.map(file => {
       const filePath = path.join(folderPath, file);
       try {
+        // Handle HEIC files using macOS sips command
+        if (file.toLowerCase().endsWith('.heic')) {
+          try {
+            const output = execSync(`sips -g pixelWidth -g pixelHeight "${filePath}"`, { encoding: 'utf8' });
+            const widthMatch = output.match(/pixelWidth: (\d+)/);
+            const heightMatch = output.match(/pixelHeight: (\d+)/);
+
+            if (widthMatch && heightMatch) {
+              return {
+                filename: file,
+                width: parseInt(widthMatch[1], 10),
+                height: parseInt(heightMatch[1], 10)
+              };
+            }
+          } catch (sipsError) {
+            console.error(`Error reading HEIC dimensions for ${file}:`, sipsError.message);
+          }
+          // Fallback for HEIC if sips fails
+          return {
+            filename: file,
+            width: 2000,
+            height: 1500
+          };
+        }
+
+        // Handle JPG/PNG/GIF files
         const buffer = fs.readFileSync(filePath);
         const dimensions = imageSize(buffer);
         let width = dimensions.width;
