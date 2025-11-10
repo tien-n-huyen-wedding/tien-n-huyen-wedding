@@ -28,7 +28,7 @@ export default function BankAndMapSection({
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box" style={{ paddingTop: '50px' }}>
             <span>Support & Directions</span>
             <h2>{title}</h2>
-            <p>Mọi tình cảm và lời chúc phúc từ {guestName} đều là món quà vô giá đối với {coupleGreeting}. Nếu {guestName} muốn gửi quà mừng online, vui lòng tham khảo thông tin ngân hàng bên dưới.Ngoài ra, {coupleGreeting} cũng đã gắn link và mã QR Google Maps để chỉ dẫn đến nhà hàng tiệc cưới. {guestName} hãy nhớ rằng, sự hiện diện của {guestName} chính là món quà lớn nhất với {coupleGreeting} trong ngày trọng đại ấy ❤</p>
+            <p>Mọi tình cảm và lời chúc phúc từ {guestName} đều là món quà vô giá đối với {coupleGreeting}. Nếu {guestName} muốn gửi quà mừng online, vui lòng tham khảo thông tin ngân hàng bên dưới. Ngoài ra, {coupleGreeting} cũng đã gắn link và mã QR Google Maps để chỉ dẫn đến nhà hàng tiệc cưới. {guestName} hãy nhớ rằng, sự hiện diện của {guestName} chính là món quà lớn nhất với {coupleGreeting} trong ngày trọng đại ấy ❤</p>
           </div>
         </div>
         <div className="row">
