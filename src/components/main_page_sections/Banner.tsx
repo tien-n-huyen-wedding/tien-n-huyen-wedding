@@ -46,8 +46,10 @@ export default function Banner() {
     setIsMounted(true);
   }, []);
 
-  // Preload all images with progress tracking
+  // Preload all images with progress tracking - only when play is clicked
   useEffect(() => {
+    if (!isPlaying) return;
+
     const preloadImages = () => {
       // Create preload links in document head for high priority loading
       slideshowImages.forEach((src, index) => {
@@ -91,9 +93,9 @@ export default function Banner() {
       });
     };
 
-    // Start preloading immediately
+    // Start preloading when play is clicked
     preloadImages();
-  }, []);
+  }, [isPlaying]);
 
   // Auto-advance slideshow only when playing, skip unloaded images
   useEffect(() => {
@@ -128,9 +130,7 @@ export default function Banner() {
   }, [isLoaded, isPlaying, loadedImages]);
 
   const togglePlayPause = () => {
-    if (!isLoaded) {
-      return;
-    }
+    // Allow toggling play even if not loaded - will start loading
     setIsPlaying(!isPlaying);
   };
 
@@ -143,52 +143,58 @@ export default function Banner() {
 
   return (
     <header id="fh5co-header" className="fh5co-cover banner-slideshow" role="banner" data-stellar-background-ratio="0.5">
-      {/* Hidden preload images for browser caching */}
-      <div style={{ display: 'none' }} aria-hidden="true">
-        {slideshowImages.map((src, index) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img key={`preload-${index}`} src={src} alt="" />
-        ))}
-      </div>
+      {/* Hidden preload images for browser caching - only render when playing */}
+      {isPlaying && (
+        <div style={{ display: 'none' }} aria-hidden="true">
+          {slideshowImages.map((src, index) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={`preload-${index}`} src={src} alt="" />
+          ))}
+        </div>
+      )}
 
-      {/* Slideshow backgrounds */}
-      <div className="slideshow-container">
-        {slideshowImages.map((image, index) => (
-          <div
-            key={index}
-            className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
-            style={{
-              backgroundImage: `url(${image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-            }}
-          />
-        ))}
-      </div>
+      {/* Slideshow backgrounds - only render after play is clicked */}
+      {isPlaying && (
+        <div className="slideshow-container">
+          {slideshowImages.map((image, index) => (
+            <div
+              key={index}
+              className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className={`overlay ${isPlaying ? 'overlay-hidden' : ''}`}></div>
 
-      {/* Slideshow indicators */}
-      <div className="slideshow-indicators">
-        {slideshowImages.map((_, index) => (
-          <button
-            key={index}
-            className={`indicator ${index === currentImageIndex ? 'active' : ''} ${!loadedImages.has(index) ? 'not-loaded' : ''}`}
-            onClick={() => {
-              if (!loadedImages.has(index)) {
-                return;
-              }
-              const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
-              setTransitionEffect(randomEffect);
-              setCurrentImageIndex(index);
-            }}
-            aria-label={`Go to slide ${index + 1}${!loadedImages.has(index) ? ' (loading...)' : ''}`}
-            title={!loadedImages.has(index) ? 'Loading...' : ''}
-            disabled={!loadedImages.has(index)}
-          />
-        ))}
-      </div>
+      {/* Slideshow indicators - only show when playing */}
+      {isPlaying && (
+        <div className="slideshow-indicators">
+          {slideshowImages.map((_, index) => (
+            <button
+              key={index}
+              className={`indicator ${index === currentImageIndex ? 'active' : ''} ${!loadedImages.has(index) ? 'not-loaded' : ''}`}
+              onClick={() => {
+                if (!loadedImages.has(index)) {
+                  return;
+                }
+                const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
+                setTransitionEffect(randomEffect);
+                setCurrentImageIndex(index);
+              }}
+              aria-label={`Go to slide ${index + 1}${!loadedImages.has(index) ? ' (loading...)' : ''}`}
+              title={!loadedImages.has(index) ? 'Loading...' : ''}
+              disabled={!loadedImages.has(index)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Floating hearts decoration */}
       <div className="floating-hearts">
@@ -245,12 +251,12 @@ export default function Banner() {
 
       {/* Play/Pause Button with Loading Indicator */}
       <button
-        className={`play-pause-button ${!isLoaded ? 'loading' : ''}`}
+        className={`play-pause-button ${isPlaying && !isLoaded ? 'loading' : ''}`}
         onClick={togglePlayPause}
         aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
-        title={!isLoaded ? `Loading images... ${loadingProgress}%` : ''}
+        title={isPlaying && !isLoaded ? `Loading images... ${loadingProgress}%` : (isPlaying ? "Pause slideshow" : "Play slideshow")}
       >
-        {!isLoaded ? (
+        {isPlaying && !isLoaded ? (
           // Loading Spinner
           <>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="spinner">
