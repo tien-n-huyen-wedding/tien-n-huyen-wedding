@@ -1,6 +1,7 @@
 import Countdown from "../Countdown";
 import { MAIN_WEDDING_PARTY_INFO } from "@/utils/constants";
 import { useState, useEffect } from "react";
+import { getBestImageFormat } from "@/utils/image-optimization";
 
 // Slideshow images - selecting beautiful photos from gallery
 const slideshowImages = [
@@ -49,16 +50,17 @@ export default function Banner() {
   // Preload main background image immediately on mount
   useEffect(() => {
     const mainBackgroundSrc = slideshowImages[slideshowImages.length - 1];
+    const optimizedSrc = getBestImageFormat(mainBackgroundSrc);
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
-    link.href = mainBackgroundSrc;
+    link.href = optimizedSrc;
     link.fetchPriority = 'high';
     document.head.appendChild(link);
 
     // Also preload with Image object to ensure it's cached
     const img = new Image();
-    img.src = mainBackgroundSrc;
+    img.src = optimizedSrc;
   }, []);
 
   // Preload all images with progress tracking - only when play is clicked
@@ -86,7 +88,7 @@ export default function Banner() {
       const imagePromises = slideshowImages.map((src, index) => {
         return new Promise((resolve) => {
           const img = new Image();
-          img.src = src;
+          img.src = getBestImageFormat(src);
 
           img.onload = () => {
             loadedCount++;
@@ -163,7 +165,7 @@ export default function Banner() {
         <div style={{ display: 'none' }} aria-hidden="true">
           {slideshowImages.map((src, index) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={`preload-${index}`} src={src} alt="" />
+            <img key={`preload-${index}`} src={getBestImageFormat(src)} alt="" />
           ))}
         </div>
       )}
@@ -174,7 +176,7 @@ export default function Banner() {
         <div
           className={`slideshow-image ${!isPlaying || currentImageIndex === slideshowImages.length - 1 ? 'active' : ''}`}
           style={{
-            backgroundImage: `url(${slideshowImages[slideshowImages.length - 1]})`,
+            backgroundImage: `url(${getBestImageFormat(slideshowImages[slideshowImages.length - 1])})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -186,7 +188,7 @@ export default function Banner() {
             key={index}
             className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
             style={{
-              backgroundImage: `url(${image})`,
+              backgroundImage: `url(${getBestImageFormat(image)})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',

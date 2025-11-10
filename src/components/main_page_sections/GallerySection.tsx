@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { albums } from '@/lib/galleryAlbums';
 import { InvitationProps } from '@/components/invitation/Invitation';
+import { getBestImageFormat } from '@/utils/image-optimization';
 
 interface GallerySectionProps {
   title?: string;
@@ -92,7 +93,7 @@ export default function GallerySection({
                   data-animate-effect="fadeIn"
                   data-thumbnail-id={album.id}
                   style={{
-                    backgroundImage: loadedThumbnails.has(album.id) ? `url(${album.thumbnail})` : 'none',
+                    backgroundImage: loadedThumbnails.has(album.id) ? `url(${getBestImageFormat(album.thumbnail)})` : 'none',
                     backgroundColor: loadedThumbnails.has(album.id) ? 'transparent' : '#f0f0f0',
                     transition: 'background-image 0.3s ease-in-out'
                   }}
