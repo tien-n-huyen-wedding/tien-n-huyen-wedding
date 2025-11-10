@@ -5,16 +5,16 @@ import MainCeremonyCard from './MainCeremonyCard';
 import { PACKAGES, MainCeremonyCardProps, WeddingPartyCardProps } from '@/utils/constants';
 
 
-const RenderInvitation = ({ ceremonyInfo, weddingPartyInfo }: { ceremonyInfo: MainCeremonyCardProps, weddingPartyInfo: WeddingPartyCardProps }) => {
+const RenderInvitation = ({ ceremonyInfo, weddingPartyInfo, coupleGreeting }: { ceremonyInfo: MainCeremonyCardProps, weddingPartyInfo: WeddingPartyCardProps, coupleGreeting?: string }) => {
   return (
     <>
       <div className="row invitation-row">
         {/* Main Ceremony Card */}
         <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12" style={{ marginBottom: '3rem' }}>
-          <MainCeremonyCard {...ceremonyInfo} />
+          <MainCeremonyCard {...ceremonyInfo} coupleGreeting={coupleGreeting} />
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-          <WeddingPartyCard {...weddingPartyInfo} />
+          <WeddingPartyCard {...weddingPartyInfo} coupleGreeting={coupleGreeting} />
         </div>
       </div>
     </>
@@ -48,5 +48,5 @@ export default function Invitation({ party = "mainParty", ...props }:InvitationP
     }
   });
 
-  return <RenderInvitation ceremonyInfo={selectedPackage.ceremonyInfo} weddingPartyInfo={selectedPackage.weddingPartyInfo} />
+  return <RenderInvitation ceremonyInfo={selectedPackage.ceremonyInfo} weddingPartyInfo={selectedPackage.weddingPartyInfo} coupleGreeting={props.coupleGreeting || 'chúng tôi'} />
 };

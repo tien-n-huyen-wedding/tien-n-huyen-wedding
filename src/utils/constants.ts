@@ -71,6 +71,7 @@ export interface MainCeremonyCardProps {
   ceremonyDate: string;
   ceremonyTime: string;
   ceremonyDateLunar: string;
+  coupleGreeting?: string;
   className?: string;
 }
 

@@ -489,6 +489,7 @@ export default function AdminPage() {
                         ceremonyTime={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.ceremonyTime || '07:00'}
                         ceremonyDateLunar={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.ceremonyDateLunar || 'ngày 11 tháng 10 năm Ất Tỵ'}
                         secondParentInfo={PACKAGES[fields.party as keyof typeof PACKAGES]?.ceremonyInfo.secondParentInfo || 'Con gái ông bà'}
+                        coupleGreeting={fields.coupleGreeting || 'chúng tôi'}
                       />
                     </div>
                   </div>

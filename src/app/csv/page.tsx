@@ -25,9 +25,9 @@ interface GeneratedInvitation {
 const defaultValues = {
   guestName: '',
   invitationText: 'Thân mời',
-  invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
   thanksText: 'Sự hiện diện của quý khách\nlà niềm vinh hạnh lớn cho chúng tôi.',
-  coupleGreeting: 'chúng mình'
+  invitationSecondText: 'Đến dự buổi tiệc\nChung vui cùng gia đình chúng tôi tại',
+  coupleGreeting: 'chúng tôi'
 };
 
 export default function CSVUploadPage() {

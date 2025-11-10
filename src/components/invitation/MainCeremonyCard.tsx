@@ -54,6 +54,7 @@ export default function MainCeremonyCard({
   ceremonyTime,
   ceremonyDateLunar,
   secondParentInfo,
+  coupleGreeting = 'chúng tôi',
   className = ''
 }: MainCeremonyCardProps) {
   const cardStyle: React.CSSProperties = {
@@ -175,7 +176,7 @@ export default function MainCeremonyCard({
           TRÂN TRỌNG BÁO TIN
         </div>
         <div style={ceremonySubtitleStyle}>
-          <span style={ceremonyBoldStyle}>{ceremonyTitle.toUpperCase()}</span> CỦA CHÚNG TÔI
+          <span style={ceremonyBoldStyle}>{ceremonyTitle.toUpperCase()}</span> CỦA {coupleGreeting.toUpperCase()}
         </div>
         <div style={ceremonySubtitleStyle}>
           HÔN LỄ ĐƯỢC CỬ HÀNH TẠI {location.toUpperCase()}
