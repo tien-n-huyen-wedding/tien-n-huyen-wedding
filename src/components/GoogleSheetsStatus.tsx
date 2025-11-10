@@ -1,13 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useInvitationProps } from '@/hooks/useInvitationProps';
+import { InvitationProps } from '@/components/invitation/Invitation';
 
-export default function GoogleSheetsStatus() {
+interface GoogleSheetsStatusProps {
+  invitationProps?: Partial<InvitationProps>;
+  isLoaded?: boolean;
+}
+
+export default function GoogleSheetsStatus({
+  invitationProps = {},
+  isLoaded = false
+}: GoogleSheetsStatusProps) {
   const [isConfigured, setIsConfigured] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
-  const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
-  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng mình';
+  const coupleGreeting = isLoaded && invitationProps.coupleGreeting ? invitationProps.coupleGreeting : 'chúng mình';
 
   useEffect(() => {
     // Check if Google Script URL is configured

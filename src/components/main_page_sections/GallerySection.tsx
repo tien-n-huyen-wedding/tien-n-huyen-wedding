@@ -1,20 +1,23 @@
 import Link from 'next/link';
 import { albums } from '@/lib/galleryAlbums';
-import { useInvitationProps } from '@/hooks/useInvitationProps';
+import { InvitationProps } from '@/components/invitation/Invitation';
 
 interface GallerySectionProps {
   title?: string;
   subtitle?: string;
   description?: string;
+  invitationProps?: Partial<InvitationProps>;
+  isLoaded?: boolean;
 }
 
 export default function GallerySection({
   title = "Wedding Gallery",
   subtitle = "💞💞💞",
-  description = 'Album những lần chúng tôi "ngã vào lòng nhau" (cả nghĩa đen và nghĩa bóng)! Hãy ghé qua để cảm nhận những cung bậc cảm xúc "ngọt đến tiểu đường" của chúng tôi nhé ^^'
+  description = 'Album những lần chúng tôi "ngã vào lòng nhau" (cả nghĩa đen và nghĩa bóng)! Hãy ghé qua để cảm nhận những cung bậc cảm xúc "ngọt đến tiểu đường" của chúng tôi nhé ^^',
+  invitationProps = {},
+  isLoaded = false
 }: GallerySectionProps) {
-  const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
-  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng tôi';
+  const coupleGreeting = isLoaded && invitationProps.coupleGreeting ? invitationProps.coupleGreeting : 'chúng tôi';
   const processedDescription = description && coupleGreeting ? description.replace(/chúng tôi/g, coupleGreeting) : description;
   return (
     <div id="fh5co-gallery" className="fh5co-section-gray">

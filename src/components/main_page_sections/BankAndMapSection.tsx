@@ -1,23 +1,26 @@
 import Image from 'next/image';
 import { QR_IMAGES, MAIN_WEDDING_PARTY_INFO } from '@/utils/constants';
-import { useInvitationProps } from '@/hooks/useInvitationProps';
+import { InvitationProps } from '@/components/invitation/Invitation';
 
 interface BankAndMapSectionProps {
   title?: string;
   groomBankLabel?: string;
   brideBankLabel?: string;
   restaurantMapLabel?: string;
+  invitationProps?: Partial<InvitationProps>;
+  isLoaded?: boolean;
 }
 
 export default function BankAndMapSection({
   title = "Bank Information & Restaurant Location",
   groomBankLabel = "Groom's Bank Account",
   brideBankLabel = "Bride's Bank Account",
-  restaurantMapLabel = "Restaurant Map"
+  restaurantMapLabel = "Restaurant Map",
+  invitationProps = {},
+  isLoaded = false
 }: BankAndMapSectionProps) {
-  const { props, isLoaded } = useInvitationProps(['guestName', 'coupleGreeting']);
-  const guestName = isLoaded && props.guestName ? props.guestName : 'bạn';
-  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng mình';
+  const guestName = isLoaded && invitationProps.guestName ? invitationProps.guestName : 'bạn';
+  const coupleGreeting = isLoaded && invitationProps.coupleGreeting ? invitationProps.coupleGreeting : 'chúng mình';
   return (
     <div id="fh5co-bank-map" className="fh5co-section-gray">
       <div className="container">

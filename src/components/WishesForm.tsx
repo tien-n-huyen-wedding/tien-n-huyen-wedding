@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import GoogleSheetsStatus from '@/components/GoogleSheetsStatus';
-import { useInvitationProps } from '@/hooks/useInvitationProps';
+import { InvitationProps } from '@/components/invitation/Invitation';
 
 interface WishData {
   name: string;
@@ -12,9 +12,16 @@ interface WishData {
 interface WishesFormProps {
   onSubmit: (wish: WishData) => Promise<void>;
   isLoading: boolean;
+  invitationProps?: Partial<InvitationProps>;
+  isLoaded?: boolean;
 }
 
-export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
+export default function WishesForm({
+  onSubmit,
+  isLoading,
+  invitationProps = {},
+  isLoaded = false
+}: WishesFormProps) {
   const [formData, setFormData] = useState<WishData>({
     name: '',
     message: ''
@@ -98,8 +105,7 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
     }
   };
 
-  const { props, isLoaded } = useInvitationProps(['coupleGreeting']);
-  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng tôi';
+  const coupleGreeting = isLoaded && invitationProps.coupleGreeting ? invitationProps.coupleGreeting : 'chúng tôi';
 
   return (
     <div id="fh5co-started" className="fh5co-bg" style={{backgroundImage: 'url(/images/img_bg_4.jpg)'}}>
@@ -174,7 +180,7 @@ export default function WishesForm({ onSubmit, isLoading }: WishesFormProps) {
 
         {/* GoogleSheetsStatus - positioned at bottom right on desktop, above button on mobile */}
         <div className="google-sheets-status-container">
-          <GoogleSheetsStatus />
+          <GoogleSheetsStatus invitationProps={invitationProps} isLoaded={isLoaded} />
         </div>
       </div>
 

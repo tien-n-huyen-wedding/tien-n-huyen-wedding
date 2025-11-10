@@ -4,8 +4,17 @@ import { useState, useEffect, useRef } from 'react';
 import WishesForm from '@/components/WishesForm';
 import WishesDisplay, { Wish, WishesDisplayRef } from '@/components/WishesDisplay';
 import { submitWish, fetchWishes } from '../../utils/googleSheets';
+import { InvitationProps } from '@/components/invitation/Invitation';
 
-export default function WishesSection() {
+interface WishesSectionProps {
+  invitationProps?: Partial<InvitationProps>;
+  isLoaded?: boolean;
+}
+
+export default function WishesSection({
+  invitationProps = {},
+  isLoaded = false
+}: WishesSectionProps) {
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,6 +104,8 @@ export default function WishesSection() {
       <WishesForm
         onSubmit={handleSubmitWish}
         isLoading={isSubmitting}
+        invitationProps={invitationProps}
+        isLoaded={isLoaded}
       />
 
       <style jsx>{`

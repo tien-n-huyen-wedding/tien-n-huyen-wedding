@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import { coupleImages } from '@/lib/images';
 import { getOptimizedImageProps } from '@/lib/images/utils';
-import { CHANGEABLE_FIELDS, InvitationProps } from '../invitation/Invitation';
-import { useInvitationProps } from '@/hooks/useInvitationProps';
+import { InvitationProps } from '../invitation/Invitation';
 
 interface CoupleSectionProps {
   weddingDate?: string;
@@ -11,6 +10,8 @@ interface CoupleSectionProps {
   brideName?: string;
   groomDescription?: string;
   brideDescription?: string;
+  invitationProps?: Partial<InvitationProps>;
+  isLoaded?: boolean;
 }
 
 const Description = ({ description }: { description: string }) => {
@@ -24,12 +25,13 @@ const Description = ({ description }: { description: string }) => {
 export default function CoupleSection({
   groomName = "Quang Tiến",
   brideName = "Lệ Huyền",
-  groomDescription = "“Anh ấy - một Developer đỉnh chóp trong lòng mình. Là người thẳng thắn, bộc trực nhưng luôn thể hiện tình yêu một cách dịu dàng và ấm áp.”",
-  brideDescription = "“Cô ấy - một HR tận tâm, mang vẻ đẹp dịu dàng cùng nụ cười toả nắng. Ẩn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến.”"
+  groomDescription = '"Anh ấy - một Developer đỉnh chóp trong lòng mình. Là người thẳng thắn, bộc trực nhưng luôn thể hiện tình yêu một cách dịu dàng và ấm áp."',
+  brideDescription = '"Cô ấy - một HR tận tâm, mang vẻ đẹp dịu dàng cùng nụ cười toả nắng. Ẩn sau sự mạnh mẽ là một tâm hồn nhạy cảm, luôn chứa đựng tình yêu và sự chân thành vô bờ bến."',
+  invitationProps = {},
+  isLoaded = false
 }: CoupleSectionProps) {
-  const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
-  const guestName = isLoaded && props.guestName ? props.guestName : null;
-  const coupleGreeting = isLoaded && props.coupleGreeting ? props.coupleGreeting : 'chúng mình';
+  const guestName = isLoaded && invitationProps.guestName ? invitationProps.guestName : null;
+  const coupleGreeting = isLoaded && invitationProps.coupleGreeting ? invitationProps.coupleGreeting : 'chúng mình';
   return (
     <div id="fh5co-couple">
       <div className="container">
