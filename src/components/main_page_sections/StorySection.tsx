@@ -15,6 +15,7 @@ interface StorySectionProps {
   subtitle?: string;
   description?: string;
   stories?: StoryItem[];
+  coupleGreeting?: string;
 }
 
 const defaultStories: StoryItem[] = [
@@ -84,7 +85,8 @@ export default function StorySection({
   title = "Our Story",
   subtitle = "💞💞💞",
   description = "Mời bạn cùng lật giở từng trang kỷ niệm để theo dõi những dấu mốc quan trọng trong hành trình từ người lạ thành người thương của chúng mình nhé!",
-  stories = defaultStories
+  stories = defaultStories,
+  coupleGreeting,
 }: StorySectionProps) {
   const [showStories, setShowStories] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -200,6 +202,8 @@ export default function StorySection({
     e.currentTarget.style.boxShadow = '0 4px 12px rgba(143, 188, 143, 0.4)';
   };
 
+  const processDescription = coupleGreeting ? description.replace(/chúng mình/g, coupleGreeting) : description;
+
   return (
     <div id="fh5co-couple-story" ref={sectionRef}>
       <style dangerouslySetInnerHTML={{
@@ -221,7 +225,7 @@ export default function StorySection({
           <div className="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
             <span>{subtitle}</span>
             <h2>{title}</h2>
-            <p>{description}</p>
+            <p>{processDescription}</p>
           </div>
         </div>
         <div className="row">

@@ -37,7 +37,7 @@ function HomeContent() {
       <Banner />
       <CoupleSection invitationProps={props} isLoaded={isLoaded} />
       <InvitationSection invitationProps={props} isLoaded={isLoaded} />
-      <StorySection />
+      <StorySection coupleGreeting={props.coupleGreeting} />
       <GallerySection invitationProps={props} isLoaded={isLoaded} />
       <WishesSection invitationProps={props} isLoaded={isLoaded} />
       <BankAndMapSection invitationProps={props} isLoaded={isLoaded} />
