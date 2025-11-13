@@ -173,6 +173,7 @@ const bridePartySectionTwo = {
   ceremonyInfo: BrideCeremonyInfo,
   weddingPartyInfo: {
     ...BrideWeddingPartyInfo,
+    time: "Ngày 27 tháng 11 năm 2025",
     openAt: "11H00",
     partyAt: "11H30",
   },
