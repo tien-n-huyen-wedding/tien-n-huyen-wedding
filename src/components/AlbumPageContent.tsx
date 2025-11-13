@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { MasonryPhotoAlbum } from 'react-photo-album';
 import Lightbox from 'yet-another-react-lightbox';
 import { Album } from '@/lib/galleryAlbums';
+import { optimizePhotos } from '@/utils/image-optimization';
 import "react-photo-album/masonry.css";
 import 'yet-another-react-lightbox/styles.css';
 import "yet-another-react-lightbox/plugins/thumbnails.css";
@@ -38,6 +39,10 @@ interface AlbumPageContentProps {
 export default function AlbumPageContent({ album }: AlbumPageContentProps) {
   const [index, setIndex] = useState(-1);
   const [plugins, setPlugins] = useState<typeof lightboxPlugins>(null);
+  const [useHighQuality, setUseHighQuality] = useState(false);
+
+  // Optimize photos to use optimized or high quality image versions based on toggle
+  const optimizedPhotos = useMemo(() => optimizePhotos(album.photos, useHighQuality), [album.photos, useHighQuality]);
 
   // Load plugins only when lightbox is opened
   useEffect(() => {
@@ -89,11 +94,16 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
           </div>
         </header>
 
-        {/* Back Button */}
+        {/* Back Button and Quality Toggle */}
         <div style={{
           maxWidth: '1400px',
           margin: '0 auto',
-          padding: '30px 20px 20px'
+          padding: '30px 20px 20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '15px'
         }}>
           <Link
             href="/#fh5co-gallery"
@@ -102,6 +112,38 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             <span className="back-icon">←</span>
             <span className="back-text">Back to Gallery</span>
           </Link>
+
+          {/* Quality Toggle */}
+          <div className="quality-controls">
+            <div
+              className="quality-description"
+              role="status"
+              aria-live="polite"
+            >
+              <span className="quality-description-title">Chọn chất lượng ảnh</span>
+              <span className="quality-description-detail">
+                {useHighQuality
+                  ? 'Ảnh gốc rõ nét — thời gian tải có thể lâu hơn.'
+                  : 'Phiên bản tối ưu — tải nhanh và tiết kiệm dữ liệu.'}
+              </span>
+              <span className="quality-description-instruction">
+                Nhấn vào nút {useHighQuality ? 'Optimized' : 'High Quality'} để chuyển đổi chế độ đến {useHighQuality ? 'Optimized' : 'High Quality'}
+              </span>
+            </div>
+
+            <button
+              onClick={() => setUseHighQuality(!useHighQuality)}
+              className="quality-toggle"
+              aria-label={useHighQuality ? 'Switch to optimized quality' : 'Switch to high quality'}
+            >
+              <span className="quality-toggle-icon">
+                {useHighQuality ? '📸' : '🖼️'}
+              </span>
+              <span className="quality-toggle-text">
+                {useHighQuality ? 'Switch to optimized quality' : 'Switch to high quality'}
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Photo Album */}
@@ -111,13 +153,13 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
           padding: '20px',
           marginBottom: '60px'
         }}>
-          <MasonryPhotoAlbum photos={album.photos} onClick={({ index }) => setIndex(index)} />
+          <MasonryPhotoAlbum photos={optimizedPhotos} onClick={({ index }) => setIndex(index)} />
         </div>
 
         {/* Lightbox - only render when opened */}
         {index >= 0 && (
           <Lightbox
-            slides={album.photos}
+            slides={optimizedPhotos}
             open={index >= 0}
             index={index}
             close={() => setIndex(-1)}
@@ -225,6 +267,82 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             letter-spacing: 0.3px;
           }
 
+          :global(.quality-controls) {
+            display: inline-flex;
+            align-items: center;
+            gap: 18px;
+          }
+
+          :global(.quality-description) {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: right;
+            max-width: 260px;
+          }
+
+          :global(.quality-description-title) {
+            font-size: 15px;
+            font-weight: 600;
+            color: #F14E95;
+            letter-spacing: 0.3px;
+          }
+
+          :global(.quality-description-detail) {
+            font-size: 13px;
+            color: #6c757d;
+            line-height: 1.5;
+          }
+
+          :global(.quality-description-instruction) {
+            font-size: 12px;
+            color: #adb5bd;
+            line-height: 1.5;
+            font-style: italic;
+            margin-top: 4px;
+            display: block;
+          }
+
+          :global(.quality-toggle) {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            color: #333;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            font-family: 'Work Sans', Arial, sans-serif;
+          }
+
+          :global(.quality-toggle:hover) {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-color: #F14E95;
+            color: #F14E95;
+            box-shadow: 0 4px 12px rgba(241, 78, 149, 0.15);
+            transform: translateY(-2px);
+          }
+
+          :global(.quality-toggle:active) {
+            transform: translateY(0);
+          }
+
+          :global(.quality-toggle-icon) {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          :global(.quality-toggle-text) {
+            letter-spacing: 0.3px;
+          }
+
           @media (max-width: 768px) {
             :global(#fh5co-header.fh5co-cover) {
               height: 600px !important;
@@ -244,6 +362,21 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             :global(#fh5co-header p) {
               font-size: 16px !important;
               margin-top: 20px !important;
+            }
+            :global(.quality-controls) {
+              flex: 1 1 100%;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 12px;
+            }
+            :global(.quality-description) {
+              text-align: center;
+              max-width: 100%;
+            }
+            :global(.quality-toggle) {
+              padding: 10px 20px;
+              font-size: 14px;
             }
           }
 

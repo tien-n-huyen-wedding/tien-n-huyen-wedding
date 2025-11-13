@@ -46,6 +46,14 @@ const configs = {
     formats: ['webp', 'jpg'],
     outputDir: 'optimized',
   },
+  // Gallery photos - optimized for fast loading (10% of typical original size)
+  galleryPhoto: {
+    maxWidth: 1200,
+    maxHeight: 800,
+    quality: 75,
+    formats: ['webp', 'jpg'],
+    outputDir: 'optimized',
+  },
   // Story images - medium sized
   story: {
     maxWidth: 800,
@@ -80,7 +88,11 @@ function getConfigForImage(imagePath) {
     return configs.story;
   }
   if (normalizedPath.includes('gallery')) {
-    return configs.thumbnail;
+    // Check if it's a thumbnail or a regular gallery photo
+    if (normalizedPath.includes('thumbnail')) {
+      return configs.thumbnail;
+    }
+    return configs.galleryPhoto;
   }
   // Default to slideshow config
   return configs.slideshow;
@@ -91,6 +103,12 @@ function getConfigForImage(imagePath) {
  */
 async function optimizeImage(inputPath, outputDir = null) {
   try {
+    // Skip files that are already in optimized directories
+    if (inputPath.includes('/optimized/')) {
+      console.log(`Skipping already optimized file: ${inputPath}`);
+      return null;
+    }
+
     const config = getConfigForImage(inputPath);
     const ext = path.extname(inputPath).toLowerCase();
     const basename = path.basename(inputPath, ext);
@@ -113,6 +131,7 @@ async function optimizeImage(inputPath, outputDir = null) {
       const outputPath = path.join(optimizedDir, `${basename}.${format}`);
 
       let image = sharp(inputPath)
+        .rotate() // Auto-rotate based on EXIF orientation data
         .resize(config.maxWidth, config.maxHeight, {
           fit: 'inside',
           withoutEnlargement: true,

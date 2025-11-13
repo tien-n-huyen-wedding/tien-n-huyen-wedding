@@ -141,3 +141,34 @@ export function getBestImageFormat(originalPath: string): string {
   return optimizedPath.replace('.webp', '.jpg');
 }
 
+/**
+ * Transform a photo object to use optimized images
+ *
+ * @param photo - Photo object with src, width, height
+ * @param useHighQuality - Whether to use original high quality images (default: false)
+ * @returns Photo object with optimized or original src
+ */
+export function optimizePhoto<T extends { src: string }>(
+  photo: T,
+  useHighQuality: boolean = false
+): T {
+  return {
+    ...photo,
+    src: useHighQuality ? photo.src : getBestImageFormat(photo.src),
+  };
+}
+
+/**
+ * Transform an array of photos to use optimized images
+ *
+ * @param photos - Array of photo objects
+ * @param useHighQuality - Whether to use original high quality images (default: false)
+ * @returns Array of photo objects with optimized or original srcs
+ */
+export function optimizePhotos<T extends { src: string }>(
+  photos: T[],
+  useHighQuality: boolean = false
+): T[] {
+  return photos.map(photo => optimizePhoto(photo, useHighQuality));
+}
+
