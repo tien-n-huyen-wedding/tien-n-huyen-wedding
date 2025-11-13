@@ -11,27 +11,51 @@ const path = require('path');
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.BASE_URL || 'https://tien-n-huyen-wedding.github.io';
 const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
 
+// Gallery album IDs
+const galleryAlbums = ['coffee', 'outdoor', 'studio', 'couple', 'all'];
+
 // Generate sitemap.xml
+const today = new Date().toISOString().split('T')[0];
+
+const urlEntries = [
+  // Main Wedding Page
+  {
+    loc: `${cleanBaseUrl}/`,
+    lastmod: today,
+    changefreq: 'weekly',
+    priority: '1.0',
+    comment: 'Main Wedding Page'
+  },
+  // QR Generator Page
+  {
+    loc: `${cleanBaseUrl}/qr-generator/`,
+    lastmod: today,
+    changefreq: 'monthly',
+    priority: '0.5',
+    comment: 'QR Generator Page'
+  },
+  // Gallery Album Pages
+  ...galleryAlbums.map(albumId => ({
+    loc: `${cleanBaseUrl}/gallery/${albumId}/`,
+    lastmod: today,
+    changefreq: 'monthly',
+    priority: '0.8',
+    comment: `Gallery Album: ${albumId}`
+  }))
+];
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <!-- Main Wedding Page -->
+${urlEntries.map(entry => `  <!-- ${entry.comment} -->
   <url>
-    <loc>${cleanBaseUrl}/</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- QR Generator Page -->
-  <url>
-    <loc>${cleanBaseUrl}/qr-generator/</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
+    <loc>${entry.loc}</loc>
+    <lastmod>${entry.lastmod}</lastmod>
+    <changefreq>${entry.changefreq}</changefreq>
+    <priority>${entry.priority}</priority>
+  </url>`).join('\n')}
 </urlset>`;
 
 // Generate robots.txt

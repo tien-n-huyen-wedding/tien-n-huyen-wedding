@@ -83,7 +83,53 @@ It's better to modify the script itself if you need custom behavior.
 - **Config**: `src/lib/galleryAlbums.ts` - Imports and uses these files
 - **Photos**: `public/images/gallery/` - Source photo files
 
+## 🖼️ Image Optimization
+
+Gallery images should be optimized for web performance. The website automatically uses optimized versions when available.
+
+### Optimization Workflow
+
+1. **Add original images** to `public/images/gallery/[ALBUM]/`
+   - Use high-quality originals (JPG, PNG, etc.)
+   - Images will be automatically optimized
+
+2. **Run optimization script**:
+   ```bash
+   node scripts/optimize-images.js public/images/gallery --recursive
+   ```
+   This will:
+   - Create optimized versions in `[ALBUM]/optimized/` subdirectories
+   - Generate WebP format (better compression)
+   - Generate JPEG fallback format
+   - Resize to max 1200x800px for gallery photos
+   - Compress with 75% quality for fast loading
+
+3. **Update gallery data**:
+   ```bash
+   node scripts/update-gallery-albums.js
+   ```
+   This regenerates the JSON files with correct paths
+
+### Optimization Details
+
+- **Gallery Photos**: Max 1200x800px, 75% quality
+- **Thumbnails**: Max 600x400px, 80% quality
+- **Formats**: WebP (primary) + JPEG (fallback)
+- **Location**: Optimized images stored in `[ALBUM]/optimized/` folders
+
+### How It Works
+
+The website uses the `getOptimizedImageSrc()` function from `src/utils/image-optimization.ts` to:
+- Automatically select WebP format when browser supports it
+- Fall back to JPEG for older browsers
+- Use original high-quality images when user enables "High Quality" toggle
+
+### File Naming
+
+- Original images: `public/images/gallery/[ALBUM]/[number].jpg`
+- Optimized images: `public/images/gallery/[ALBUM]/optimized/[number].webp` and `[number].jpg`
+- The JSON files reference original paths; optimization happens automatically at runtime
+
 ## 📖 More Info
 
 See the main gallery update guide: `GALLERY-UPDATE-GUIDE.md`
-
