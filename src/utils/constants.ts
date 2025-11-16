@@ -122,6 +122,7 @@ const CeremonyInfo = {
 const BrideCeremonyInfo = {
   ...CeremonyInfo,
   ceremonyDate: "Ngày 27 tháng 11 năm 2025",
+  ceremonyDateLunar: "Ngày 08 tháng 10 năm Ất Tỵ",
   firstParentInfo: CeremonyInfo.secondParentInfo,
   secondParentInfo: CeremonyInfo.firstParentInfo,
   ceremonyTitle: "Lễ Vu Quy",
