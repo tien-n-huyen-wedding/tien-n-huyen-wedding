@@ -6,49 +6,67 @@
   <!-- Main Wedding Page -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
   <!-- QR Generator Page -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/qr-generator/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+
+  <!-- Slideshow Page -->
+  <url>
+    <loc>https://tien-n-huyen-wedding.github.io/slideshow/</loc>
+    <lastmod>2025-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Wishes Page -->
+  <url>
+    <loc>https://tien-n-huyen-wedding.github.io/wishes/</loc>
+    <lastmod>2025-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Gallery Album: coffee -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/coffee/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Gallery Album: outdoor -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/outdoor/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Gallery Album: studio -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/studio/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Gallery Album: couple -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/couple/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <!-- Gallery Album: all -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/all/</loc>
-    <lastmod>2025-11-13</lastmod>
+    <lastmod>2025-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
