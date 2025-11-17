@@ -4,22 +4,23 @@ import { useState, useEffect } from "react";
 import { getBestImageFormat } from "@/utils/image-optimization";
 
 // Slideshow images - selecting beautiful photos from gallery
+// Updated to use new numbered image names after commit e3dbb6fc
 const slideshowImages = [
-  "/images/gallery/OUTDOOR/TOM04374-2.jpg",
-  "/images/gallery/OUTDOOR/TOM04399-3.jpg",
-  "/images/gallery/OUTDOOR/TOM04630-4.jpg",
-  "/images/gallery/OUTDOOR/TOM04827-9.jpg",
-  "/images/gallery/STUDIO/TMN_8809-32.jpg",
-  "/images/gallery/STUDIO/TMN_9000-34.jpg",
-  "/images/gallery/STUDIO/TOM03826-8.jpg",
-  "/images/gallery/COFFEE/NOR_6068.JPG",
-  "/images/gallery/COFFEE/NOR_6149.JPG",
-  "/images/gallery/COFFEE/NOR_6392.JPG",
-  "/images/gallery/COFFEE/NOR_6397.JPG",
-  "/images/gallery/COFFEE/NOR_6463.JPG",
-  "/images/gallery/COFFEE/NOR_6522.JPG",
-  "/images/gallery/COFFEE/NOR_6660.JPG",
-  "/images/gallery/COFFEE/NOR_6829.JPG",
+  "/images/gallery/OUTDOOR/11.jpg",  // was TOM04374-2.jpg
+  "/images/gallery/OUTDOOR/12.jpg",  // was TOM04399-3.jpg
+  "/images/gallery/OUTDOOR/13.jpg",  // was TOM04630-4.jpg
+  "/images/gallery/OUTDOOR/3.jpg",  // was TOM04827-9.jpg
+  "/images/gallery/STUDIO/1.jpg",   // was TMN_8809-32.jpg
+  "/images/gallery/STUDIO/10.jpg",  // was TMN_9000-34.jpg
+  "/images/gallery/STUDIO/3.jpg",   // was TOM03826-8.jpg
+  "/images/gallery/COFFEE/9.jpg",   // was NOR_6068.JPG
+  "/images/gallery/COFFEE/11.jpg",  // was NOR_6149.JPG
+  "/images/gallery/COFFEE/14.jpg",  // was NOR_6392.JPG
+  "/images/gallery/COFFEE/15.jpg",  // was NOR_6397.JPG
+  "/images/gallery/COFFEE/16.jpg",  // was NOR_6463.JPG
+  "/images/gallery/COFFEE/2.jpg",   // was NOR_6522.JPG
+  "/images/gallery/COFFEE/6.jpg",   // was NOR_6660.JPG
+  "/images/gallery/COFFEE/7.jpg",  // was NOR_6829.JPG
   "/images/main_background.jpg",
 ];
 
@@ -73,7 +74,7 @@ export default function Banner() {
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
-        link.href = src;
+        link.href = getBestImageFormat(src);
         // First 3 images get highest priority
         if (index < 3) {
           link.fetchPriority = 'high';
@@ -114,9 +115,9 @@ export default function Banner() {
     preloadImages();
   }, [isPlaying]);
 
-  // Auto-advance slideshow only when playing, skip unloaded images
+  // Auto-advance slideshow when playing - start immediately, skip unloaded images
   useEffect(() => {
-    if (!isLoaded || !isPlaying) return;
+    if (!isPlaying) return;
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => {
@@ -183,18 +184,24 @@ export default function Banner() {
           }}
         />
         {/* Render all other slideshow images only when playing */}
-        {isPlaying && slideshowImages.slice(0, -1).map((image, index) => (
-          <div
-            key={index}
-            className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
-            style={{
-              backgroundImage: `url(${getBestImageFormat(image)})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-            }}
-          />
-        ))}
+        {isPlaying && slideshowImages.slice(0, -1).map((image, sliceIndex) => {
+          // sliceIndex is 0 to slideshowImages.length-2
+          // currentImageIndex is 0 to slideshowImages.length-1
+          // So we need to check if sliceIndex matches currentImageIndex (when currentImageIndex is not the last image)
+          const isActive = currentImageIndex === sliceIndex && currentImageIndex !== slideshowImages.length - 1;
+          return (
+            <div
+              key={sliceIndex}
+              className={`slideshow-image ${isActive ? 'active' : ''} effect-${transitionEffect}`}
+              style={{
+                backgroundImage: `url(${getBestImageFormat(image)})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+          );
+        })}
       </div>
 
       <div className={`overlay ${isPlaying ? 'overlay-hidden' : ''}`}></div>

@@ -127,15 +127,35 @@ export function supportsWebP(): boolean {
 
 /**
  * Get best image format for current browser
+ * Falls back to original if optimized version doesn't exist
  *
  * @param originalPath - Original image path
- * @returns Best format path (WebP if supported, otherwise original)
+ * @returns Best format path (WebP if supported and exists, otherwise original)
  */
 export function getBestImageFormat(originalPath: string): string {
-  if (supportsWebP()) {
-    return getOptimizedImageSrc(originalPath, true);
+  // Check if this is a gallery image with optimized versions available
+  // Gallery images now have optimized versions in subdirectories (e.g., /images/gallery/OUTDOOR/optimized/)
+  const isGalleryImage = originalPath.includes('/images/gallery/');
+  const isMainBackground = originalPath.includes('/images/main_background');
+  const isAlreadyOptimized = originalPath.includes('/optimized/');
+
+  // Use optimized images for:
+  // 1. Main background image
+  // 2. Gallery images (they have optimized versions in subdirectories)
+  // 3. Already optimized paths
+  const shouldUseOptimized = isMainBackground || isGalleryImage || isAlreadyOptimized;
+
+  if (!shouldUseOptimized) {
+    return originalPath;
   }
-  // Fallback to original or JPEG version
+
+  // For images we know are optimized, use WebP if supported
+  if (supportsWebP()) {
+    const webpPath = getOptimizedImageSrc(originalPath, true);
+    return webpPath;
+  }
+
+  // Fallback to original or JPEG version for non-WebP browsers
   const optimizedPath = getOptimizedImageSrc(originalPath, true);
   // Replace .webp with .jpg for fallback
   return optimizedPath.replace('.webp', '.jpg');
