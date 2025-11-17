@@ -103,7 +103,9 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '15px'
+          gap: '15px',
+          position: 'relative',
+          zIndex: 10
         }}>
           <Link
             href="/#fh5co-gallery"
@@ -213,6 +215,9 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-radius: 8px;
             display: block;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+            pointer-events: auto;
           }
 
           :global(.react-photo-album img:hover) {
@@ -234,6 +239,15 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             font-weight: 500;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+            z-index: 10;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(241, 78, 149, 0.2);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            pointer-events: auto;
           }
 
           :global(.back-button:hover) {
@@ -318,6 +332,15 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             font-family: 'Work Sans', Arial, sans-serif;
+            position: relative;
+            z-index: 10;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(241, 78, 149, 0.2);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            pointer-events: auto;
           }
 
           :global(.quality-toggle:hover) {
@@ -330,6 +353,16 @@ export default function AlbumPageContent({ album }: AlbumPageContentProps) {
 
           :global(.quality-toggle:active) {
             transform: translateY(0);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-color: #F14E95;
+            color: #F14E95;
+          }
+
+          :global(.back-button:active) {
+            transform: translateY(0);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-color: #F14E95;
+            color: #F14E95;
           }
 
           :global(.quality-toggle-icon) {
