@@ -1,5 +1,5 @@
 ;(function () {
-	
+
 	'use strict';
 
 	var mobileMenuOutsideClick = function() {
@@ -40,14 +40,14 @@
 			$this
 				.addClass('active')
 				.find('ul')
-				.slideDown(500, 'easeOutExpo');				
+				.slideDown(500, 'easeOutExpo');
 		}).mouseleave(function(){
 
 			var $this = $(this);
 			$this
 				.removeClass('active')
 				.find('ul')
-				.slideUp(500, 'easeOutExpo');				
+				.slideUp(500, 'easeOutExpo');
 		});
 
 
@@ -57,8 +57,27 @@
 
     			$('body').removeClass('offcanvas');
     			$('.js-fh5co-nav-toggle').removeClass('active');
-				
+
 	    	}
+		});
+
+		// Close offcanvas when clicking a link and re-enable scrolling
+		$('#fh5co-offcanvas').on('click', 'a', function(e){
+			var $this = $(this);
+			var href = $this.attr('href');
+
+			$('body').removeClass('offcanvas overflow');
+			$('.js-fh5co-nav-toggle').removeClass('active');
+
+			if (href && href.startsWith('#')) {
+				var target = $(href);
+				if (target.length) {
+					e.preventDefault();
+					$('html, body').animate({
+						scrollTop: target.offset().top
+					}, 600, 'easeInOutExpo');
+				}
+			}
 		});
 	};
 
@@ -87,7 +106,7 @@
 		$('.animate-box').waypoint( function( direction ) {
 
 			if( direction === 'down' && !$(this.element).hasClass('animated-fast') ) {
-				
+
 				i++;
 
 				$(this.element).addClass('item-animate');
@@ -110,9 +129,9 @@
 							el.removeClass('item-animate');
 						},  k * 200, 'easeInOutExpo' );
 					});
-					
+
 				}, 100);
-				
+
 			}
 
 		} , { offset: '85%' } );
@@ -159,13 +178,13 @@
 	var goToTop = function() {
 
 		$('.js-gotop').on('click', function(event){
-			
+
 			event.preventDefault();
 
 			$('html, body').animate({
 				scrollTop: $('html').offset().top
 			}, 500, 'easeInOutExpo');
-			
+
 			return false;
 		});
 
@@ -179,7 +198,7 @@
 			}
 
 		});
-	
+
 	};
 
 
@@ -199,9 +218,9 @@
 	var counterWayPoint = function() {
 		if ($('#fh5co-counter').length > 0 ) {
 			$('#fh5co-counter').waypoint( function( direction ) {
-										
+
 				if( direction === 'down' && !$(this.element).hasClass('animated') ) {
-					setTimeout( counter , 400);					
+					setTimeout( counter , 400);
 					$(this.element).addClass('animated');
 				}
 			} , { offset: '90%' } );
@@ -213,7 +232,7 @@
 		$(window).stellar();
 	};
 
-	
+
 	$(function(){
 		mobileMenuOutsideClick();
 		parallax();
