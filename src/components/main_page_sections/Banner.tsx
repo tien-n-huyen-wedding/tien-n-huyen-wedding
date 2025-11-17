@@ -329,7 +329,7 @@ export default function Banner() {
         {showSlideshowHint && (
           <div className="play-tooltip">
             <div>
-              <strong>Thưởng thức tốt hơn!</strong>
+              <strong>Để có chất lượng ảnh tốt hơn</strong>
               <p>Trải nghiệm slideshow full-screen để xem rõ từng khoảnh khắc.</p>
             </div>
             <a href="/slideshow" className="tooltip-link">Mở Slideshow ↗</a>
@@ -692,9 +692,7 @@ export default function Banner() {
 
         /* Play/Pause Button */
         .play-pause-button {
-          position: absolute;
-          bottom: 30px;
-          left: 40px;
+          position: relative;
           width: 60px;
           height: 60px;
           border-radius: 50%;
@@ -728,6 +726,86 @@ export default function Banner() {
 
         .play-pause-button:hover svg {
           transform: scale(1.1);
+        }
+
+        .play-button-wrapper {
+          position: absolute;
+          bottom: 30px;
+          left: 40px;
+          display: inline-flex;
+          align-items: center;
+          z-index: 15;
+        }
+
+        .play-tooltip {
+          position: absolute;
+          left: calc(100% + 14px);
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(15, 118, 110, 0.92);
+          color: #ecfdf5;
+          padding: 14px 18px 14px 18px;
+          border-radius: 16px;
+          min-width: 230px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+          animation: fadeInUp 0.3s ease;
+        }
+
+        .play-tooltip strong {
+          display: block;
+          font-size: 0.95rem;
+          margin-bottom: 2px;
+        }
+
+        .play-tooltip p {
+          margin: 0 0 8px 0;
+          font-size: 0.85rem;
+          line-height: 1.4;
+        }
+
+        .tooltip-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          background: white;
+          color: #0f766e;
+          border-radius: 999px;
+          padding: 6px 14px;
+          font-weight: 600;
+          font-size: 0.85rem;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .tooltip-link:hover {
+          background: #ccfbf1;
+        }
+
+        .tooltip-close {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          background: transparent;
+          border: none;
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 16px;
+          cursor: pointer;
+        }
+
+        @media (max-width: 640px) {
+          .play-button-wrapper {
+            left: 20px;
+            bottom: 20px;
+          }
+
+          .play-tooltip {
+            position: fixed;
+            left: 50%;
+            bottom: 90px;
+            top: auto;
+            transform: translateX(-50%);
+            width: calc(100% - 48px);
+          }
         }
 
         /* Loading state */
