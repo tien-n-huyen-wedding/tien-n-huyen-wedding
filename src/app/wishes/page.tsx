@@ -6,6 +6,7 @@ import WishesForm from '@/components/WishesForm';
 import { fetchWishes, submitWish, Wish, WishData } from '@/utils/googleSheets';
 import { useInvitationProps } from '@/hooks/useInvitationProps';
 import { CHANGEABLE_FIELDS, InvitationProps } from '@/components/invitation/Invitation';
+import WishCard from '@/components/WishCard';
 
 export default function WishesPage() {
   const router = useRouter();
@@ -158,84 +159,9 @@ export default function WishesPage() {
                   const endIndex = startIndex + wishesPerPage;
                   const currentWishes = wishes.slice(startIndex, endIndex);
 
-                  return currentWishes.map((wish, index) => {
-                    const date = new Date(wish.timestamp);
-                    const formattedDate = date.toLocaleDateString('vi-VN', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    });
-
-                    return (
-                      <div
-                        key={wish.id}
-                        style={{
-                          background: 'linear-gradient(135deg, #fff 0%, #f0fdf4 100%)',
-                          border: '2px solid #bbf7d0',
-                          borderRadius: '20px',
-                          padding: '24px',
-                          boxShadow: '0 10px 30px rgba(34, 197, 94, 0.1)',
-                          transition: 'all 0.3s ease',
-                          opacity: 0,
-                          animation: `fadeInUp 0.6s ease ${index * 0.05}s forwards`
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-5px)';
-                          e.currentTarget.style.boxShadow = '0 15px 40px rgba(34, 197, 94, 0.2)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 10px 30px rgba(34, 197, 94, 0.1)';
-                        }}
-                      >
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          marginBottom: '12px',
-                          flexWrap: 'wrap',
-                          gap: '8px'
-                        }}>
-                          <span style={{
-                            fontWeight: 'bold',
-                            color: '#16a34a',
-                            fontSize: '16px',
-                            background: 'linear-gradient(135deg, #16a34a, #22c55e)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text'
-                          }}>
-                            {wish.name}
-                          </span>
-                          <span style={{
-                            fontSize: '14px',
-                            color: '#9ca3af',
-                            fontStyle: 'italic'
-                          }}>
-                            {formattedDate}
-                          </span>
-                        </div>
-                        <div style={{
-                          fontSize: '16px',
-                          lineHeight: '1.6',
-                          color: '#374151',
-                          fontStyle: 'italic',
-                          marginBottom: '12px'
-                        }}>
-                          &ldquo;{wish.message}&rdquo;
-                        </div>
-                        <div style={{
-                          textAlign: 'center',
-                          fontSize: '20px',
-                          animation: 'heartbeat 2s infinite'
-                        }}>
-                          💕
-                        </div>
-                      </div>
-                    );
-                  });
+                  return currentWishes.map((wish, index) => (
+                    <WishCard key={wish.id} wish={wish} index={index} />
+                  ));
                 })()}
               </div>
             </div>

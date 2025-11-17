@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useImperativeHandle, forwardRef, useRef } from 'react';
+import WishCard from '@/components/WishCard';
 
 export interface Wish {
   id: string;
@@ -12,7 +13,6 @@ export interface Wish {
 interface WishesDisplayProps {
   wishes: Wish[];
   isLoading: boolean;
-  onRefresh: () => void;
 }
 
 export interface WishesDisplayRef {
@@ -20,9 +20,8 @@ export interface WishesDisplayRef {
 }
 
 const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
-  ({ wishes, isLoading, onRefresh }, ref) => {
+  ({ wishes, isLoading }, ref) => {
     const [displayWishes, setDisplayWishes] = useState<Wish[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
     const [currentGroup, setCurrentGroup] = useState(0);
     const wishesPerGroup = 4;
 
@@ -147,24 +146,14 @@ const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
         <div className="wishes-grid">
           {currentGroupWishes.length > 0 ? (
             currentGroupWishes.map((wish, index) => (
-              <div
+              <WishCard
                 key={wish.id}
-                className="wish-item"
-                style={{
-                  animationDelay: `${index * 0.2}s`
-                }}
-              >
-                <div className="wish-content">
-                  <div className="wish-header">
-                    <span className="wish-name">{wish.name}</span>
-                    <span className="wish-time">{formatDate(wish.timestamp)}</span>
-                  </div>
-                  <div className="wish-message">
-                    &ldquo;{wish.message}&rdquo;
-                  </div>
-                  <div className="wish-heart">💕</div>
-                </div>
-              </div>
+                wish={wish}
+                index={index}
+                truncateLength={300}
+                showHeart
+                timestampLabel={formatDate(wish.timestamp)}
+              />
             ))
           ) : (
             <div className="wish-item">
@@ -343,6 +332,26 @@ const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
           font-style: italic;
           margin-bottom: 1rem;
           position: relative;
+        }
+
+        .show-more-button {
+          background: rgba(34, 197, 94, 0.15);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          color: #15803d;
+          padding: 6px 18px;
+          border-radius: 999px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .show-more-button:hover {
+          background: rgba(34, 197, 94, 0.25);
+          border-color: rgba(34, 197, 94, 0.5);
+          color: #166534;
         }
 
         .wish-heart {
