@@ -28,11 +28,11 @@ export default function Navigation() {
                 <li className="active"><Link href="/">Home</Link></li>
                 <li><Link href="/slideshow">Slideshow</Link></li>
                 <li><Link href="/wishes">Wishes</Link></li>
-                <li><Link href="/#fh5co-couple">Couple</Link></li>
-                <li><Link href="/#fh5co-invitation">Invitation</Link></li>
-                <li><Link href="/#fh5co-story">Story</Link></li>
+                <li><Link href="#fh5co-couple">Couple</Link></li>
+                <li><Link href="#fh5co-invitation">Invitation</Link></li>
+                <li><Link href="#fh5co-couple-story">Story</Link></li>
                 <li className="has-dropdown">
-                  <Link href="/#fh5co-gallery">Gallery</Link>
+                  <Link href="#fh5co-gallery">Gallery</Link>
                   <ul className="dropdown">
                     {albums.map((album) => (
                       <li key={album.id}>
@@ -41,8 +41,8 @@ export default function Navigation() {
                     ))}
                   </ul>
                 </li>
-                <li><Link href="/#fh5co-bank-map">Bank and Map</Link></li>
-                <li><Link href="/#fh5co-contact">Contact</Link></li>
+                <li><Link href="#fh5co-bank-map">Bank and Map</Link></li>
+                <li><Link href="#fh5co-contact">Contact</Link></li>
               </ul>
             </div>
           </div>
