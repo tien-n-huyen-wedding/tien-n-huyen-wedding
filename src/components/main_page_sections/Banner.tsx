@@ -1,6 +1,6 @@
 import Countdown from "../Countdown";
 import { MAIN_WEDDING_PARTY_INFO } from "@/utils/constants";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getBestImageFormat } from "@/utils/image-optimization";
 
 // Slideshow images - selecting beautiful photos from gallery
@@ -43,6 +43,8 @@ export default function Banner() {
   const [isMounted, setIsMounted] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [showSlideshowHint, setShowSlideshowHint] = useState(false);
+  const hintTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   // Set mounted state
   useEffect(() => {
     setIsMounted(true);
@@ -148,8 +150,20 @@ export default function Banner() {
   }, [isLoaded, isPlaying, loadedImages]);
 
   const togglePlayPause = () => {
-    // Allow toggling play even if not loaded - will start loading
-    setIsPlaying(!isPlaying);
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setShowSlideshowHint(true);
+      if (hintTimeoutRef.current) {
+        clearTimeout(hintTimeoutRef.current);
+      }
+      hintTimeoutRef.current = setTimeout(() => setShowSlideshowHint(false), 8000);
+    } else {
+      setIsPlaying(false);
+      setShowSlideshowHint(false);
+      if (hintTimeoutRef.current) {
+        clearTimeout(hintTimeoutRef.current);
+      }
+    }
   };
 
   const scrollToInvitation = () => {
@@ -283,34 +297,46 @@ export default function Banner() {
       </div>
 
       {/* Play/Pause Button with Loading Indicator */}
-      <button
-        className={`play-pause-button ${isPlaying && !isLoaded ? 'loading' : ''}`}
-        onClick={togglePlayPause}
-        aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
-        title={isPlaying && !isLoaded ? `Loading images... ${loadingProgress}%` : (isPlaying ? "Pause slideshow" : "Play slideshow")}
-      >
-        {isPlaying && !isLoaded ? (
-          // Loading Spinner
-          <>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="spinner">
-              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" opacity="0.3"/>
-              <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" className="spinner-circle"/>
+      <div className="play-button-wrapper">
+        <button
+          className={`play-pause-button ${isPlaying && !isLoaded ? 'loading' : ''}`}
+          onClick={togglePlayPause}
+          aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
+          title={isPlaying && !isLoaded ? `Loading images... ${loadingProgress}%` : (isPlaying ? "Pause slideshow" : "Play slideshow")}
+        >
+          {isPlaying && !isLoaded ? (
+            // Loading Spinner
+            <>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="spinner">
+                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" opacity="0.3"/>
+                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" className="spinner-circle"/>
+              </svg>
+              <span className="loading-text">{loadingProgress}%</span>
+            </>
+          ) : isPlaying ? (
+            // Pause Icon
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect x="6" y="5" width="4" height="14" fill="white" rx="1"/>
+              <rect x="14" y="5" width="4" height="14" fill="white" rx="1"/>
             </svg>
-            <span className="loading-text">{loadingProgress}%</span>
-          </>
-        ) : isPlaying ? (
-          // Pause Icon
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="6" y="5" width="4" height="14" fill="white" rx="1"/>
-            <rect x="14" y="5" width="4" height="14" fill="white" rx="1"/>
-          </svg>
-        ) : (
-          // Play Icon
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M8 5v14l11-7z" fill="white"/>
-          </svg>
+          ) : (
+            // Play Icon
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M8 5v14l11-7z" fill="white"/>
+            </svg>
+          )}
+        </button>
+        {showSlideshowHint && (
+          <div className="play-tooltip">
+            <div>
+              <strong>Thưởng thức tốt hơn!</strong>
+              <p>Trải nghiệm slideshow full-screen để xem rõ từng khoảnh khắc.</p>
+            </div>
+            <a href="/slideshow" className="tooltip-link">Mở Slideshow ↗</a>
+            <button className="tooltip-close" onClick={() => setShowSlideshowHint(false)} aria-label="Đóng gợi ý">×</button>
+          </div>
         )}
-      </button>
+      </div>
 
       {/* Scroll indicator */}
       <div className="scroll-indicator">

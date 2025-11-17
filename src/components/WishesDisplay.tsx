@@ -13,6 +13,7 @@ export interface Wish {
 interface WishesDisplayProps {
   wishes: Wish[];
   isLoading: boolean;
+  onRefresh: () => void;
 }
 
 export interface WishesDisplayRef {
@@ -20,8 +21,9 @@ export interface WishesDisplayRef {
 }
 
 const WishesDisplay = forwardRef<WishesDisplayRef, WishesDisplayProps>(
-  ({ wishes, isLoading }, ref) => {
+  ({ wishes, isLoading, onRefresh }, ref) => {
     const [displayWishes, setDisplayWishes] = useState<Wish[]>([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [currentGroup, setCurrentGroup] = useState(0);
     const wishesPerGroup = 4;
 
