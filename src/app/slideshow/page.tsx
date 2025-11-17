@@ -4,6 +4,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { albums } from '@/lib/galleryAlbums';
 import { Photo } from '@/lib/galleryAlbums';
+import SlideshowLoadingOverlay from '@/components/slideshow/SlideshowLoadingOverlay';
+import SlideshowImageLayer from '@/components/slideshow/SlideshowImageLayer';
+import SlideshowTopBar from '@/components/slideshow/SlideshowTopBar';
+import SlideshowSideControls from '@/components/slideshow/SlideshowSideControls';
+import SlideshowPlayButton from '@/components/slideshow/SlideshowPlayButton';
+import SlideshowBottomBarToggle from '@/components/slideshow/SlideshowBottomBarToggle';
+import SlideshowThumbnailStrip from '@/components/slideshow/SlideshowThumbnailStrip';
 
 // Random transition effects
 const transitionEffects = [
@@ -26,10 +33,8 @@ export default function SlideshowPage() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [transitionEffect, setTransitionEffect] = useState('fade');
   const [showControls, setShowControls] = useState(true);
-  const [currentBatch, setCurrentBatch] = useState(0);
-  const [isLoadingBatch, setIsLoadingBatch] = useState(false);
   const [showLoadingOverlay, setShowLoadingOverlay] = useState(true);
-  const BATCH_SIZE = 5;
+  const [showBottomBar, setShowBottomBar] = useState(true);
 
   // Collect all photos from all albums (excluding thumbnails)
   useEffect(() => {
@@ -45,67 +50,69 @@ export default function SlideshowPage() {
     setAllPhotos(photos);
   }, []);
 
-  // Load images in batches of 5
+  // Load all images with progress tracking
   useEffect(() => {
     if (allPhotos.length === 0) return;
 
-    const loadBatch = async (batchIndex: number) => {
-      setIsLoadingBatch(true);
-      const startIndex = batchIndex * BATCH_SIZE;
-      const endIndex = Math.min(startIndex + BATCH_SIZE, allPhotos.length);
+    setLoadedImages(new Set());
+    setLoadingProgress(0);
+    setShowLoadingOverlay(true);
+    setIsLoaded(false);
+    setIsPlaying(false);
 
-      if (startIndex >= allPhotos.length) {
-        setIsLoadingBatch(false);
-        setIsLoaded(true);
-        return;
-      }
+    let loadedCount = 0;
+    const totalImages = allPhotos.length;
+    const minVisibleCount = Math.min(5, totalImages);
+    let hasStartedPlayback = false;
+    let cancelled = false;
 
-      const batchPromises = [];
-      for (let i = startIndex; i < endIndex; i++) {
-        const promise = new Promise<boolean>((resolve) => {
-          const img = new Image();
-          // Use high quality original images (not optimized)
-          img.src = allPhotos[i].src;
+    const imagePromises = allPhotos.map((photo, index) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = photo.src;
 
-          img.onload = () => {
-            setLoadedImages((prev) => new Set([...prev, i]));
-            resolve(true);
-          };
+        img.onload = () => {
+          if (cancelled) return;
+          loadedCount++;
+          setLoadedImages((prev) => new Set([...prev, index]));
+          setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
 
-          img.onerror = () => {
-            resolve(false);
-          };
-        });
-        batchPromises.push(promise);
-      }
+          if (!hasStartedPlayback && loadedCount >= minVisibleCount) {
+            hasStartedPlayback = true;
+            setShowLoadingOverlay(false);
+            setIsPlaying(true);
+          }
+          resolve(true);
+        };
 
-      await Promise.all(batchPromises);
+        img.onerror = () => {
+          if (cancelled) return;
+          loadedCount++;
+          setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
 
-      // Update progress
-      const totalLoaded = Math.min(endIndex, allPhotos.length);
-      setLoadingProgress(Math.round((totalLoaded / allPhotos.length) * 100));
+          if (!hasStartedPlayback && loadedCount >= minVisibleCount) {
+            hasStartedPlayback = true;
+            setShowLoadingOverlay(false);
+            setIsPlaying(true);
+          }
+          resolve(false);
+        };
+      });
+    });
 
-      setIsLoadingBatch(false);
-
-      // Auto-start slideshow after first batch is loaded
-      if (batchIndex === 0 && totalLoaded > 0) {
+    Promise.all(imagePromises).then(() => {
+      if (cancelled) return;
+      setIsLoaded(true);
+      setShowLoadingOverlay(false);
+      if (!hasStartedPlayback) {
         setIsPlaying(true);
-        setShowLoadingOverlay(false); // Hide loading overlay to start slideshow
       }
+    });
 
-      // Continue loading next batch after a short delay
-      if (endIndex < allPhotos.length) {
-        setTimeout(() => {
-          setCurrentBatch(batchIndex + 1);
-        }, 500);
-      } else {
-        setIsLoaded(true);
-        setShowLoadingOverlay(false); // Hide overlay when all images are loaded
-      }
+    return () => {
+      cancelled = true;
     };
-
-    loadBatch(currentBatch);
-  }, [allPhotos, currentBatch]);
+  }, [allPhotos]);
 
   // Auto-advance slideshow - only advance to loaded images
   useEffect(() => {
@@ -221,135 +228,56 @@ export default function SlideshowPage() {
     );
   }
 
-  const currentPhoto = allPhotos[currentImageIndex];
-
   return (
     <div
       className="slideshow-container"
       onMouseMove={() => setShowControls(true)}
       onMouseLeave={() => setTimeout(() => setShowControls(false), 3000)}
     >
-      {/* Loading Screen - Show only until first batch is loaded */}
-      {showLoadingOverlay && (
-        <div className="loading-overlay">
-          <div className="loading-content">
-            <div className="loading-spinner">
-              <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" opacity="0.3"/>
-                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" strokeDasharray="60" strokeDashoffset="15" className="spinner-circle"/>
-              </svg>
-            </div>
-            <div className="loading-text">
-              <h2>Loading High Quality Images</h2>
-              <p className="loading-percentage">{loadingProgress}%</p>
-              <div className="loading-bar">
-                <div className="loading-bar-fill" style={{ width: `${loadingProgress}%` }}></div>
-              </div>
-              <p className="loading-count">
-                {loadedImages.size} / {allPhotos.length} images loaded
-              </p>
-              {isLoadingBatch && (
-                <p className="loading-batch">
-                  Loading batch {Math.floor(currentBatch) + 1} ({Math.min((currentBatch + 1) * BATCH_SIZE, allPhotos.length)} / {allPhotos.length})
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <SlideshowLoadingOverlay
+        visible={showLoadingOverlay}
+        loadingProgress={loadingProgress}
+        loadedCount={loadedImages.size}
+        totalCount={allPhotos.length}
+      />
 
-      {/* Slideshow Images */}
-      <div className="slideshow-images">
-        {allPhotos.map((photo, index) => (
-          <div
-            key={index}
-            className={`slideshow-image ${index === currentImageIndex ? 'active' : ''} effect-${transitionEffect}`}
-            style={{
-              backgroundImage: `url(${photo.src})`,
-              backgroundSize: 'contain',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: '#000',
-            }}
-          />
-        ))}
-      </div>
+      <SlideshowImageLayer
+        photos={allPhotos}
+        currentIndex={currentImageIndex}
+        transitionEffect={transitionEffect}
+        loadedImages={loadedImages}
+      />
 
       {/* Controls Overlay - Top and Center */}
       <div className={`controls-overlay ${showControls ? 'visible' : ''}`}>
-        {/* Top Bar */}
-        <div className="top-bar">
-          <button
-            className="close-button"
-            onClick={() => router.back()}
-            aria-label="Close slideshow"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <div className="image-counter">
-            {currentImageIndex + 1} / {allPhotos.length}
-          </div>
-        </div>
+        <SlideshowTopBar
+          onClose={() => router.back()}
+          current={currentImageIndex + 1}
+          total={allPhotos.length}
+        />
 
-        {/* Center Controls */}
-        <div className="center-controls">
-          <button
-            className="nav-button prev-button"
-            onClick={goToPrevious}
-            aria-label="Previous image"
-          >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <path d="M15 18l-6-6 6-6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          <button
-            className="play-pause-button"
-            onClick={togglePlayPause}
-            aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
-          >
-            {isPlaying ? (
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <rect x="6" y="5" width="4" height="14" fill="white" rx="1"/>
-                <rect x="14" y="5" width="4" height="14" fill="white" rx="1"/>
-              </svg>
-            ) : (
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <path d="M8 5v14l11-7z" fill="white"/>
-              </svg>
-            )}
-          </button>
-          <button
-            className="nav-button next-button"
-            onClick={goToNext}
-            aria-label="Next image"
-          >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <path d="M9 18l6-6-6-6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
+        <SlideshowSideControls
+          onPrevious={goToPrevious}
+          onNext={goToNext}
+        />
       </div>
 
-      {/* Bottom Bar - Thumbnail Strip - Always Visible */}
-      <div className="bottom-bar always-visible">
-        <div className="thumbnail-strip">
-          {allPhotos.map((photo, index) => (
-            <button
-              key={index}
-              className={`thumbnail ${index === currentImageIndex ? 'active' : ''} ${!loadedImages.has(index) ? 'loading' : ''}`}
-              onClick={() => goToImage(index)}
-              style={{
-                backgroundImage: `url(${photo.src})`,
-              }}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
+      <SlideshowPlayButton isPlaying={isPlaying} onToggle={togglePlayPause} />
 
-      <style jsx>{`
+      <SlideshowBottomBarToggle
+        showBottomBar={showBottomBar}
+        onToggle={() => setShowBottomBar((prev) => !prev)}
+      />
+
+      <SlideshowThumbnailStrip
+        photos={allPhotos}
+        currentIndex={currentImageIndex}
+        loadedImages={loadedImages}
+        showBottomBar={showBottomBar}
+        onSelect={goToImage}
+      />
+
+      <style jsx global>{`
         .slideshow-container {
           position: fixed;
           top: 0;
@@ -566,15 +494,22 @@ export default function SlideshowPage() {
           backdrop-filter: blur(10px);
         }
 
-        .center-controls {
+        .side-controls {
           position: absolute;
           top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          left: 0;
+          width: 100%;
+          transform: translateY(-50%);
           display: flex;
-          align-items: center;
-          gap: 30px;
+          justify-content: space-between;
+          padding: 0 40px;
+          pointer-events: none;
+        }
+
+        .nav-button.side {
           pointer-events: auto;
+          background: rgba(0, 0, 0, 0.5);
+          border: 2px solid rgba(255, 255, 255, 0.6);
         }
 
         .nav-button {
@@ -625,11 +560,65 @@ export default function SlideshowPage() {
           padding: 20px;
           pointer-events: auto;
           z-index: 200;
+          transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .bottom-bar.always-visible {
-          opacity: 1 !important;
-          visibility: visible !important;
+        .bottom-bar.visible {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .bottom-bar.hidden {
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(40px);
+          pointer-events: none;
+        }
+
+        .bottom-play-button {
+          position: absolute;
+          bottom: 100px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 54px;
+          height: 54px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 255, 255, 0.7);
+          background: rgba(0, 0, 0, 0.6);
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 250;
+        }
+
+        .bottom-play-button:hover {
+          background: rgba(0, 0, 0, 0.8);
+          border-color: white;
+        }
+
+        .bottom-bar-toggle {
+          position: absolute;
+          bottom: 30px;
+          right: 30px;
+          padding: 12px 18px;
+          border-radius: 999px;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+          font-size: 14px;
+          letter-spacing: 0.5px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 250;
+        }
+
+        .bottom-bar-toggle:hover {
+          background: rgba(0, 0, 0, 0.7);
+          border-color: white;
         }
 
         .thumbnail-strip {
@@ -668,6 +657,8 @@ export default function SlideshowPage() {
           cursor: pointer;
           transition: all 0.3s ease;
           opacity: 0.6;
+          position: relative;
+          overflow: hidden;
         }
 
         .thumbnail:hover {
@@ -686,13 +677,45 @@ export default function SlideshowPage() {
           cursor: wait;
         }
 
+        .image-loading-indicator {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          color: white;
+          font-size: 12px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+
+        .image-loading-indicator span {
+          font-size: 11px;
+          opacity: 0.8;
+        }
+
+        .thumbnail-loader {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.4);
+        }
+
         @media screen and (max-width: 768px) {
           .top-bar {
             padding: 15px 20px;
           }
 
-          .center-controls {
-            gap: 20px;
+          .side-controls {
+            padding: 0 15px;
           }
 
           .nav-button {

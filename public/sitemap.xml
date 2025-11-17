@@ -17,20 +17,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-  <!-- High quality slideshow page -->
-  <url>
-    <loc>https://tien-n-huyen-wedding.github.io/slideshow/</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <!-- All wishes page -->
-  <url>
-    <loc>https://tien-n-huyen-wedding.github.io/wishes/</loc>
-    <lastmod>2025-11-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
   <!-- Gallery Album: coffee -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/coffee/</loc>
