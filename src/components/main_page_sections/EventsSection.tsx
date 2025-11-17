@@ -15,6 +15,7 @@ interface EventsSectionProps {
   subtitle?: string;
   events?: Event[];
   backgroundImage?: string;
+  sectionId?: string;
 }
 
 const defaultEvents: Event[] = [
@@ -40,14 +41,15 @@ export default function EventsSection({
   title = "Wedding Events",
   subtitle = "Our Special Events",
   events = defaultEvents,
-  backgroundImage
+  backgroundImage,
+  sectionId = "fh5co-event"
 }: EventsSectionProps) {
   const backgroundStyle = backgroundImage
     ? { backgroundImage: `url(${backgroundImage})` }
     : getBackgroundImageStyle(backgroundImages.event);
 
   return (
-    <div id="fh5co-event" className="fh5co-bg" style={backgroundStyle}>
+    <div id={sectionId} className="fh5co-bg" style={backgroundStyle}>
       <div className="overlay"></div>
       <div className="container">
         <div className="row">

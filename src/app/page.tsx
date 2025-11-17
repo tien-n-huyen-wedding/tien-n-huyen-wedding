@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Banner from '@/components/main_page_sections/Banner';
 import CoupleSection from '@/components/main_page_sections/CoupleSection';
@@ -31,6 +31,23 @@ const ContactSection = dynamic(() => import('@/components/main_page_sections/Con
 
 function HomeContent() {
   const { props, isLoaded } = useInvitationProps(CHANGEABLE_FIELDS as (keyof InvitationProps)[]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const pendingTarget = sessionStorage.getItem('pendingScrollTarget');
+    if (pendingTarget) {
+      sessionStorage.removeItem('pendingScrollTarget');
+      const scrollToTarget = () => {
+        const element = document.getElementById(pendingTarget);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
+      // Delay slightly to ensure sections are rendered
+      const timer = setTimeout(scrollToTarget, 200);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <>

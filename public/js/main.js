@@ -66,17 +66,28 @@
 			var $this = $(this);
 			var href = $this.attr('href');
 
-			$('body').removeClass('offcanvas overflow');
-			$('.js-fh5co-nav-toggle').removeClass('active');
+			if (href && href.charAt(0) === '#') {
+				e.preventDefault();
+				var targetId = href.substring(1);
+				if (window.location.pathname !== '/') {
+					try {
+						sessionStorage.setItem('pendingScrollTarget', targetId);
+					} catch (err) {}
+					window.location.href = '/';
+					return;
+				}
 
-			if (href && href.startsWith('#')) {
-				var target = $(href);
-				if (target.length) {
-					e.preventDefault();
+				var target = document.getElementById(targetId);
+				if (target) {
+					$('body').removeClass('offcanvas overflow');
+					$('.js-fh5co-nav-toggle').removeClass('active');
 					$('html, body').animate({
-						scrollTop: target.offset().top
+						scrollTop: $(target).offset().top
 					}, 600, 'easeInOutExpo');
 				}
+			} else {
+				$('body').removeClass('offcanvas overflow');
+				$('.js-fh5co-nav-toggle').removeClass('active');
 			}
 		});
 	};

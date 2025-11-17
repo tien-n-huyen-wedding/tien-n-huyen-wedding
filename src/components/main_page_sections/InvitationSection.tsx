@@ -26,5 +26,5 @@ export default function InvitationSection({
       </div>
     );
   }
-  return <EventsSection />;
+  return <EventsSection sectionId="fh5co-invitation" />;
 }

@@ -10,7 +10,6 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
   <!-- QR Generator Page -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/qr-generator/</loc>
@@ -18,23 +17,20 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-
-  <!-- Slideshow Page -->
+  <!-- High quality slideshow page -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/slideshow/</loc>
     <lastmod>2025-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-
-  <!-- Wishes Page -->
+  <!-- All wishes page -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/wishes/</loc>
     <lastmod>2025-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <!-- Gallery Album: coffee -->
   <url>
     <loc>https://tien-n-huyen-wedding.github.io/gallery/coffee/</loc>
