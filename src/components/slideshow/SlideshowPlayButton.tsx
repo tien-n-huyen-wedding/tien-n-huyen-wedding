@@ -5,12 +5,17 @@ import React from 'react';
 interface SlideshowPlayButtonProps {
   isPlaying: boolean;
   onToggle: () => void;
+  visible: boolean;
 }
 
-export default function SlideshowPlayButton({ isPlaying, onToggle }: SlideshowPlayButtonProps) {
+export default function SlideshowPlayButton({
+  isPlaying,
+  onToggle,
+  visible,
+}: SlideshowPlayButtonProps) {
   return (
     <button
-      className="bottom-play-button"
+      className={`bottom-play-button ${visible ? 'visible' : 'hidden'}`}
       onClick={onToggle}
       aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
     >

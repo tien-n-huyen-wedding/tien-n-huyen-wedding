@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { albums } from '@/lib/galleryAlbums';
 import { Photo } from '@/lib/galleryAlbums';
@@ -35,6 +35,38 @@ export default function SlideshowPage() {
   const [showControls, setShowControls] = useState(true);
   const [showLoadingOverlay, setShowLoadingOverlay] = useState(true);
   const [showBottomBar, setShowBottomBar] = useState(true);
+  const hideControlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearHideControlsTimeout = useCallback(() => {
+    if (hideControlsTimeoutRef.current) {
+      clearTimeout(hideControlsTimeoutRef.current);
+      hideControlsTimeoutRef.current = null;
+    }
+  }, []);
+
+  const scheduleHideControls = useCallback(() => {
+    clearHideControlsTimeout();
+    hideControlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  }, [clearHideControlsTimeout]);
+
+  const handleUserInteraction = useCallback(() => {
+    setShowControls(true);
+    scheduleHideControls();
+  }, [scheduleHideControls]);
+
+  const handleMouseLeave = useCallback(() => {
+    clearHideControlsTimeout();
+    setShowControls(false);
+  }, [clearHideControlsTimeout]);
+
+  useEffect(() => {
+    scheduleHideControls();
+    return () => {
+      clearHideControlsTimeout();
+    };
+  }, [scheduleHideControls, clearHideControlsTimeout]);
 
   // Collect all photos from all albums (excluding thumbnails)
   useEffect(() => {
@@ -190,7 +222,8 @@ export default function SlideshowPage() {
 
   const togglePlayPause = useCallback(() => {
     setIsPlaying(!isPlaying);
-  }, [isPlaying]);
+    handleUserInteraction();
+  }, [isPlaying, handleUserInteraction]);
 
   const goToImage = useCallback((index: number) => {
     setCurrentImageIndex(index);
@@ -231,8 +264,8 @@ export default function SlideshowPage() {
   return (
     <div
       className="slideshow-container"
-      onMouseMove={() => setShowControls(true)}
-      onMouseLeave={() => setTimeout(() => setShowControls(false), 3000)}
+      onMouseMove={handleUserInteraction}
+      onMouseLeave={handleMouseLeave}
     >
       <SlideshowLoadingOverlay
         visible={showLoadingOverlay}
@@ -262,7 +295,11 @@ export default function SlideshowPage() {
         />
       </div>
 
-      <SlideshowPlayButton isPlaying={isPlaying} onToggle={togglePlayPause} />
+      <SlideshowPlayButton
+        isPlaying={isPlaying}
+        onToggle={togglePlayPause}
+        visible={showControls}
+      />
 
       <SlideshowBottomBarToggle
         showBottomBar={showBottomBar}
@@ -580,7 +617,6 @@ export default function SlideshowPage() {
           position: absolute;
           bottom: 100px;
           left: 50%;
-          transform: translateX(-50%);
           width: 54px;
           height: 54px;
           border-radius: 50%;
@@ -591,11 +627,29 @@ export default function SlideshowPage() {
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.3s ease;
           z-index: 250;
+          opacity: 0;
+          pointer-events: none;
+          transform: translate(-50%, 20px);
+          transition:
+            opacity 0.3s ease,
+            transform 0.3s ease,
+            background 0.3s ease,
+            border 0.3s ease;
         }
 
-        .bottom-play-button:hover {
+        .bottom-play-button.visible {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translate(-50%, 0);
+        }
+
+        .bottom-play-button.hidden {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .bottom-play-button.visible:hover {
           background: rgba(0, 0, 0, 0.8);
           border-color: white;
         }
