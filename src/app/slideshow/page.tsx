@@ -229,7 +229,13 @@ export default function SlideshowPage() {
     setCurrentImageIndex(index);
     const randomEffect = transitionEffects[Math.floor(Math.random() * transitionEffects.length)];
     setTransitionEffect(randomEffect);
-  }, []);
+    handleUserInteraction();
+  }, [handleUserInteraction]);
+
+  const toggleBottomBar = useCallback(() => {
+    setShowBottomBar((prev) => !prev);
+    handleUserInteraction();
+  }, [handleUserInteraction]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -303,7 +309,8 @@ export default function SlideshowPage() {
 
       <SlideshowBottomBarToggle
         showBottomBar={showBottomBar}
-        onToggle={() => setShowBottomBar((prev) => !prev)}
+        onToggle={toggleBottomBar}
+        visible={showControls}
       />
 
       <SlideshowThumbnailStrip
@@ -666,11 +673,29 @@ export default function SlideshowPage() {
           font-size: 14px;
           letter-spacing: 0.5px;
           cursor: pointer;
-          transition: all 0.3s ease;
           z-index: 250;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(20px);
+          transition:
+            opacity 0.3s ease,
+            transform 0.3s ease,
+            background 0.3s ease,
+            border 0.3s ease;
         }
 
-        .bottom-bar-toggle:hover {
+        .bottom-bar-toggle.visible {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        .bottom-bar-toggle.hidden {
+          opacity: 0;
+          pointer-events: none;
+        }
+
+        .bottom-bar-toggle.visible:hover {
           background: rgba(0, 0, 0, 0.7);
           border-color: white;
         }
