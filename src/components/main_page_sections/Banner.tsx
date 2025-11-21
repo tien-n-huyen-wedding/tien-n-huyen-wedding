@@ -15,7 +15,7 @@ const slideshowImages = [
   "/images/gallery/STUDIO/3.jpg",   // was TOM03826-8.jpg
   "/images/gallery/COFFEE/9.jpg",   // was NOR_6068.JPG
   "/images/gallery/COFFEE/11.jpg",  // was NOR_6149.JPG
-  "/images/gallery/COFFEE/14.jpg",  // was NOR_6392.JPG
+  "/images/gallery/COFFEE/14-1.jpg",  // was NOR_6392.JPG
   "/images/gallery/COFFEE/15.jpg",  // was NOR_6397.JPG
   "/images/gallery/COFFEE/16.jpg",  // was NOR_6463.JPG
   "/images/gallery/COFFEE/2.jpg",   // was NOR_6522.JPG
