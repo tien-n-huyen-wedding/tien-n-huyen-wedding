@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: npm run build:github
         env:
           NEXT_PUBLIC_BASE_URL: https://tien-n-huyen-wedding.github.io
           BASE_URL: https://tien-n-huyen-wedding.github.io
