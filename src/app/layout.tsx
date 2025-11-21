@@ -126,6 +126,186 @@ export default function RootLayout({
       <body className="antialiased">
         <div className="fh5co-loader"></div>
 
+        {/* Fallback message for when page fails to load */}
+        <noscript>
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 99999,
+            padding: '20px',
+            textAlign: 'center',
+            fontFamily: 'Arial, sans-serif'
+          }}>
+            <div style={{ maxWidth: '600px' }}>
+              <h1 style={{ fontSize: '24px', marginBottom: '20px', color: '#333' }}>
+                If you are seeing this page, it means our GitHub Page is experiencing some issues.
+              </h1>
+              <h2 style={{ fontSize: '18px', marginBottom: '20px', color: '#666' }}>
+                Please visit{' '}
+                <a
+                  href="https://tien-n-huyen-wedding.sevalla.app/"
+                  style={{ color: '#758362', textDecoration: 'underline' }}
+                >
+                  https://tien-n-huyen-wedding.sevalla.app/
+                </a>{' '}
+                to access our website.
+              </h2>
+            </div>
+          </div>
+        </noscript>
+
+        <div id="page-error-fallback" style={{ display: 'none' }}>
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 99999,
+            padding: '20px',
+            textAlign: 'center',
+            fontFamily: 'Arial, sans-serif'
+          }}>
+            <div style={{ maxWidth: '600px' }}>
+              <h1 style={{ fontSize: '24px', marginBottom: '20px', color: '#333' }}>
+                If you are seeing this page, it means our GitHub Page is experiencing some issues.
+              </h1>
+              <h2 style={{ fontSize: '18px', marginBottom: '20px', color: '#666' }}>
+                Please visit{' '}
+                <a
+                  href="https://tien-n-huyen-wedding.sevalla.app/"
+                  style={{ color: '#758362', textDecoration: 'underline' }}
+                >
+                  https://tien-n-huyen-wedding.sevalla.app/
+                </a>{' '}
+                to access our website.
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        {/* Script to handle error fallback display */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var errorFallback = document.getElementById('page-error-fallback');
+                var loader = document.querySelector('.fh5co-loader');
+                var pageLoadError = false;
+
+                if (!errorFallback) return;
+
+                // Function to show error fallback
+                function showErrorFallback() {
+                  if (errorFallback && !pageLoadError) {
+                    pageLoadError = true;
+                    errorFallback.style.display = 'block';
+                    // Hide loader if still visible
+                    if (loader) {
+                      loader.style.display = 'none';
+                    }
+                  }
+                }
+
+                // Function to hide error fallback
+                function hideErrorFallback() {
+                  if (errorFallback && !pageLoadError) {
+                    errorFallback.style.display = 'none';
+                  }
+                }
+
+                // Global error handler to catch JavaScript errors and 404s
+                window.addEventListener('error', function(event) {
+                  // Check if it's a script loading error (404, etc.)
+                  if (event.target && (event.target.tagName === 'SCRIPT' || event.target.tagName === 'LINK')) {
+                    console.error('Resource failed to load:', event.target.src || event.target.href);
+                    // Show error after a delay to allow other scripts to load
+                    setTimeout(showErrorFallback, 3000);
+                  } else if (event.error) {
+                    // JavaScript runtime error (like owl.owlCarousel is not a function)
+                    console.error('JavaScript error:', event.error);
+                    // Show error after a delay
+                    setTimeout(showErrorFallback, 3000);
+                  }
+                }, true);
+
+                // Catch unhandled promise rejections
+                window.addEventListener('unhandledrejection', function(event) {
+                  console.error('Unhandled promise rejection:', event.reason);
+                  setTimeout(showErrorFallback, 3000);
+                });
+
+                // Show error fallback if loader is still visible after timeout
+                var timeoutId = setTimeout(function() {
+                  if (loader && loader.offsetParent !== null && !pageLoadError) {
+                    // Loader is still visible after timeout, show error message
+                    showErrorFallback();
+                  }
+                }, 8000); // 8 seconds timeout
+
+                // Hide error fallback when loader disappears (page loaded successfully)
+                var observer = new MutationObserver(function(mutations) {
+                  mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                      var loaderStyle = window.getComputedStyle(loader);
+                      if ((loaderStyle.display === 'none' || loaderStyle.opacity === '0') && !pageLoadError) {
+                        clearTimeout(timeoutId);
+                        hideErrorFallback();
+                        observer.disconnect();
+                      }
+                    }
+                  });
+                });
+
+                if (loader) {
+                  observer.observe(loader, {
+                    attributes: true,
+                    attributeFilter: ['style', 'class']
+                  });
+                }
+
+                // Check when DOMContentLoaded fires
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                      if (loader && loader.offsetParent !== null && !pageLoadError) {
+                        // Still loading after DOM ready, might be an issue
+                      } else if (!pageLoadError) {
+                        clearTimeout(timeoutId);
+                        hideErrorFallback();
+                      }
+                    }, 2000);
+                  });
+                } else {
+                  // DOM already loaded
+                  setTimeout(function() {
+                    if (loader && loader.offsetParent !== null && !pageLoadError) {
+                      // Still loading
+                    } else if (!pageLoadError) {
+                      clearTimeout(timeoutId);
+                      hideErrorFallback();
+                    }
+                  }, 2000);
+                }
+
+                // Store show function globally for use by other scripts
+                window.__showErrorFallback = showErrorFallback;
+              })();
+            `,
+          }}
+        />
+
         <div id="page">
           <Navigation />
 

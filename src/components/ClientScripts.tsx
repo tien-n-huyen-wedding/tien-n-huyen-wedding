@@ -28,13 +28,13 @@ export default function ClientScripts() {
 
   return (
     <>
-      <Script src="/js/modernizr-2.6.2.min.js" strategy="afterInteractive" />
+      <Script src="/js/modernizr-2-6-2-min.js" strategy="afterInteractive" />
       <Script src="/js/jquery.min.js" strategy="afterInteractive" />
-      <Script src="/js/jquery.easing.1.3.js" strategy="afterInteractive" />
+      <Script src="/js/jquery-easing-1-3.js" strategy="afterInteractive" />
       <Script src="/js/bootstrap.min.js" strategy="afterInteractive" />
       <Script src="/js/jquery.waypoints.min.js" strategy="afterInteractive" />
       <Script src="/js/jquery.stellar.min.js" strategy="afterInteractive" />
-      <Script src="/js/owl.carousel.min.js" strategy="afterInteractive" />
+      <Script src="/js/owl-carousel-min.js" strategy="afterInteractive" />
       <Script src="/js/jquery.magnific-popup.min.js" strategy="afterInteractive" />
       <Script src="/js/magnific-popup-options.js" strategy="afterInteractive" />
       <Script src="/js/jquery.countTo.js" strategy="afterInteractive" />

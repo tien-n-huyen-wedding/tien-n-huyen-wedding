@@ -215,7 +215,13 @@
 
 	// Loading page
 	var loaderPage = function() {
-		$(".fh5co-loader").fadeOut("slow");
+		$(".fh5co-loader").fadeOut("slow", function() {
+			// Hide error fallback when loader disappears
+			var errorFallback = document.getElementById('page-error-fallback');
+			if (errorFallback) {
+				errorFallback.style.display = 'none';
+			}
+		});
 	};
 
 	var counter = function() {
