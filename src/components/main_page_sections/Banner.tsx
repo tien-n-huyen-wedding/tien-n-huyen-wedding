@@ -21,7 +21,7 @@ const slideshowImages = [
   "/images/gallery/COFFEE/2.jpg",   // was NOR_6522.JPG
   "/images/gallery/COFFEE/6.jpg",   // was NOR_6660.JPG
   "/images/gallery/COFFEE/7.jpg",  // was NOR_6829.JPG
-  "/images/main_background.jpg",
+  "/images/banner.jpg",
 ];
 
 // Random transition effects
@@ -36,7 +36,7 @@ const transitionEffects = [
 ];
 
 export default function Banner() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(slideshowImages.length - 1); // Start with main_background.jpg
+  const [currentImageIndex, setCurrentImageIndex] = useState(slideshowImages.length - 1); // Start with banner.jpg
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [transitionEffect, setTransitionEffect] = useState('fade');

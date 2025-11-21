@@ -7,7 +7,7 @@
 /**
  * Get optimized image source with WebP fallback
  *
- * @param originalPath - Original image path (e.g., "/images/main_background.jpg")
+ * @param originalPath - Original image path (e.g., "/images/banner.jpg")
  * @param useOptimized - Whether to use optimized version (default: true)
  * @returns Optimized image path or original if optimized doesn't exist
  */
@@ -136,7 +136,7 @@ export function getBestImageFormat(originalPath: string): string {
   // Check if this is a gallery image with optimized versions available
   // Gallery images now have optimized versions in subdirectories (e.g., /images/gallery/OUTDOOR/optimized/)
   const isGalleryImage = originalPath.includes('/images/gallery/');
-  const isMainBackground = originalPath.includes('/images/main_background');
+  const isMainBackground = originalPath.includes('/images/banner');
   const isAlreadyOptimized = originalPath.includes('/optimized/');
 
   // Use optimized images for:

@@ -51,7 +51,7 @@ export const metadata: Metadata = {
         alt: "Quang Tiến & Lệ Huyền Wedding",
       },
       {
-        url: "/images/main_background.jpg",
+        url: "/images/banner.jpg",
         width: 1200,
         height: 630,
         alt: "Wedding Background",

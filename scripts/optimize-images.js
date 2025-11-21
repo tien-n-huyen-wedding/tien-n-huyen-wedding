@@ -11,7 +11,7 @@
  *
  * Usage:
  *   node scripts/optimize-images.js [image-path]
- *   node scripts/optimize-images.js public/images/main_background.jpg
+ *   node scripts/optimize-images.js public/images/banner.jpg
  *   node scripts/optimize-images.js public/images/gallery --recursive
  */
 
@@ -78,7 +78,7 @@ const configs = {
 function getConfigForImage(imagePath) {
   const normalizedPath = imagePath.toLowerCase();
 
-  if (normalizedPath.includes('main_background') || normalizedPath.includes('main-background')) {
+  if (normalizedPath.includes('banner') || normalizedPath.includes('main-background')) {
     return configs.mainBackground;
   }
   if (normalizedPath.includes('thumbnail')) {
@@ -216,7 +216,7 @@ async function main() {
     console.log('\nUsage:');
     console.log('  node scripts/optimize-images.js <image-path> [--recursive]');
     console.log('\nExamples:');
-    console.log('  node scripts/optimize-images.js public/images/main_background.jpg');
+    console.log('  node scripts/optimize-images.js public/images/banner.jpg');
     console.log('  node scripts/optimize-images.js public/images/gallery --recursive');
     console.log('  node scripts/optimize-images.js public/images/our_story_images --recursive');
     process.exit(0);
