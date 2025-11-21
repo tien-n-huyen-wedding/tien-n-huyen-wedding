@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://tien-n-huyen-wedding.github.io/sitemap.xml
+Sitemap: https://tien-n-huyen-wedding.sevalla.app/sitemap.xml
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1
