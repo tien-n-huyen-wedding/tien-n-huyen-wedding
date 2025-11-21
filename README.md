@@ -1,2 +1,2 @@
-- Access wedding website 👫 at: https://tien-n-huyen-wedding.github.io
+- Access wedding website 👫 at: https://tien-n-huyen-wedding.github.io | https://tien-n-huyen-wedding.sevalla.app/
 - Based on HTML theme https://freehtml5.co/wedding-free-html5-bootstrap-template-for-wedding-websites
