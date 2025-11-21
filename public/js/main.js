@@ -173,38 +173,16 @@
 
 	var testimonialCarousel = function(){
 		var owl = $('.owl-carousel-fullwidth');
-		// Check if owlCarousel is available before calling it
-		if (owl.length > 0 && typeof owl.owlCarousel === 'function') {
-			owl.owlCarousel({
-				items: 1,
-				loop: true,
-				margin: 0,
-				responsiveClass: true,
-				nav: false,
-				dots: true,
-				smartSpeed: 800,
-				autoHeight: true,
-			});
-		} else if (owl.length > 0) {
-			console.warn('Owl Carousel plugin not loaded. Retrying in 500ms...');
-			// Retry after a short delay if plugin isn't loaded yet
-			setTimeout(function() {
-				if (typeof owl.owlCarousel === 'function') {
-					owl.owlCarousel({
-						items: 1,
-						loop: true,
-						margin: 0,
-						responsiveClass: true,
-						nav: false,
-						dots: true,
-						smartSpeed: 800,
-						autoHeight: true,
-					});
-				} else {
-					console.error('Owl Carousel plugin failed to load');
-				}
-			}, 500);
-		}
+		owl.owlCarousel({
+			items: 1,
+			loop: true,
+			margin: 0,
+			responsiveClass: true,
+			nav: false,
+			dots: true,
+			smartSpeed: 800,
+			autoHeight: true,
+		});
 	};
 
 
@@ -241,14 +219,11 @@
 	};
 
 	var counter = function() {
-		var $counter = $('.js-counter');
-		if ($counter.length > 0 && typeof $counter.countTo === 'function') {
-			$counter.countTo({
-				formatter: function (value, options) {
-					return value.toFixed(options.decimals);
-				},
-			});
-		}
+		$('.js-counter').countTo({
+			 formatter: function (value, options) {
+	      return value.toFixed(options.decimals);
+	    },
+		});
 	};
 
 	var counterWayPoint = function() {
@@ -265,19 +240,11 @@
 
 	// Parallax
 	var parallax = function() {
-		if (typeof $(window).stellar === 'function') {
-			$(window).stellar();
-		}
+		$(window).stellar();
 	};
 
 
 	$(function(){
-		// Ensure jQuery is loaded before executing
-		if (typeof $ === 'undefined' || typeof jQuery === 'undefined') {
-			console.error('jQuery is not loaded');
-			return;
-		}
-
 		mobileMenuOutsideClick();
 		parallax();
 		offcanvasMenu();
